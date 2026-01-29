@@ -3,31 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Tes Psikologi</title>
+    <title>Psychology Test Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 50px 20px; background-color: #f0f2f5; color: #333; }
-        .container { background: white; padding: 40px; border-radius: 15px; display: inline-block; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 400px; width: 100%; }
-        h1 { color: #1a73e8; margin-bottom: 10px; font-size: 24px; }
-        p { margin-bottom: 30px; color: #666; }
-        .btn { 
-            display: block; padding: 15px; margin: 15px 0;
-            background-color: #1a73e8; color: white; 
-            text-decoration: none; border-radius: 8px; 
-            font-weight: bold; transition: transform 0.2s, background-color 0.2s;
-        }
-        .btn:hover { background-color: #1557b0; transform: translateY(-2px); }
-        .btn-disc { background-color: #34a853; }
-        .btn-disc:hover { background-color: #2d8e47; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .test-card:hover { transform: translateY(-10px); transition: all 0.3s ease; }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Selamat Datang</h1>
-        <p>Silakan pilih jenis tes yang ingin kamu ikuti:</p>
+<body class="bg-slate-900 text-white min-h-screen flex items-center justify-center p-6">
 
-        <a href="tesmbti/" class="btn">Mulai Tes MBTI</a>
+    <div class="max-w-5xl w-full">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
+                Assessment Center
+            </h1>
+            <p class="text-slate-400 text-lg">Pilih instrumen tes di bawah ini untuk memulai evaluasi diri.</p>
+        </div>
 
-        <a href="tesdisc/" class="btn btn-disc">Mulai Tes DISC</a>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="test-card bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-xl flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center mb-6 text-2xl font-bold">P</div>
+                    <h2 class="text-2xl font-bold mb-3">PAPI Kostick</h2>
+                    <p class="text-slate-400 text-sm mb-6">Mengukur dinamika kepribadian dan arah perilaku dalam situasi kerja.</p>
+                </div>
+                <a href="papikostick/index.html" class="block text-center bg-blue-600 hover:bg-blue-500 py-3 rounded-xl font-semibold transition">Mulai Tes</a>
+            </div>
+
+            <div class="test-card bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-xl flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-lg flex items-center justify-center mb-6 text-2xl font-bold">D</div>
+                    <h2 class="text-2xl font-bold mb-3">DISC Test</h2>
+                    <p class="text-slate-400 text-sm mb-6">Analisis gaya komunikasi, dominasi, pengaruh, dan stabilitas diri.</p>
+                </div>
+                <a href="tesdisc/index.html" class="block text-center bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-semibold transition">Mulai Tes</a>
+            </div>
+
+            <div class="test-card bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-xl flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-lg flex items-center justify-center mb-6 text-2xl font-bold">M</div>
+                    <h2 class="text-2xl font-bold mb-3">MBTI</h2>
+                    <p class="text-slate-400 text-sm mb-6">Kenali tipe kepribadian Anda melalui 16 preferensi psikologis Jungian.</p>
+                </div>
+                <a href="tesmbti/index.html" class="block text-center bg-purple-600 hover:bg-purple-500 py-3 rounded-xl font-semibold transition">Mulai Tes</a>
+            </div>
+
+        </div>
+
+        <div class="mt-16 text-center text-slate-500 text-xs">
+            &copy; 2026 Assessment Dashboard. All rights reserved.
+        </div>
     </div>
+
 </body>
 </html>
