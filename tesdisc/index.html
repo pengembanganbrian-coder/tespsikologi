@@ -14,29 +14,26 @@
 </head>
 <body class="bg-slate-100 text-slate-800 pb-20">
 
-    <div class="max-w-5xl mx-auto py-10 px-4">
+    <div class="max-w-6xl mx-auto py-10 px-4">
         <div class="bg-white p-8 rounded-2xl shadow-sm mb-10 border border-slate-200">
             <h1 class="text-3xl font-bold mb-6 text-center text-slate-900 uppercase">Lembar Kerja DISC</h1>
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm mb-8">
                 <div class="space-y-2"><label class="font-semibold">NAMA</label><input type="text" class="w-full border border-slate-300 p-2 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"></div>
                 <div class="space-y-2"><label class="font-semibold">NIP</label><input type="text" class="w-full border border-slate-300 p-2 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"></div>
                 <div class="space-y-2"><label class="font-semibold">JABATAN</label><input type="text" class="w-full border border-slate-300 p-2 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"></div>
                 <div class="space-y-2"><label class="font-semibold">TANGGAL</label><input type="date" class="w-full border border-slate-300 p-2 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"></div>
             </div>
-
             <div class="p-4 bg-blue-50 border-l-4 border-blue-500 text-blue-900 text-sm rounded-r-xl">
                 <strong>Instruksi:</strong> Pilih satu <strong>M (Mirip)</strong> dan satu <strong>L (Tidak Mirip)</strong> pada setiap kotak. Waktu pengerjaan <strong>7 Menit</strong>.
             </div>
         </div>
 
         <form id="discForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                 <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 1</div>
                 <table class="w-full text-xs">
-                    <tr class="bg-slate-50 border-b font-bold text-center">
-                        <th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th>
-                    </tr>
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
                     <tr class="border-b"><td class="p-2">Mudah bergaul, menyenangkan</td><td class="text-center"><input type="radio" name="k1m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k1l" required class="radio-l"></td></tr>
                     <tr class="border-b"><td class="p-2">Mudah percaya kepada orang lain</td><td class="text-center"><input type="radio" name="k1m" class="radio-m"></td><td class="text-center"><input type="radio" name="k1l" class="radio-l"></td></tr>
                     <tr class="border-b"><td class="p-2">Suka berpetualangan, pengambil Resiko</td><td class="text-center"><input type="radio" name="k1m" class="radio-m"></td><td class="text-center"><input type="radio" name="k1l" class="radio-l"></td></tr>
@@ -49,9 +46,9 @@
                 <table class="w-full text-xs">
                     <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
                     <tr class="border-b"><td class="p-2">Berbicara lembut, pendiam/penyendiri</td><td class="text-center"><input type="radio" name="k2m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k2l" required class="radio-l"></td></tr>
-                    <tr class="border-b"><td class="p-2">Optimis, berpikir positif, memiliki visi/tujuan</td><td class="text-center"><input type="radio" name="k2m" class="radio-m"></td><td class="text-center"><input type="radio" name="k2l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Optimis, berpikir positif, memiliki visi</td><td class="text-center"><input type="radio" name="k2m" class="radio-m"></td><td class="text-center"><input type="radio" name="k2l" class="radio-l"></td></tr>
                     <tr class="border-b"><td class="p-2">Pusat perhatian, mudah bersosialisasi</td><td class="text-center"><input type="radio" name="k2m" class="radio-m"></td><td class="text-center"><input type="radio" name="k2l" class="radio-l"></td></tr>
-                    <tr><td class="p-2">Lakukan dengan benar, ketepatan adalah penting</td><td class="text-center"><input type="radio" name="k2m" class="radio-m"></td><td class="text-center"><input type="radio" name="k2l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Lakukan dengan benar, ketepatan penting</td><td class="text-center"><input type="radio" name="k2m" class="radio-m"></td><td class="text-center"><input type="radio" name="k2l" class="radio-l"></td></tr>
                 </table>
             </div>
 
@@ -72,7 +69,7 @@
                     <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
                     <tr class="border-b"><td class="p-2">Akan membeli mengikuti dorongan hati</td><td class="text-center"><input type="radio" name="k4m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k4l" required class="radio-l"></td></tr>
                     <tr class="border-b"><td class="p-2">Akan menunggu dengan sabar</td><td class="text-center"><input type="radio" name="k4m" class="radio-m"></td><td class="text-center"><input type="radio" name="k4l" class="radio-l"></td></tr>
-                    <tr class="border-b"><td class="p-2">Akan mengeluarkan uang untuk hal diinginkan</td><td class="text-center"><input type="radio" name="k4m" class="radio-m"></td><td class="text-center"><input type="radio" name="k4l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Akan mengeluarkan uang untuk keinginan</td><td class="text-center"><input type="radio" name="k4m" class="radio-m"></td><td class="text-center"><input type="radio" name="k4l" class="radio-l"></td></tr>
                     <tr><td class="p-2">Pendidikan, budaya</td><td class="text-center"><input type="radio" name="k4m" class="radio-m"></td><td class="text-center"><input type="radio" name="k4l" class="radio-l"></td></tr>
                 </table>
             </div>
@@ -115,7 +112,7 @@
                 <table class="w-full text-xs">
                     <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
                     <tr class="border-b"><td class="p-2">Ingin menetapkan tujuan</td><td class="text-center"><input type="radio" name="k8m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k8l" required class="radio-l"></td></tr>
-                    <tr class="border-b"><td class="p-2">Unik, mudah bosan terhadap rutinitas</td><td class="text-center"><input type="radio" name="k8m" class="radio-m"></td><td class="text-center"><input type="radio" name="k8l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Unik, mudah bosan rutinitas</td><td class="text-center"><input type="radio" name="k8m" class="radio-m"></td><td class="text-center"><input type="radio" name="k8l" class="radio-l"></td></tr>
                     <tr class="border-b"><td class="p-2">Aktif mengubah sesuatu</td><td class="text-center"><input type="radio" name="k8m" class="radio-m"></td><td class="text-center"><input type="radio" name="k8l" class="radio-l"></td></tr>
                     <tr><td class="p-2">Ingin segala sesuatu tepat</td><td class="text-center"><input type="radio" name="k8m" class="radio-m"></td><td class="text-center"><input type="radio" name="k8l" class="radio-l"></td></tr>
                 </table>
@@ -128,7 +125,7 @@
                     <tr class="border-b"><td class="p-2">Mudah menjadi frustasi</td><td class="text-center"><input type="radio" name="k9m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k9l" required class="radio-l"></td></tr>
                     <tr class="border-b"><td class="p-2">Tidak melawan, mengalah</td><td class="text-center"><input type="radio" name="k9m" class="radio-m"></td><td class="text-center"><input type="radio" name="k9l" class="radio-l"></td></tr>
                     <tr class="border-b"><td class="p-2">Memendam perasaan, tertutup</td><td class="text-center"><input type="radio" name="k9m" class="radio-m"></td><td class="text-center"><input type="radio" name="k9l" class="radio-l"></td></tr>
-                    <tr><td class="p-2">Menyampaikan pendapatnya, terbuka</td><td class="text-center"><input type="radio" name="k9m" class="radio-m"></td><td class="text-center"><input type="radio" name="k9l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Menyampaikan pendapat, terbuka</td><td class="text-center"><input type="radio" name="k9m" class="radio-m"></td><td class="text-center"><input type="radio" name="k9l" class="radio-l"></td></tr>
                 </table>
             </div>
 
@@ -147,4 +144,179 @@
                 <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 11</div>
                 <table class="w-full text-xs">
                     <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
-                    <tr class="border-b"><td class="p-2">Mencoba untuk menjaga kedamaian</td><td class="text-center"><input type="radio" name="k11m"
+                    <tr class="border-b"><td class="p-2">Mencoba untuk menjaga kedamaian</td><td class="text-center"><input type="radio" name="k11m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k11l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Mencoba untuk mengikuti aturan</td><td class="text-center"><input type="radio" name="k11m" class="radio-m"></td><td class="text-center"><input type="radio" name="k11l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Mengatur waktu dengan baik</td><td class="text-center"><input type="radio" name="k11m" class="radio-m"></td><td class="text-center"><input type="radio" name="k11l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Sering terburu-buru, tertekan</td><td class="text-center"><input type="radio" name="k11m" class="radio-m"></td><td class="text-center"><input type="radio" name="k11l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 12</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Hubungan dengan orang penting</td><td class="text-center"><input type="radio" name="k12m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k12l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Tenang, suka menyendiri</td><td class="text-center"><input type="radio" name="k12m" class="radio-m"></td><td class="text-center"><input type="radio" name="k12l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Gembira, periang</td><td class="text-center"><input type="radio" name="k12m" class="radio-m"></td><td class="text-center"><input type="radio" name="k12l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Menyenangkan, ramah</td><td class="text-center"><input type="radio" name="k12m" class="radio-m"></td><td class="text-center"><input type="radio" name="k12l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 13</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Senang menyelesaikan yang dimulai</td><td class="text-center"><input type="radio" name="k13m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k13l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Tegas, berani</td><td class="text-center"><input type="radio" name="k13m" class="radio-m"></td><td class="text-center"><input type="radio" name="k13l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Menolak perubahan mendadak</td><td class="text-center"><input type="radio" name="k13m" class="radio-m"></td><td class="text-center"><input type="radio" name="k13l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Cenderung terlalu banyak berjanji</td><td class="text-center"><input type="radio" name="k13m" class="radio-m"></td><td class="text-center"><input type="radio" name="k13l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 14</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Menarik diri saat tertekan</td><td class="text-center"><input type="radio" name="k14m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k14l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Waktu dengan orang lain</td><td class="text-center"><input type="radio" name="k14m" class="radio-m"></td><td class="text-center"><input type="radio" name="k14l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Mencari tantangan baru</td><td class="text-center"><input type="radio" name="k14m" class="radio-m"></td><td class="text-center"><input type="radio" name="k14l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Takut konfrontasi langsung</td><td class="text-center"><input type="radio" name="k14m" class="radio-m"></td><td class="text-center"><input type="radio" name="k14l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 15</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Pemberi semangat yang baik</td><td class="text-center"><input type="radio" name="k15m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k15l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Pendengar yang baik</td><td class="text-center"><input type="radio" name="k15m" class="radio-m"></td><td class="text-center"><input type="radio" name="k15l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Penganalisis yang baik</td><td class="text-center"><input type="radio" name="k15m" class="radio-m"></td><td class="text-center"><input type="radio" name="k15l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Pendelegasi yang baik</td><td class="text-center"><input type="radio" name="k15m" class="radio-m"></td><td class="text-center"><input type="radio" name="k15l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 16</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Merencanakan masa depan</td><td class="text-center"><input type="radio" name="k16m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k16l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Menerima penghargaan</td><td class="text-center"><input type="radio" name="k16m" class="radio-m"></td><td class="text-center"><input type="radio" name="k16l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Peraturan perlu diuji</td><td class="text-center"><input type="radio" name="k16m" class="radio-m"></td><td class="text-center"><input type="radio" name="k16l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Peraturan membuat adil</td><td class="text-center"><input type="radio" name="k16m" class="radio-m"></td><td class="text-center"><input type="radio" name="k16l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 17</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Peraturan membuat bosan</td><td class="text-center"><input type="radio" name="k17m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k17l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Peraturan membuat aman</td><td class="text-center"><input type="radio" name="k17m" class="radio-m"></td><td class="text-center"><input type="radio" name="k17l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Berubah saat terakhir</td><td class="text-center"><input type="radio" name="k17m" class="radio-m"></td><td class="text-center"><input type="radio" name="k17l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Penuntut, kasar</td><td class="text-center"><input type="radio" name="k17m" class="radio-m"></td><td class="text-center"><input type="radio" name="k17l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 18</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Ingin maju</td><td class="text-center"><input type="radio" name="k18m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k18l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Puas dengan yang ada</td><td class="text-center"><input type="radio" name="k18m" class="radio-m"></td><td class="text-center"><input type="radio" name="k18l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Terbuka ungkap perasaan</td><td class="text-center"><input type="radio" name="k18m" class="radio-m"></td><td class="text-center"><input type="radio" name="k18l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Rendah hati, sederhana</td><td class="text-center"><input type="radio" name="k18m" class="radio-m"></td><td class="text-center"><input type="radio" name="k18l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 19</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Tidak mudah dikalahkan</td><td class="text-center"><input type="radio" name="k19m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k19l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Ikuti perintah pemimpin</td><td class="text-center"><input type="radio" name="k19m" class="radio-m"></td><td class="text-center"><input type="radio" name="k19l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Bersemangat, periang</td><td class="text-center"><input type="radio" name="k19m" class="radio-m"></td><td class="text-center"><input type="radio" name="k19l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Ingin teratur, rapi</td><td class="text-center"><input type="radio" name="k19m" class="radio-m"></td><td class="text-center"><input type="radio" name="k19l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 20</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Memimpin orang lain</td><td class="text-center"><input type="radio" name="k20m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k20l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Saya melaksanakannya</td><td class="text-center"><input type="radio" name="k20m" class="radio-m"></td><td class="text-center"><input type="radio" name="k20l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Meyakinkan orang lain</td><td class="text-center"><input type="radio" name="k20m" class="radio-m"></td><td class="text-center"><input type="radio" name="k20l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Mendapatkan fakta</td><td class="text-center"><input type="radio" name="k20m" class="radio-m"></td><td class="text-center"><input type="radio" name="k20l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 21</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Kepentingan orang lain</td><td class="text-center"><input type="radio" name="k21m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k21l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Suka bersaing/tantangan</td><td class="text-center"><input type="radio" name="k21m" class="radio-m"></td><td class="text-center"><input type="radio" name="k21l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Optimis, positif</td><td class="text-center"><input type="radio" name="k21m" class="radio-m"></td><td class="text-center"><input type="radio" name="k21l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Logis, sistematis</td><td class="text-center"><input type="radio" name="k21m" class="radio-m"></td><td class="text-center"><input type="radio" name="k21l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 22</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Menyenangkan orang</td><td class="text-center"><input type="radio" name="k22m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k22l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Tertawa keras, hidup</td><td class="text-center"><input type="radio" name="k22m" class="radio-m"></td><td class="text-center"><input type="radio" name="k22l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Berani, tegas</td><td class="text-center"><input type="radio" name="k22m" class="radio-m"></td><td class="text-center"><input type="radio" name="k22l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Pendiam, menyendiri</td><td class="text-center"><input type="radio" name="k22m" class="radio-m"></td><td class="text-center"><input type="radio" name="k22l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 23</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Otoritas lebih</td><td class="text-center"><input type="radio" name="k23m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k23l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Kesempatan baru</td><td class="text-center"><input type="radio" name="k23m" class="radio-m"></td><td class="text-center"><input type="radio" name="k23l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Menghindari konflik</td><td class="text-center"><input type="radio" name="k23m" class="radio-m"></td><td class="text-center"><input type="radio" name="k23l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Arahan jelas</td><td class="text-center"><input type="radio" name="k23m" class="radio-m"></td><td class="text-center"><input type="radio" name="k23l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-700 text-white px-4 py-2 text-xs font-bold uppercase">Kotak 24</div>
+                <table class="w-full text-xs">
+                    <tr class="bg-slate-50 border-b font-bold text-center"><th class="p-2 text-left">Pernyataan</th><th class="p-2 w-10">M</th><th class="p-2 w-10">L</th></tr>
+                    <tr class="border-b"><td class="p-2">Dapat dipercaya</td><td class="text-center"><input type="radio" name="k24m" required class="radio-m"></td><td class="text-center"><input type="radio" name="k24l" required class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Kreatif, unik</td><td class="text-center"><input type="radio" name="k24m" class="radio-m"></td><td class="text-center"><input type="radio" name="k24l" class="radio-l"></td></tr>
+                    <tr class="border-b"><td class="p-2">Orientasi hasil</td><td class="text-center"><input type="radio" name="k24m" class="radio-m"></td><td class="text-center"><input type="radio" name="k24l" class="radio-l"></td></tr>
+                    <tr><td class="p-2">Standar tinggi, teliti</td><td class="text-center"><input type="radio" name="k24m" class="radio-m"></td><td class="text-center"><input type="radio" name="k24l" class="radio-l"></td></tr>
+                </table>
+            </div>
+
+            <div class="lg:col-span-3 mt-10">
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-lg transition duration-200">
+                    SIMPAN & PROSES HASIL
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('discForm');
+        form.addEventListener('change', (e) => {
+            const clicked = e.target;
+            const row = clicked.closest('tr');
+            const inputs = row.querySelectorAll('input[type="radio"]');
+            if (inputs[0].checked && inputs[1].checked) {
+                alert("Anda tidak bisa memilih M dan L pada baris yang sama.");
+                clicked.checked = false;
+            }
+        });
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            alert("Seluruh 24 Kotak Berhasil Disimpan!");
+        };
+    </script>
+</body>
+</html>
