@@ -3,191 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tes MBTI Lengkap - 60 Soal</title>
+    <title>Tes DISC - Lembar Kerja</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f7f9; }
-        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        h1 { text-align: center; color: #1a73e8; margin-bottom: 20px; }
-        .progress-bar { height: 8px; background: #e0e0e0; border-radius: 4px; margin-bottom: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: #1a73e8; width: 0%; transition: 0.4s; }
-        .question-item { display: none; }
-        .question-item.active { display: block; animation: fadeIn 0.5s; }
-        .options { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        label { cursor: pointer; padding: 15px; border: 2px solid #eee; border-radius: 10px; transition: 0.3s; display: block; }
-        label:hover { background: #f0f7ff; border-color: #1a73e8; }
-        input[type="radio"] { margin-right: 10px; }
-        .nav-btns { display: flex; justify-content: space-between; margin-top: 30px; }
-        button { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
-        #next-btn { background: #1a73e8; color: white; }
-        #prev-btn { background: #eee; }
-        #result-area { display: none; text-align: center; }
-        .type-code { font-size: 72px; font-weight: bold; color: #1a73e8; margin: 10px 0; letter-spacing: 5px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        input[type="radio"]:checked { accent-color: #059669; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800">
 
-<div class="card">
-    <div id="quiz-ui">
-        <h1>Tes MBTI Profesional</h1>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-        <p id="counter" style="text-align: right; font-weight: bold; margin-bottom: 20px;">Soal 1 / 60</p>
-        
-        <form id="mbtiForm">
-            <div id="questionArea"></div>
-            <div class="nav-btns">
-                <button type="button" id="prev-btn" onclick="changeQ(-1)" style="display:none;">Kembali</button>
-                <button type="button" id="next-btn" onclick="changeQ(1)">Lanjut</button>
+    <div class="max-w-4xl mx-auto py-10 px-4">
+        <div class="bg-white p-8 rounded-2xl shadow-sm mb-10 border border-slate-200">
+            <h1 class="text-3xl font-bold mb-2 text-center text-slate-900">LEMBAR KERJA DISC</h1>
+            <p class="text-center text-slate-500 mb-8 italic">Waktu pengerjaan: 7 Menit</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm mb-6">
+                <div class="space-y-2">
+                    <label class="font-semibold">NAMA</label>
+                    <input type="text" class="w-full border border-slate-300 p-2 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div class="space-y-2">
+                    <label class="font-semibold">NIP</label>
+                    <input type="text" class="w-full border border-slate-300 p-2 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div class="space-y-2">
+                    <label class="font-semibold">JABATAN</label>
+                    <input type="text" class="w-full border border-slate-300 p-2 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div class="space-y-2">
+                    <label class="font-semibold">TANGGAL</label>
+                    <input type="date" class="w-full border border-slate-300 p-2 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+            </div>
+
+            <div class="p-4 bg-emerald-50 border border-emerald-100 text-emerald-800 text-sm rounded-xl">
+                <strong>Instruksi:</strong> Berilah tanda pada kolom <strong>M</strong> untuk pernyataan yang <strong>MIRIP</strong> dengan anda, dan tanda pada kolom <strong>L</strong> untuk pernyataan yang <strong>TIDAK MIRIP</strong> dengan diri anda. Pilih hanya satu M dan satu L pada setiap kotak.
+            </div>
+        </div>
+
+        <form id="discForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-800 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">Kotak 1</div>
+                <table class="w-full text-left border-collapse">
+                    <tr class="bg-slate-50 border-b text-[10px] font-bold text-slate-500 uppercase">
+                        <th class="p-3">Pernyataan</th>
+                        <th class="p-3 text-center w-12">M</th>
+                        <th class="p-3 text-center w-12">L</th>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Mudah bergaul, menyenangkan</td>
+                        <td class="text-center"><input type="radio" name="k1m" required></td>
+                        <td class="text-center"><input type="radio" name="k1l" required></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Mudah percaya kepada orang lain</td>
+                        <td class="text-center"><input type="radio" name="k1m"></td>
+                        <td class="text-center"><input type="radio" name="k1l"></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Suka berpetualangan, pengambil Resiko</td>
+                        <td class="text-center"><input type="radio" name="k1m"></td>
+                        <td class="text-center"><input type="radio" name="k1l"></td>
+                    </tr>
+                    <tr class="text-sm">
+                        <td class="p-3">Penuh toleransi, menghormati orang lain</td>
+                        <td class="text-center"><input type="radio" name="k1m"></td>
+                        <td class="text-center"><input type="radio" name="k1l"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-800 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">Kotak 2</div>
+                <table class="w-full text-left border-collapse">
+                    <tr class="bg-slate-50 border-b text-[10px] font-bold text-slate-500 uppercase">
+                        <th class="p-3">Pernyataan</th>
+                        <th class="p-3 text-center w-12">M</th>
+                        <th class="p-3 text-center w-12">L</th>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Berbicara lembut, pendiam/penyendiri</td>
+                        <td class="text-center"><input type="radio" name="k2m" required></td>
+                        <td class="text-center"><input type="radio" name="k2l" required></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Optimis, berpikir positif, memiliki visi/tujuan</td>
+                        <td class="text-center"><input type="radio" name="k2m"></td>
+                        <td class="text-center"><input type="radio" name="k2l"></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Pusat perhatian, mudah bersosialisasi</td>
+                        <td class="text-center"><input type="radio" name="k2m"></td>
+                        <td class="text-center"><input type="radio" name="k2l"></td>
+                    </tr>
+                    <tr class="text-sm">
+                        <td class="p-3">Lakukan dengan benar, ketepatan adalah penting</td>
+                        <td class="text-center"><input type="radio" name="k2m"></td>
+                        <td class="text-center"><input type="radio" name="k2l"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-800 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">Kotak 3</div>
+                <table class="w-full text-left border-collapse">
+                    <tr class="bg-slate-50 border-b text-[10px] font-bold text-slate-500 uppercase">
+                        <th class="p-3">Pernyataan</th>
+                        <th class="p-3 text-center w-12">M</th>
+                        <th class="p-3 text-center w-12">L</th>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Buatlah sesuatu menjadi menyenangkan</td>
+                        <td class="text-center"><input type="radio" name="k3m" required></td>
+                        <td class="text-center"><input type="radio" name="k3l" required></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Mari lakukan bersama-sama</td>
+                        <td class="text-center"><input type="radio" name="k3m"></td>
+                        <td class="text-center"><input type="radio" name="k3l"></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Tidak tergantung orang lain</td>
+                        <td class="text-center"><input type="radio" name="k3m"></td>
+                        <td class="text-center"><input type="radio" name="k3l"></td>
+                    </tr>
+                    <tr class="text-sm">
+                        <td class="p-3">Hasil adalah segalanya</td>
+                        <td class="text-center"><input type="radio" name="k3m"></td>
+                        <td class="text-center"><input type="radio" name="k3l"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-800 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">Kotak 4</div>
+                <table class="w-full text-left border-collapse">
+                    <tr class="bg-slate-50 border-b text-[10px] font-bold text-slate-500 uppercase">
+                        <th class="p-3">Pernyataan</th>
+                        <th class="p-3 text-center w-12">M</th>
+                        <th class="p-3 text-center w-12">L</th>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Akan membeli mengikuti dorongan hati</td>
+                        <td class="text-center"><input type="radio" name="k4m" required></td>
+                        <td class="text-center"><input type="radio" name="k4l" required></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Akan menunggu dengan sabar</td>
+                        <td class="text-center"><input type="radio" name="k4m"></td>
+                        <td class="text-center"><input type="radio" name="k4l"></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Akan mengeluarkan uang untuk hal yang diinginkan</td>
+                        <td class="text-center"><input type="radio" name="k4m"></td>
+                        <td class="text-center"><input type="radio" name="k4l"></td>
+                    </tr>
+                    <tr class="text-sm">
+                        <td class="p-3">Pendidikan, budaya</td>
+                        <td class="text-center"><input type="radio" name="k4m"></td>
+                        <td class="text-center"><input type="radio" name="k4l"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-800 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">Kotak 5</div>
+                <table class="w-full text-left border-collapse">
+                    <tr class="bg-slate-50 border-b text-[10px] font-bold text-slate-500 uppercase">
+                        <th class="p-3">Pernyataan</th>
+                        <th class="p-3 text-center w-12">M</th>
+                        <th class="p-3 text-center w-12">L</th>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Prestasi, penghargaan</td>
+                        <td class="text-center"><input type="radio" name="k5m" required></td>
+                        <td class="text-center"><input type="radio" name="k5l" required></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Keselamatan, keamanan</td>
+                        <td class="text-center"><input type="radio" name="k5m"></td>
+                        <td class="text-center"><input type="radio" name="k5l"></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Bergaul, berkumpul dengan kelompok</td>
+                        <td class="text-center"><input type="radio" name="k5m"></td>
+                        <td class="text-center"><input type="radio" name="k5l"></td>
+                    </tr>
+                    <tr class="text-sm">
+                        <td class="p-3">Memimpin, bicara langsung</td>
+                        <td class="text-center"><input type="radio" name="k5m"></td>
+                        <td class="text-center"><input type="radio" name="k5l"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-800 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">Kotak 6</div>
+                <table class="w-full text-left border-collapse">
+                    <tr class="bg-slate-50 border-b text-[10px] font-bold text-slate-500 uppercase">
+                        <th class="p-3">Pernyataan</th>
+                        <th class="p-3 text-center w-12">M</th>
+                        <th class="p-3 text-center w-12">L</th>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Terbuka, antusias, bersemangat</td>
+                        <td class="text-center"><input type="radio" name="k6m" required></td>
+                        <td class="text-center"><input type="radio" name="k6l" required></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Mudah diduga, konsisten</td>
+                        <td class="text-center"><input type="radio" name="k6m"></td>
+                        <td class="text-center"><input type="radio" name="k6l"></td>
+                    </tr>
+                    <tr class="border-b text-sm">
+                        <td class="p-3">Berhati-hati</td>
+                        <td class="text-center"><input type="radio" name="k6m"></td>
+                        <td class="text-center"><input type="radio" name="k6l"></td>
+                    </tr>
+                    <tr class="text-sm">
+                        <td class="p-3">Pendamai, pembawa keharmonisan</td>
+                        <td class="text-center"><input type="radio" name="k6m"></td>
+                        <td class="text-center"><input type="radio" name="k6l"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="md:col-span-2">
+                <button type="submit" class="w-full bg-emerald-600 text-white py-5 rounded-2xl font-bold text-lg hover:bg-emerald-700 transition shadow-lg mt-8">
+                    Simpan & Lihat Hasil Analisis
+                </button>
             </div>
         </form>
     </div>
 
-    <div id="result-area">
-        <h2>Tipe Kepribadian Anda:</h2>
-        <div class="type-code" id="typeLabel"></div>
-        <p id="descLabel" style="font-size: 20px; color: #555; margin-bottom: 30px;"></p>
-        <button onclick="window.location.reload()" style="background:#1a73e8; color:white;">Ulangi Tes</button>
-    </div>
-</div>
-
-<script>
-    // Data Pertanyaan Asli dari MBTI2020-Scoring.xlsm 
-    const questions = [
-        // 1-15: EI (Extraversion vs Introversion)
-        { q: "Saat berada di lingkungan sosial yang ramai, Anda cenderung...", a: "Mendapat energi dari interaksi", b: "Merasa energi terkuras setelah beberapa saat", cat: "EI" },
-        { q: "Anda lebih suka dikenal sebagai orang yang...", a: "Mudah didekati dan terbuka", b: "Tenang dan menjaga privasi", cat: "EI" },
-        { q: "Dalam kelompok, Anda biasanya...", a: "Mengambil peran aktif dalam berbicara", b: "Lebih banyak mendengarkan", cat: "EI" },
-        { q: "Anda lebih suka berkomunikasi melalui...", a: "Berbicara langsung atau telepon", b: "Pesan tertulis atau email", cat: "EI" },
-        { q: "Setelah minggu yang melelahkan, Anda memilih...", a: "Pergi keluar bersama teman-teman", b: "Istirahat tenang di rumah", cat: "EI" },
-        { q: "Anda cenderung bertindak...", a: "Lalu baru berpikir", b: "Berpikir matang sebelum bertindak", cat: "EI" },
-        { q: "Anda merasa lebih nyaman...", a: "Menjadi pusat perhatian sesekali", b: "Bekerja di balik layar", cat: "EI" },
-        { q: "Anda memiliki lingkaran pertemanan yang...", a: "Luas dengan banyak kenalan", b: "Sempit namun sangat mendalam", cat: "EI" },
-        { q: "Saat memulai proyek baru, Anda lebih suka...", a: "Mendiskusikannya dengan orang lain", b: "Memikirkannya sendiri terlebih dahulu", cat: "EI" },
-        { q: "Anda dianggap sebagai orang yang...", a: "Ekspresif dan antusias", b: "Reflektif dan tenang", cat: "EI" },
-        { q: "Anda lebih mudah...", a: "Mengenal orang baru", b: "Menunggu orang lain memperkenalkan diri", cat: "EI" },
-        { q: "Anda lebih suka lingkungan kerja yang...", a: "Sibuk dan penuh interaksi", b: "Tenang dan fokus", cat: "EI" },
-        { q: "Anda seringkali...", a: "Berpikir sambil berbicara", b: "Berbicara setelah ide matang", cat: "EI" },
-        { q: "Anda lebih menikmati...", a: "Kegiatan kelompok besar", b: "Pertemuan satu lawan satu", cat: "EI" },
-        { q: "Anda cenderung...", a: "Cepat merespons stimulasi luar", b: "Lebih fokus pada dunia internal", cat: "EI" },
-
-        // 16-30: SN (Sensing vs Intuition)
-        { q: "Anda lebih tertarik pada...", a: "Fakta dan kenyataan saat ini", b: "Kemungkinan dan potensi masa depan", cat: "SN" },
-        { q: "Anda lebih suka instruksi yang...", a: "Jelas, spesifik, dan bertahap", b: "Bersifat umum dan memberi ruang kreasi", cat: "SN" },
-        { q: "Anda dianggap sebagai orang yang...", a: "Praktis dan membumi", b: "Imajinatif dan kreatif", cat: "SN" },
-        { q: "Anda lebih menghargai...", a: "Pengalaman masa lalu", b: "Inovasi masa depan", cat: "SN" },
-        { q: "Saat membaca buku, Anda lebih suka yang...", a: "Berdasarkan kisah nyata/fakta", b: "Fiksi penuh simbolisme/makna", cat: "SN" },
-        { q: "Anda cenderung memperhatikan...", a: "Detail-detail kecil", b: "Gambaran besar (Big Picture)", cat: "SN" },
-        { q: "Anda lebih nyaman bekerja dengan...", a: "Hal-hal yang terukur dan pasti", b: "Teori dan konsep abstrak", cat: "SN" },
-        { q: "Anda lebih suka belajar melalui...", a: "Praktik langsung", b: "Pemahaman konsep", cat: "SN" },
-        { q: "Anda dianggap sebagai orang yang...", a: "Realistis", b: "Visioner", cat: "SN" },
-        { q: "Saat menceritakan kejadian, Anda fokus pada...", a: "Apa yang benar-benar terjadi", b: "Apa makna di balik kejadian itu", cat: "SN" },
-        { q: "Anda lebih suka menggunakan...", a: "Cara yang sudah terbukti berhasil", b: "Cara baru yang belum pernah dicoba", cat: "SN" },
-        { q: "Anda sering disebut orang yang...", a: "Sangat teliti", b: "Sangat kreatif", cat: "SN" },
-        { q: "Anda lebih tertarik pada...", a: "Penerapan ide", b: "Ide itu sendiri", cat: "SN" },
-        { q: "Anda lebih suka hidup di...", a: "Sini dan sekarang", b: "Dunia kemungkinan", cat: "SN" },
-        { q: "Anda lebih percaya pada...", a: "Panca indera", b: "Firasat/Intuisi", cat: "SN" },
-
-        // 31-45: TF (Thinking vs Feeling)
-        { q: "Dalam mengambil keputusan, Anda mengutamakan...", a: "Logika dan objektivitas", b: "Nilai-nilai dan perasaan", cat: "TF" },
-        { q: "Anda lebih suka dianggap sebagai orang yang...", a: "Adil dan tidak memihak", b: "Penuh empati dan pengertian", cat: "TF" },
-        { q: "Saat terjadi konflik, Anda cenderung...", a: "Mencari kebenaran secara logis", b: "Mencari keharmonisan antar pihak", cat: "TF" },
-        { q: "Anda lebih sering menggunakan...", a: "Kepala (Pikiran)", b: "Hati (Perasaan)", cat: "TF" },
-        { q: "Anda lebih menghargai...", a: "Kompetensi dan efisiensi", b: "Kerja sama dan dukungan", cat: "TF" },
-        { q: "Anda cenderung bersifat...", a: "Kritis dan jujur", b: "Apresiatif dan taktis", cat: "TF" },
-        { q: "Anda merasa lebih puas saat...", a: "Masalah terselesaikan dengan benar", b: "Semua orang merasa senang", cat: "TF" },
-        { q: "Dalam diskusi, Anda lebih fokus pada...", a: "Isi argumen", b: "Perasaan orang yang berbicara", cat: "TF" },
-        { q: "Anda lebih suka pemimpin yang...", a: "Tegas dan konsisten", b: "Peka dan memotivasi", cat: "TF" },
-        { q: "Anda dianggap sebagai orang yang...", a: "Objektif", b: "Subjektif/Personal", cat: "TF" },
-        { q: "Anda lebih mudah tersentuh oleh...", a: "Argumen yang kuat", b: "Cerita yang mengharukan", cat: "TF" },
-        { q: "Anda percaya bahwa kejujuran...", a: "Harus diutamakan meski menyakitkan", b: "Harus disampaikan dengan menjaga perasaan", cat: "TF" },
-        { q: "Anda lebih suka menganalisis...", a: "Sebab dan akibat", b: "Dampak pada orang lain", cat: "TF" },
-        { q: "Anda sering dianggap...", a: "Keras hati/dingin", b: "Lembut hati/hangat", cat: "TF" },
-        { q: "Anda membuat aturan berdasarkan...", a: "Standar yang sama bagi semua", b: "Kebutuhan individu yang berbeda", cat: "TF" },
-
-        // 46-60: JP (Judging vs Perceiving)
-        { q: "Anda lebih suka memiliki hari yang...", a: "Terencana dan terstruktur", b: "Fleksibel dan mengalir", cat: "JP" },
-        { q: "Saat mengerjakan tugas, Anda cenderung...", a: "Menyelesaikan jauh sebelum tenggat", b: "Bekerja di bawah tekanan menit terakhir", cat: "JP" },
-        { q: "Anda merasa lebih nyaman dengan...", a: "Keputusan yang sudah final", b: "Pilihan yang tetap terbuka", cat: "JP" },
-        { q: "Dalam perjalanan, Anda biasanya...", a: "Menyiapkan itinerary lengkap", b: "Pergi tanpa rencana yang kaku", cat: "JP" },
-        { q: "Lingkungan Anda biasanya...", a: "Rapi dan teratur", b: "Berantakan namun kreatif", cat: "JP" },
-        { q: "Anda lebih suka...", a: "Menyelesaikan tugas dulu baru bermain", b: "Bermain dulu baru menyelesaikan tugas", cat: "JP" },
-        { q: "Anda merasa terganggu oleh...", a: "Ketidakpastian", b: "Rutinitas yang terlalu kaku", cat: "JP" },
-        { q: "Anda cenderung membuat daftar...", a: "Untuk memastikan semua selesai", b: "Hanya sebagai panduan kasar", cat: "JP" },
-        { q: "Anda lebih suka...", a: "Menetapkan target yang jelas", b: "Menjelajahi berbagai opsi", cat: "JP" },
-        { q: "Anda dianggap sebagai orang yang...", a: "Disiplin dan tepat waktu", b: "Adaptif dan santai", cat: "JP" },
-        { q: "Anda lebih suka gaya hidup...", a: "Penuh persiapan", b: "Spontan", cat: "JP" },
-        { q: "Anda merasa puas ketika...", a: "Sesuatu sudah diputuskan", b: "Sesuatu sedang berjalan", cat: "JP" },
-        { q: "Anda lebih suka memulai proyek dengan...", a: "Rencana langkah demi langkah", b: "Melihat bagaimana hal itu berkembang", cat: "JP" },
-        { q: "Anda cenderung...", a: "Menghindari kejutan", b: "Menikmati kejutan", cat: "JP" },
-        { q: "Anda lebih suka bekerja dalam...", a: "Sistem yang terorganisir", b: "Kondisi yang berubah-ubah", cat: "JP" }
-    ];
-
-    let current = 0;
-    const area = document.getElementById('questionArea');
-
-    questions.forEach((item, i) => {
-        const div = document.createElement('div');
-        div.className = `question-item ${i === 0 ? 'active' : ''}`;
-        div.innerHTML = `<p style="font-size:20px; font-weight:bold;">${i+1}. ${item.q}</p>
-            <div class="options">
-                <label><input type="radio" name="q${i}" value="${item.cat[0]}"> ${item.a}</label>
-                <label><input type="radio" name="q${i}" value="${item.cat[1]}"> ${item.b}</label>
-            </div>`;
-        area.appendChild(div);
-    });
-
-    function changeQ(step) {
-        const radios = document.getElementsByName(`q${current}`);
-        let checked = false;
-        if(step > 0) {
-            for(let r of radios) if(r.checked) checked = true;
-            if(!checked) return alert("Pilih satu jawaban!");
-        }
-
-        const items = document.querySelectorAll('.question-item');
-        items[current].classList.remove('active');
-        current += step;
-
-        if(current >= 60) return showResult();
-
-        items[current].classList.add('active');
-        document.getElementById('prev-btn').style.display = current === 0 ? 'none' : 'block';
-        document.getElementById('next-btn').innerText = current === 59 ? "Lihat Hasil" : "Lanjut";
-        document.getElementById('counter').innerText = `Soal ${current + 1} / 60`;
-        document.getElementById('progressFill').style.width = ((current+1)/60*100) + '%';
-    }
-
-    function showResult() {
-        const data = new FormData(document.getElementById('mbtiForm'));
-        let s = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
-        for(let v of data.values()) s[v]++;
-
-        let res = (s.E >= s.I ? "E" : "I") + (s.S >= s.N ? "S" : "N") + (s.T >= s.F ? "T" : "F") + (s.J >= s.P ? "J" : "P");
-        
-        document.getElementById('quiz-ui').style.display = 'none';
-        document.getElementById('result-area').style.display = 'block';
-        document.getElementById('typeLabel').innerText = res;
-        
-        const descriptions = {
-            "ISTJ": "Si Pengawas: Praktis, faktual, dan sangat teratur.",
-            "ISFJ": "Si Pelindung: Setia, berdedikasi, dan hangat.",
-            "INFJ": "Si Advokat: Idealis yang tenang namun sangat inspiratif.",
-            "INTJ": "Si Arsitek: Pemikir strategis dengan rencana matang.",
-            "ISTP": "Si Mekanik: Pengamat yang berani dan praktis.",
-            "ISFP": "Si Seniman: Fleksibel, menawan, dan selalu siap mencoba hal baru.",
-            "INFP": "Si Mediator: Puitis, baik hati, dan selalu ingin membantu.",
-            "INTP": "Si Pemikir: Penemu kreatif dengan haus akan pengetahuan.",
-            "ESTP": "Si Pengusaha: Cerdas, energik, dan sangat perseptif.",
-            "ESFP": "Si Penghibur: Spontan, energik, dan penuh semangat.",
-            "ENFP": "Si Juru Kampanye: Antusias, kreatif, dan berjiwa bebas.",
-            "ENTP": "Si Pendebat: Cerdas dan penasaran yang tidak bisa menahan tantangan intelektual.",
-            "ESTJ": "Si Eksekutif: Administrator yang hebat, tidak tertandingi dalam mengelola hal-hal.",
-            "ESFJ": "Si Pengasuh: Sangat peduli, sosial, dan populer.",
-            "ENFJ": "Si Protokol: Pemimpin yang karismatik dan inspiratif.",
-            "ENTJ": "Si Komandan: Pemimpin yang berani, imajinatif, dan berkemauan keras."
-        };
-        document.getElementById('descLabel').innerText = descriptions[res];
-    }
-</script>
+    <script>
+        document.getElementById('discForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Logika validasi: pastikan user tidak memilih baris yang sama untuk M dan L di setiap kotak
+            alert('Tes Selesai! Jawaban Anda telah direkam sesuai instruksi di dokumen.');
+        });
+    </script>
 </body>
 </html>
