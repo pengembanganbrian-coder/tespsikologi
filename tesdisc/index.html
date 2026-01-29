@@ -1,1 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi e-DISC 2020</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #f4f4f4; font-family: 'Segoe UI', Arial, sans-serif; }
+        .container { max-width: 900px; margin-top: 30px; margin-bottom: 50px; }
+        .header-excel { background-color: #217346; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+        .instruction { background-color: #e2efda; padding: 15px; border: 1px solid #c6e0b4; font-size: 0.9rem; margin-bottom: 20px; }
+        
+        /* Table Layout: M - Pernyataan - L */
+        .disc-table { width: 100%; background: white; border-collapse: collapse; margin-bottom: 25px; border: 1px solid #ddd; }
+        .disc-table th { background-color: #f2f2f2; padding: 10px; border: 1px solid #ddd; text-align: center; }
+        .disc-table td { padding: 10px; border: 1px solid #ddd; vertical-align: middle; text-align: center; }
+        .col-m { width: 50px; background-color: #ebf1de; }
+        .col-l { width: 50px; background-color: #f2dcdb; }
+        .col-text { text-align: left !important; padding-left: 15px !important; }
 
+        input[type="radio"] { transform: scale(1.4); cursor: pointer; }
+        .btn-process { background-color: #217346; color: white; padding: 15px 40px; font-weight: bold; border-radius: 5px; border: none; }
+        .btn-process:hover { background-color: #1a5a37; }
+
+        #resultArea { display: none; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .chart-box { max-width: 600px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+<div class="container shadow-lg">
+    <div id="quizArea">
+        <div class="header-excel">
+            <h2>LEMBAR KERJA e-DISC 2020</h2>
+            <p>Sistem Skoring Otomatis Berbasis Web</p>
+        </div>
+        
+        <div class="p-4 bg-white border">
+            <div class="row mb-4">
+                <div class="col-md-6"><label>Nama Peserta:</label><input type="text" id="name" class="form-control"></div>
+                <div class="col-md-6"><label>ID / Jabatan:</label><input type="text" id="job" class="form-control"></div>
+            </div>
+
+            <div class="instruction">
+                <strong>INSTRUKSI:</strong> Pilih satu (X) pada kolom <strong>M</strong> untuk yang paling MIRIP, dan satu (X) pada kolom <strong>L</strong> untuk yang paling TIDAK MIRIP di setiap kotak nomor.
+            </div>
+
+            <form id="discForm">
+                <div id="soalBox"></div>
+                <div class="text-center mt-5">
+                    <button type="button" class="btn btn-process" onclick="hitungSkorExcel()">PROSES ANALISA KEPRIBADIAN</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="resultArea">
+        <h3 class="text-center text-success mb-4">HASIL PROFIL DISC</h3>
+        <div class="row">
+            <div class="col-md-7">
+                <div class="chart-box">
+                    <canvas id="discChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div id="resultDetails"></div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <button class="btn btn-outline-secondary" onclick="location.reload()">Reset Tes</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Database Soal Sesuai Excel Anda
+    const soal = [
+        {id:1, opt:[{t:"Mudah bergaul, menyenangkan", v:"I"}, {t:"Mudah percaya kepada orang lain", v:"S"}, {t:"Suka berpetualangan, pengambil Resiko", v:"D"}, {t:"Penuh toleransi, menghormati orang lain", v:"S"}]},
+        {id:2, opt:[{t:"Berbicara lembut, pendiam", v:"C"}, {t:"Optimis, berpikir positif", v:"I"}, {t:"Pusat perhatian", v:"I"}, {t:"Lakukan dengan benar, ketepatan penting", v:"C"}]},
+        {id:3, opt:[{t:"Buatlah sesuatu menjadi menyenangkan", v:"I"}, {t:"Mari lakukan bersama-sama", v:"S"}, {t:"Tidak tergantung orang lain", v:"D"}, {t:"Hasil adalah segalanya", v:"D"}]},
+        {id:4, opt:[{t:"Akan membeli mengikuti dorongan hati", v:"I"}, {t:"Akan menunggu dengan sabar", v:"S"}, {t:"Akan mengeluarkan uang untuk hal diinginkan", v:"D"}, {t:"Pendidikan, budaya", v:"C"}]},
+        {id:5, opt:[{t:"Prestasi, penghargaan", v:"D"}, {t:"Keselamatan, keamanan", v:"S"}, {t:"Bergaul, berkumpul dengan kelompok", v:"I"}, {t:"Memimpin, bicara langsung", v:"D"}]},
+        {id:6, opt:[{t:"Terbuka, antusias, bersemangat", v:"I"}, {t:"Mudah diduga, konsisten", v:"S"}, {t:"Berhati-hati", v:"C"}, {t:"Pendamai, pembawa keharmonisan", v:"S"}]},
+        {id:7, opt:[{t:"Memberikan dorongan kepada orang lain", v:"I"}, {t:"Ramah, mudah berteman", v:"I"}, {t:"Berusaha untuk selalu sempurna", v:"C"}, {t:"Menjadi bagian dari sebuah kelompok", v:"S"}]},
+        {id:8, opt:[{t:"Ingin menetapkan tujuan", v:"D"}, {t:"Unik, mudah bosan terhadap rutinitas", v:"I"}, {t:"Aktif mengubah sesuatu", v:"D"}, {t:"Ingin segala sesuatu tepat", v:"C"}]},
+        {id:9, opt:[{t:"Mudah menjadi frustasi", v:"D"}, {t:"Tidak melawan, mengalah", v:"S"}, {t:"Memendam perasaan, tertutup", v:"C"}, {t:"Menyampaikan pendapatnya, terbuka", v:"I"}]},
+        {id:10, opt:[{t:"Berani menghadapi pihak oposisi", v:"D"}, {t:"Menyukai hal rinci/detil", v:"C"}, {t:"Penuh semangat, banyak bicara", v:"I"}, {t:"Bertindak cepat, tegas", v:"D"}]},
+        {id:11, opt:[{t:"Mencoba untuk menjaga kedamaian", v:"S"}, {t:"Mencoba untuk mengikuti aturan", v:"C"}, {t:"Mengatur waktu dengan baik", v:"C"}, {t:"Seringkali terburu-buru, merasa tertekan", v:"D"}]},
+        {id:12, opt:[{t:"Berhubungan dengan orang lain itu penting", v:"I"}, {t:"Tenang, suka menyendiri", v:"S"}, {t:"Gembira, periang", v:"I"}, {t:"Menyenangkan, ramah", v:"I"}]},
+        {id:13, opt:[{t:"Senang menyelesaikan hal yang telah dimulai", v:"S"}, {t:"Tegas, berani", v:"D"}, {t:"Menolak perubahan yang mendadak", v:"S"}, {t:"Cenderung terlalu banyak berjanji", v:"I"}]},
+        {id:14, opt:[{t:"Menarik diri ketika dibawah tekanan", v:"C"}, {t:"Menghabiskan waktu dengan orang lain", v:"I"}, {t:"Mencari tantangan baru", v:"D"}, {t:"Tidak takut konfrontasi langsung", v:"D"}]},
+        {id:15, opt:[{t:"Pendorong, pemberi semangat yang baik", v:"I"}, {t:"Pendengar yang baik", v:"S"}, {t:"Penganalisis yang baik", v:"C"}, {t:"Pendelegasi yang baik", v:"D"}]},
+        {id:16, opt:[{t:"Merencanakan masa depan, penuh persiapan", v:"C"}, {t:"Menerima penghargaan atas tujuan", v:"D"}, {t:"Peraturan perlu diuji", v:"D"}, {t:"Peraturan membuat adil", v:"C"}]},
+        {id:17, opt:[{t:"Peraturan membuat bosan", v:"I"}, {t:"Peraturan membuat aman", v:"S"}, {t:"Berubah di saat-saat terakhir", v:"I"}, {t:"Penuntut, kasar", v:"D"}]},
+        {id:18, opt:[{t:"Ingin maju", v:"D"}, {t:"Puas dengan apa yang ada", v:"S"}, {t:"Terbuka mengungkapkan perasaan", v:"I"}, {t:"Rendah hati, sederhana", v:"S"}]},
+        {id:19, opt:[{t:"Tidak mudah dikalahkan", v:"D"}, {t:"Mengikuti keinginan pemimpin", v:"S"}, {t:"Bersemangat, periang", v:"I"}, {t:"Ingin teratur, rapi", v:"C"}]},
+        {id:20, opt:[{t:"Saya akan memimpin orang lain", v:"D"}, {t:"Saya akan melaksanakannya", v:"S"}, {t:"Saya akan meyakinkan orang lain", v:"I"}, {t:"Saya akan mendapatkan fakta", v:"C"}]},
+        {id:21, opt:[{t:"Mendahulukan kepentingan orang lain", v:"S"}, {t:"Suka bersaing, suka tantangan", v:"D"}, {t:"Optimis, berpikir positif", v:"I"}, {t:"Berpikir logis, sistematis", v:"C"}]},
+        {id:22, opt:[{t:"Menyenangkan orang, mudah setuju", v:"S"}, {t:"Tertawa dengan keras, hidup", v:"I"}, {t:"Berani, tegas", v:"D"}, {t:"Pendiam/suka menyendiri", v:"C"}]},
+        {id:23, opt:[{t:"Menginginkan otoritas yang lebih", v:"D"}, {t:"Menginginkan kesempatan baru", v:"I"}, {t:"Menghindari konflik", v:"S"}, {t:"Menginginkan arahan yang jelas", v:"C"}]},
+        {id:24, opt:[{t:"Dapat dipercaya/diandalkan", v:"S"}, {t:"Kreatif, unik", v:"I"}, {t:"Berorientasi pada hasil", v:"D"}, {t:"Memegang standar tinggi, teliti", v:"C"}]}
+    ];
+
+    function renderSoal() {
+        const container = document.getElementById('soalBox');
+        soal.forEach((s, idx) => {
+            let html = `
+            <div class="mb-4">
+                <table class="disc-table">
+                    <thead><tr><th class="col-m">M</th><th class="col-text">Kotak ${s.id}</th><th class="col-l">L</th></tr></thead>
+                    <tbody>
+                        ${s.opt.map((o, i) => `
+                        <tr>
+                            <td class="col-m"><input type="radio" name="m${idx}" value="${o.v}" required></td>
+                            <td class="col-text">${o.t}</td>
+                            <td class="col-l"><input type="radio" name="l${idx}" value="${o.v}" required></td>
+                        </tr>`).join('')}
+                    </tbody>
+                </table>
+            </div>`;
+            container.innerHTML += html;
+        });
+    }
+
+    function hitungSkorExcel() {
+        let m = {D:0, I:0, S:0, C:0}, l = {D:0, I:0, S:0, C:0};
+        
+        for(let i=0; i<24; i++) {
+            let selM = document.querySelector(`input[name="m${i}"]:checked`);
+            let selL = document.querySelector(`input[name="l${i}"]:checked`);
+            
+            if(!selM || !selL) return alert("Nomor "+(i+1)+" belum lengkap!");
+            if(selM.parentElement.parentElement === selL.parentElement.parentElement) 
+                return alert("Kesalahan di nomor "+(i+1)+": M dan L tidak boleh di baris yang sama.");
+            
+            m[selM.value]++;
+            l[selL.value]++;
+        }
+
+        // Logika Excel: Most - Least
+        const final = {
+            D: m.D - l.D,
+            I: m.I - l.I,
+            S: m.S - l.S,
+            C: m.C - l.C
+        };
+
+        showResult(final, m, l);
+    }
+
+    function showResult(final, m, l) {
+        document.getElementById('quizArea').style.display = 'none';
+        document.getElementById('resultArea').style.display = 'block';
+
+        const ctx = document.getElementById('discChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Dominance', 'Influence', 'Steadiness', 'Compliance'],
+                datasets: [{
+                    label: 'Profil (Most - Least)',
+                    data: [final.D, final.I, final.S, final.C],
+                    backgroundColor: ['#e74c3c', '#f1c40f', '#2ecc71', '#3498db']
+                }]
+            },
+            options: {
+                scales: { y: { beginAtZero: false } }
+            }
+        });
+
+        // Ringkasan Tipe
+        const maxType = Object.keys(final).reduce((a, b) => final[a] > final[b] ? a : b);
+        const profil = {
+            'D': 'Dominance (Penggerak)',
+            'I': 'Influence (Antusias)',
+            'S': 'Steadiness (Stabil)',
+            'C': 'Compliance (Teliti)'
+        };
+
+        document.getElementById('resultDetails').innerHTML = `
+            <div class="card p-3 border-success">
+                <h5>Tipe Dominan: ${profil[maxType]}</h5>
+                <hr>
+                <p><strong>Skor M:</strong> D:${m.D} I:${m.I} S:${m.S} C:${m.C}</p>
+                <p><strong>Skor L:</strong> D:${l.D} I:${l.I} S:${l.S} C:${l.C}</p>
+                <hr>
+                <p>Hasil ini menggambarkan gaya perilaku Anda dalam lingkungan kerja.</p>
+            </div>
+        `;
+    }
+
+    renderSoal();
+</script>
+</body>
+</html>
