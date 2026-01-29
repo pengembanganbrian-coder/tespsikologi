@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu Tes Psikologi</title>
+</head>
+<body>
+    <h1>Selamat Datang di Tes Psikologi</h1>
+    <p>Silakan pilih tes yang ingin Anda ikuti:</p>
+    
+    <ul>
+        <li><a href="mbti/">Tes MBTI</a></li>
+        <li><a href="tes-kepribadian/">Tes Kepribadian</a></li>
+    </ul>
+</body>
+</html>
