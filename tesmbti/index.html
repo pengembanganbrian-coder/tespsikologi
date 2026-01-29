@@ -5,182 +5,254 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TES MBTI DJBC 2026</title>
     <style>
-        :root { --primary: #1a237e; --secondary: #0d47a1; --accent: #ffd600; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f2f5; color: #333; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-        
-        /* Header Box */
-        .header-box { text-align: center; border-bottom: 4px solid var(--primary); margin-bottom: 30px; padding-bottom: 20px; }
-        .logo-djbc { width: 100px; height: auto; margin-bottom: 15px; }
-        h1 { color: var(--primary); margin: 0; font-size: 26px; letter-spacing: 1px; }
-        .sub-header { font-weight: bold; color: #555; margin-top: 5px; font-size: 14px; }
-        
-        /* Identity Form */
-        .identity-form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f8f9fa; padding: 20px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 20px; }
-        .input-group { display: flex; flex-direction: column; }
-        .input-group label { font-weight: bold; font-size: 13px; margin-bottom: 5px; color: var(--primary); }
-        .input-group input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        :root { 
+            --primary: #1a237e; 
+            --secondary: #0d47a1; 
+            --accent: #ffd600; 
+            --bg: #f4f7fa;
+        }
 
-        .instruction { background: #fffde7; padding: 15px; border-radius: 5px; font-size: 14px; margin-bottom: 25px; border-left: 5px solid var(--accent); line-height: 1.5; }
-        #progress { text-align: right; font-weight: bold; color: var(--primary); }
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg); 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh;
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 800px; 
+            background: white; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        /* Header */
+        .header { 
+            background: var(--primary); 
+            color: white; 
+            padding: 30px; 
+            text-align: center;
+            border-bottom: 5px solid var(--accent);
+        }
+        .logo { width: 80px; margin-bottom: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+        .header h1 { margin: 0; font-size: 24px; letter-spacing: 1px; }
+        .header p { margin: 5px 0 0; opacity: 0.8; font-size: 14px; }
+
+        /* Step Management */
+        .step { display: none; padding: 40px; animation: slideIn 0.4s ease-out; }
+        .step.active { display: block; }
+
+        /* Form Identitas */
+        .form-card { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-weight: bold; margin-bottom: 8px; color: var(--primary); font-size: 14px; }
+        .input-group input { 
+            padding: 12px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 8px; 
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .input-group input:focus { border-color: var(--primary); outline: none; background: #f0f2ff; }
+
+        /* Progress Bar */
+        .progress-container { width: 100%; background: #eee; height: 8px; border-radius: 4px; margin-bottom: 30px; }
+        .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; border-radius: 4px; }
 
         /* Quiz UI */
-        .question-box { display: none; }
-        .question-box.active { display: block; animation: fadeIn 0.4s; }
-        .options { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .option-label { display: block; padding: 18px; border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer; transition: 0.2s; font-size: 15px; }
-        .option-label:hover { border-color: var(--primary); background: #f5f6ff; }
-        
-        .nav-btns { display: flex; justify-content: space-between; margin-top: 30px; }
-        button { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .question-text { font-size: 19px; font-weight: 600; color: var(--primary); margin-bottom: 25px; line-height: 1.4; }
+        .options { display: flex; flex-direction: column; gap: 15px; }
+        .option-card { 
+            padding: 20px; 
+            border: 2px solid #f0f0f0; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            display: flex; 
+            align-items: center;
+            font-size: 16px;
+        }
+        .option-card:hover { border-color: var(--primary); background: #f8faff; transform: translateY(-2px); }
+        .option-card.selected { border-color: var(--primary); background: #e8eaff; box-shadow: 0 4px 10px rgba(26,35,126,0.1); }
+        input[type="radio"] { display: none; }
+
+        /* Buttons */
+        .btn-area { display: flex; justify-content: space-between; margin-top: 40px; }
+        .btn { 
+            padding: 14px 30px; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 15px; 
+            transition: 0.3s;
+        }
+        .btn-main { background: var(--primary); color: white; width: 100%; }
+        .btn-main:hover { background: var(--secondary); transform: scale(1.02); }
+        .btn-back { background: #e0e0e0; color: #555; }
         .btn-next { background: var(--primary); color: white; }
-        .btn-prev { background: #ccc; }
 
         /* Result Page */
-        #result-area { display: none; }
-        .result-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 20px; font-size: 14px; background: #fff; }
-        .type-banner { background: var(--primary); color: white; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 30px; }
-        .type-code { font-size: 80px; font-weight: 900; margin: 0; letter-spacing: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        .section-title { font-weight: bold; color: var(--primary); border-bottom: 2px solid #ddd; margin: 30px 0 10px; padding-bottom: 5px; font-size: 18px; display: flex; align-items: center; }
-        .section-title::before { content: "■"; margin-right: 10px; color: var(--accent); }
-        .report-text { text-align: justify; line-height: 1.8; font-size: 15px; color: #333; }
-        
-        .print-btn { background: #2e7d32; color: white; width: 100%; padding: 18px; font-size: 18px; margin-top: 20px; box-shadow: 0 4px 10px rgba(46,125,50,0.2); }
+        .result-meta { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 14px; border-left: 5px solid var(--primary); }
+        .type-box { text-align: center; padding: 30px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 15px; margin-bottom: 30px; }
+        .type-box h2 { font-size: 60px; margin: 0; letter-spacing: 10px; font-weight: 900; }
+        .report-section { margin-bottom: 25px; }
+        .section-h { font-weight: bold; color: var(--primary); border-bottom: 2px solid var(--accent); margin-bottom: 10px; display: block; font-size: 18px; }
 
         @media print {
-            .no-print { display: none !important; }
-            body { padding: 0; background: white; }
-            .container { box-shadow: none; width: 100%; padding: 0; }
-            .type-banner { background: #1a237e !important; color: white !important; -webkit-print-color-adjust: exact; }
+            .no-print, .btn-area { display: none !important; }
+            body { background: white; }
+            .container { box-shadow: none; border: none; max-width: 100%; margin: 0; }
+            .header { background: white !important; color: black !important; border-bottom: 2px solid black; }
+            .logo { filter: none; }
+            .type-box { background: white !important; color: black !important; border: 2px solid black; }
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="quiz-ui">
-        <div class="header-box">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Logo_Bea_Cukai.png" 
-                 onerror="this.src='https://via.placeholder.com/100x120?text=LOGO+DJBC'" 
-                 alt="Logo DJBC" class="logo-djbc">
-            <h1>TES MBTI DJBC 2026</h1>
-            <div class="sub-header">DIREKTORAT JENDERAL BEA DAN CUKAI</div>
-        </div>
+    <div class="header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Logo_Bea_Cukai.png" class="logo" alt="DJBC">
+        <h1>TES MBTI DJBC 2026</h1>
+        <p>Human Resources Competency Assessment</p>
+    </div>
 
-        <div class="identity-form no-print">
-            <div class="input-group"><label>NAMA LENGKAP</label><input type="text" id="in-nama" placeholder="Ketik Nama Anda..."></div>
+    <div id="step-1" class="step active">
+        <h3 style="margin-top:0; color: var(--primary);">Data Diri Peserta</h3>
+        <div class="form-card">
+            <div class="input-group"><label>Nama Lengkap</label><input type="text" id="in-nama" placeholder="Sesuai Naskah Dinas"></div>
             <div class="input-group"><label>NIP</label><input type="text" id="in-nip" placeholder="18 Digit NIP"></div>
-            <div class="input-group"><label>UNIT KERJA</label><input type="text" id="in-unit" placeholder="Contoh: KPU BC Tipe A"></div>
-            <div class="input-group"><label>JABATAN</label><input type="text" id="in-jabatan" placeholder="Contoh: Pelaksana"></div>
+            <div class="input-group"><label>Unit Kerja</label><input type="text" id="in-unit" placeholder="Contoh: KPU BC Tipe A"></div>
+            <div class="input-group"><label>Jabatan</label><input type="text" id="in-jabatan" placeholder="Contoh: Pemeriksa Terampil"></div>
         </div>
-
-        <div class="instruction">
-            <strong>PETUNJUK:</strong> Tes ini terdiri dari 60 soal. Pilih satu pernyataan yang paling menggambarkan diri Anda sehari-hari. Klik "Lanjutkan" untuk soal berikutnya.
+        <div style="margin-top: 30px; background: #fff9c4; padding: 15px; border-radius: 8px; font-size: 14px;">
+            <b>Instruksi:</b> Jawablah dengan spontan. Tidak ada jawaban benar/salah. Fokuslah pada bagaimana Anda bertindak secara alami di lingkungan kerja.
         </div>
-
-        <p id="progress">Soal 1 / 60</p>
-        <form id="mbtiForm"><div id="questions"></div></form>
-
-        <div class="nav-btns no-print">
-            <button class="btn-prev" id="prevBtn" onclick="move(-1)" style="display:none">KEMBALI</button>
-            <button class="btn-next" id="nextBtn" onclick="move(1)">LANJUTKAN</button>
+        <div class="btn-area">
+            <button class="btn btn-main" onclick="startQuiz()">MULAI TES SEKARANG</button>
         </div>
     </div>
 
-    <div id="result-area">
-        <div class="header-box">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Logo_Bea_Cukai.png" alt="Logo DJBC" class="logo-djbc">
-            <h1>LAPORAN HASIL ASESMEN MBTI</h1>
-            <div class="sub-header">DJBC COMPETENCY MAPPING 2026</div>
+    <div id="step-2" class="step">
+        <div class="progress-container"><div class="progress-bar" id="p-bar"></div></div>
+        <p id="q-counter" style="font-weight: bold; color: var(--primary); margin-bottom: 10px;">Soal 1 dari 60</p>
+        
+        <div id="quiz-content">
+            <p class="question-text" id="q-text">Pernyataan kuesioner di sini...</p>
+            <div class="options">
+                <div class="option-card" id="opt-a-card" onclick="selectOption('a')">
+                    <input type="radio" name="mbti" id="opt-a" value="">
+                    <span id="label-a">Pilihan A</span>
+                </div>
+                <div class="option-card" id="opt-b-card" onclick="selectOption('b')">
+                    <input type="radio" name="mbti" id="opt-b" value="">
+                    <span id="label-b">Pilihan B</span>
+                </div>
+            </div>
         </div>
 
+        <div class="btn-area">
+            <button class="btn btn-back" id="back-btn" onclick="prevQuestion()" style="visibility: hidden;">KEMBALI</button>
+            <button class="btn btn-next" id="next-btn" onclick="nextQuestion()">LANJUTKAN</button>
+        </div>
+    </div>
+
+    <div id="step-3" class="step">
         <div class="result-meta">
-            <div><strong>NAMA:</strong> <span id="res-nama"></span></div>
+            <div><strong>Nama:</strong> <span id="res-nama"></span></div>
             <div><strong>NIP:</strong> <span id="res-nip"></span></div>
-            <div><strong>UNIT KERJA:</strong> <span id="res-unit"></span></div>
-            <div><strong>JABATAN:</strong> <span id="res-jabatan"></span></div>
+            <div><strong>Unit:</strong> <span id="res-unit"></span></div>
+            <div><strong>Jabatan:</strong> <span id="res-jabatan"></span></div>
+        </div>
+        
+        <div class="type-box">
+            <small>Tipe Kepribadian Anda:</small>
+            <h2 id="res-type">ISTJ</h2>
         </div>
 
-        <div class="type-banner">
-            <p style="margin:0; font-weight:bold; letter-spacing: 2px;">TIPE KEPRIBADIAN ANDA</p>
-            <h2 class="type-code" id="finalType"></h2>
+        <div class="report-section">
+            <span class="section-h">GAMBARAN UMUM</span>
+            <p id="res-desc" style="text-align:justify;"></p>
         </div>
 
-        <div class="section-title">DESKRIPSI PROFIL</div>
-        <p id="descText" class="report-text"></p>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 15px;">
-            <div>
-                <div class="section-title">KEKUATAN UTAMA</div>
-                <ul id="plusList" style="padding-left: 20px;"></ul>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="report-section">
+                <span class="section-h">KELEBIHAN</span>
+                <ul id="res-plus" style="padding-left:18px;"></ul>
             </div>
-            <div>
-                <div class="section-title">AREA PENGEMBANGAN</div>
-                <ul id="minusList" style="padding-left: 20px;"></ul>
+            <div class="report-section">
+                <span class="section-h">KELEMAHAN</span>
+                <ul id="res-minus" style="padding-left:18px;"></ul>
             </div>
         </div>
 
-        <div class="section-title">SARAN PROFESIONAL</div>
-        <p id="adviceText" style="font-style: italic; color: #444; margin-bottom: 30px;"></p>
-
-        <button class="print-btn no-print" onclick="window.print()">CETAK / SIMPAN SEBAGAI PDF</button>
-        <button class="no-print" onclick="location.reload()" style="width:100%; margin-top:10px; border:none; background:none; color: #666; cursor:pointer;">Ulangi Tes dari Awal</button>
+        <div class="btn-area no-print">
+            <button class="btn btn-main" onclick="window.print()" style="background: #2e7d32;">CETAK LAPORAN (PDF)</button>
+        </div>
+        <center><button class="no-print" onclick="location.reload()" style="background:none; border:none; color: #888; cursor:pointer; margin-top:15px;">Ulangi Tes</button></center>
     </div>
 </div>
 
 <script>
-    // DATA PERTANYAAN DIAMBIL DARI FILE MBTI2020-Lembar Kerja.pdf
-    const data = [
+    const questions = [
         {a:"Lebih memilih berkomunikasi dengan menulis.", b:"Lebih memilih berkomunikasi dengan berbicara.", cat:"IE"},
         {a:"Menemukan ide dengan merenungkan.", b:"Menemukan ide dengan mendiskusikan.", cat:"IE"},
-        {a:"Berorientasi pada dunia internal (memori, ide).", b:"Berorientasi pada dunia eksternal (orang, aktifitas).", cat:"IE"},
-        {a:"Fokus pada beberapa ketertarikan mendalam.", b:"Fokus pada banyak hal secara meluas.", cat:"IE"},
+        {a:"Berorientasi pada dunia internal (memori, ide).", b:"Berorientasi pada dunia eksternal.", cat:"IE"},
+        {a:"Fokus pada hobi tertentu namun mendalam.", b:"Fokus pada banyak hal secara meluas.", cat:"IE"},
         {a:"Tertutup dan mandiri.", b:"Sosial dan ekspresif.", cat:"IE"},
-        {a:"Aktivitas sosial adalah melelahkan.", b:"Aktivitas sosial membuat bersemangat.", cat:"IE"},
+        {a:"Aktivitas sosial melelahkan.", b:"Aktivitas sosial menyemangati.", cat:"IE"},
         {a:"Sendirian di rumah menyenangkan.", b:"Sendirian di rumah membosankan.", cat:"IE"},
-        {a:"Berinisiatif bila situasi memaksa.", b:"Berinisiatif tinggi dalam berbagai hal.", cat:"IE"},
-        {a:"Pilih tempat tenang untuk konsentrasi.", b:"Pilih tempat ramai dan interaksi.", cat:"IE"},
+        {a:"Berinisiatif bila situasi memaksa.", b:"Berinisiatif tinggi hampir dalam segala hal.", cat:"IE"},
+        {a:"Pilih tempat tenang untuk konsentrasi.", b:"Pilih tempat ramai untuk interaksi.", cat:"IE"},
         {a:"Berpikir matang sebelum bicara.", b:"Spontan dalam bicara.", cat:"IE"},
-        {a:"Menyimpan perasaan untuk diri sendiri.", b:"Berbagi perasaan secara terbuka.", cat:"IE"},
+        {a:"Menyimpan perasaan sendiri.", b:"Berbagi perasaan secara terbuka.", cat:"IE"},
         {a:"Lebih banyak mendengarkan.", b:"Lebih banyak berbicara.", cat:"IE"},
-        {a:"Butuh waktu berpikir sebelum menjawab.", b:"Menjawab secara spontan.", cat:"IE"},
-        {a:"Tenang dan sulit ditebak.", b:"Lincah dan mudah dikenal.", cat:"IE"},
+        {a:"Butuh waktu untuk berpikir sebelum menjawab.", b:"Memberikan jawaban secara spontan.", cat:"IE"},
+        {a:"Orang lain melihat Anda tenang/sulit ditebak.", b:"Orang lain melihat Anda lincah/mudah dikenal.", cat:"IE"},
         {a:"Memahami dunia melalui diri sendiri.", b:"Memahami diri sendiri melalui dunia luar.", cat:"IE"},
         {a:"Berfokus pada fakta dan detail nyata.", b:"Berfokus pada kemungkinan dan makna.", cat:"SN"},
         {a:"Menghargai pengalaman yang terbukti.", b:"Menghargai ide baru dan teori.", cat:"SN"},
         {a:"Praktis dan membumi.", b:"Imajinatif dan visioner.", cat:"SN"},
-        {a:"Berpikir secara linear dan bertahap.", b:"Berpikir melompat-lompat (Big Picture).", cat:"SN"},
+        {a:"Berpikir linear dan bertahap.", b:"Berpikir Big Picture/melompat.", cat:"SN"},
         {a:"Tertarik pada kegunaan praktis.", b:"Tertarik pada wawasan masa depan.", cat:"SN"},
         {a:"Suka tugas yang jelas batasnya.", b:"Suka tugas kreativitas tinggi.", cat:"SN"},
         {a:"Spesifik saat mendeskripsikan sesuatu.", b:"Menggunakan metafora/analogi.", cat:"SN"},
         {a:"Percaya pada data dan panca indera.", b:"Percaya pada firasat dan intuisi.", cat:"SN"},
-        {a:"Suka mengulangi keahlian yang dikuasai.", b:"Suka mempelajari keahlian baru.", cat:"SN"},
+        {a:"Suka mengulang keahlian yang dikuasai.", b:"Suka mempelajari keahlian baru.", cat:"SN"},
         {a:"Hidup untuk masa kini.", b:"Hidup untuk masa depan.", cat:"SN"},
         {a:"Mengingat peristiwa secara detail.", b:"Mengingat kesan atau polanya.", cat:"SN"},
         {a:"Bekerja secara konsisten.", b:"Bekerja dengan energi naik turun.", cat:"SN"},
         {a:"Memilih cara konvensional.", b:"Memilih cara unik dan berbeda.", cat:"SN"},
         {a:"Orang yang realistis.", b:"Orang yang idealis.", cat:"SN"},
-        {a:"Melihat pohon (detail).", b:"Melihat hutan (global).", cat:"SN"},
-        {a:"Memutuskan berdasarkan logika.", b:"Memutuskan berdasarkan perasaan.", cat:"TF"},
+        {a:"Melihat pohon di hutan (detail).", b:"Melihat hutan secara keseluruhan.", cat:"SN"},
+        {a:"Memutuskan berdasarkan logika objektif.", b:"Memutuskan berdasarkan nilai pribadi/perasaan.", cat:"TF"},
         {a:"Menghargai kebenaran di atas segalanya.", b:"Menghargai keharmonisan.", cat:"TF"},
-        {a:"Bersikap kritis dan skeptis.", b:"Bersikap apresiatif.", cat:"TF"},
-        {a:"Memisahkan perasaan dari masalah.", b:"Dipengaruhi perasaan.", cat:"TF"},
+        {a:"Cenderung kritis dan skeptis.", b:"Cenderung apresiatif.", cat:"TF"},
+        {a:"Memisahkan perasaan dari masalah.", b:"Sangat dipengaruhi perasaan.", cat:"TF"},
         {a:"Berorientasi pada tugas.", b:"Berorientasi pada manusia.", cat:"TF"},
         {a:"Menggunakan kepala.", b:"Menggunakan hati.", cat:"TF"},
         {a:"Terlihat kaku dan impersonal.", b:"Terlihat hangat dan lembut.", cat:"TF"},
-        {a:"Mampu berkata 'Tidak' demi logika.", b:"Sulit berkata 'Tidak' karena tidak enak.", cat:"TF"},
-        {a:"Aturan tegak bagi semua.", b:"Aturan fleksibel.", cat:"TF"},
+        {a:"Mampu berkata Tidak jika logis.", b:"Sulit berkata Tidak karena tidak enak.", cat:"TF"},
+        {a:"Aturan harus tegak bagi semua.", b:"Aturan fleksibel tergantung situasi.", cat:"TF"},
         {a:"Menghargai kompetensi.", b:"Menghargai keramahan.", cat:"TF"},
         {a:"Melihat kesalahan untuk diperbaiki.", b:"Melihat kelebihan untuk dipuji.", cat:"TF"},
         {a:"Menganalisa sebelum setuju.", b:"Setuju jika hati merasa sreg.", cat:"TF"},
         {a:"Menuntut pembuktian masuk akal.", b:"Menuntut keterlibatan emosional.", cat:"TF"},
         {a:"Percaya pada argumen kuat.", b:"Percaya pada konsensus bersama.", cat:"TF"},
         {a:"Ingin sukses.", b:"Ingin dicintai.", cat:"TF"},
-        {a:"Jadwal sangat membantu.", b:"Jadwal sangat membebani.", cat:"JP"},
+        {a:"Jadwal sangat membantu.", b:"Jadwal membebani.", cat:"JP"},
         {a:"Berorientasi pada hasil akhir.", b:"Berorientasi pada proses.", cat:"JP"},
         {a:"Fokus pada target.", b:"Siap merubah target.", cat:"JP"},
-        {a:"Tenang bila sudah diputuskan.", b:"Nyaman bila pilihan tetap terbuka.", cat:"JP"},
+        {a:"Tenang bila sudah diputus.", b:"Nyaman bila pilihan terbuka.", cat:"JP"},
         {a:"Ketidakpastian meresahkan.", b:"Ketidakpastian itu seru.", cat:"JP"},
         {a:"Situasi last minute menyiksa.", b:"Situasi last minute memacu potensi.", cat:"JP"},
         {a:"Perubahan adalah musuh.", b:"Perubahan adalah semangat hidup.", cat:"JP"},
@@ -194,77 +266,103 @@
         {a:"Menutup pilihan agar selesai.", b:"Membuka pilihan untuk hasil terbaik.", cat:"JP"}
     ];
 
-    let current = 0;
-    const qDiv = document.getElementById('questions');
+    let currentIdx = 0;
+    let answers = new Array(60).fill(null);
 
-    data.forEach((item, i) => {
-        const d = document.createElement('div');
-        d.className = `question-box ${i === 0 ? 'active' : ''}`;
-        d.id = `q-${i}`;
-        d.innerHTML = `<p style="font-size:17px; font-weight:bold; color:var(--primary);">Pernyataan ${i+1}</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q${i}" value="${item.cat[0]}"> ${item.a}</label>
-                <label class="option-label"><input type="radio" name="q${i}" value="${item.cat[1]}"> ${item.b}</label>
-            </div>`;
-        qDiv.appendChild(d);
-    });
-
-    function move(step) {
-        if (step === 1) {
-            if (!document.querySelector(`input[name="q${current}"]:checked`)) return alert("Mohon pilih salah satu pernyataan!");
-            if (current === 0 && !document.getElementById('in-nama').value) return alert("Mohon isi Nama Lengkap terlebih dahulu!");
-        }
-        document.getElementById(`q-${current}`).classList.remove('active');
-        current += step;
-        if (current === 60) { showResult(); return; }
-        document.getElementById(`q-${current}`).classList.add('active');
-        document.getElementById('prevBtn').style.display = current === 0 ? 'none' : 'block';
-        document.getElementById('progress').innerText = `Soal ${current + 1} / 60`;
-        window.scrollTo(0,0);
+    function startQuiz() {
+        if(!document.getElementById('in-nama').value) return alert("Nama harus diisi!");
+        document.getElementById('step-1').classList.remove('active');
+        document.getElementById('step-2').classList.add('active');
+        showQuestion();
     }
 
-    function showResult() {
+    function showQuestion() {
+        const q = questions[currentIdx];
+        document.getElementById('q-text').innerText = q.a.includes('memilih') ? `Mana yang lebih Anda sukai?` : `Pilih yang paling menggambarkan diri Anda:`;
+        document.getElementById('label-a').innerText = q.a;
+        document.getElementById('label-b').innerText = q.b;
+        document.getElementById('q-counter').innerText = `Soal ${currentIdx + 1} dari 60`;
+        
+        // Progress Bar
+        document.getElementById('p-bar').style.width = `${((currentIdx + 1) / 60) * 100}%`;
+
+        // Highlight selected
+        document.getElementById('opt-a-card').classList.remove('selected');
+        document.getElementById('opt-b-card').classList.remove('selected');
+        if(answers[currentIdx] === 'a') document.getElementById('opt-a-card').classList.add('selected');
+        if(answers[currentIdx] === 'b') document.getElementById('opt-b-card').classList.add('selected');
+
+        // Back button visibility
+        document.getElementById('back-btn').style.visibility = currentIdx > 0 ? 'visible' : 'hidden';
+        document.getElementById('next-btn').innerText = currentIdx === 59 ? "LIHAT HASIL" : "LANJUTKAN";
+    }
+
+    function selectOption(val) {
+        answers[currentIdx] = val;
+        showQuestion();
+    }
+
+    function nextQuestion() {
+        if(!answers[currentIdx]) return alert("Pilih salah satu jawaban!");
+        if(currentIdx < 59) {
+            currentIdx++;
+            showQuestion();
+        } else {
+            calculateResult();
+        }
+    }
+
+    function prevQuestion() {
+        if(currentIdx > 0) {
+            currentIdx--;
+            showQuestion();
+        }
+    }
+
+    function calculateResult() {
+        let scores = {I:0, E:0, S:0, N:0, T:0, F:0, J:0, P:0};
+        answers.forEach((ans, i) => {
+            const cat = questions[i].cat;
+            const val = ans === 'a' ? cat[0] : cat[1];
+            scores[val]++;
+        });
+
+        const type = (scores.E >= scores.I ? "E" : "I") + (scores.S >= scores.N ? "S" : "N") + (scores.T >= scores.F ? "T" : "F") + (scores.J >= scores.P ? "J" : "P");
+
+        // Display Results
         document.getElementById('res-nama').innerText = document.getElementById('in-nama').value;
         document.getElementById('res-nip').innerText = document.getElementById('in-nip').value || "-";
         document.getElementById('res-unit').innerText = document.getElementById('in-unit').value || "-";
         document.getElementById('res-jabatan').innerText = document.getElementById('in-jabatan').value || "-";
+        document.getElementById('res-type').innerText = type;
 
-        const form = new FormData(document.getElementById('mbtiForm'));
-        let s = {I:0, E:0, S:0, N:0, T:0, F:0, J:0, P:0};
-        for(let v of form.values()) s[v]++;
-
-        const type = (s.E >= s.I ? "E" : "I") + (s.S >= s.N ? "S" : "N") + (s.T >= s.F ? "T" : "F") + (s.J >= s.P ? "J" : "P");
-
+        // Content Database
         const db = {
             "ISTJ": {
-                desc: "Anda adalah profil 'The Logistician' yang sangat diandalkan di lingkungan DJBC. Anda bekerja dengan integritas tinggi, menghargai aturan, dan sangat teliti dalam administrasi. Anda lebih suka fakta yang terukur daripada spekulasi. Dalam tugas pengawasan atau pemeriksaan, Anda adalah orang yang memastikan semua berjalan sesuai SOP tanpa celah. Loyalitas dan tanggung jawab adalah prinsip utama Anda.",
-                plus: ["Sangat Terorganisir", "Jujur & Tegas", "Detail Oriented", "Sangat Mandiri"],
-                minus: ["Cenderung Kaku", "Kurang Fleksibel", "Terlihat Dingin", "Sulit Terima Ide Baru"],
-                advice: "Cobalah untuk lebih terbuka terhadap perubahan metode kerja yang baru untuk meningkatkan efisiensi."
+                desc: "Anda adalah tipe yang sangat bertanggung jawab, setia pada aturan, dan sangat teliti. Di lingkungan DJBC, Anda adalah aset berharga dalam memastikan kepatuhan administrasi dan pengawasan yang ketat. Anda lebih suka fakta dan data daripada asumsi.",
+                plus: ["Sangat Terorganisir", "Integritas Tinggi", "Fokus Detail", "Handal"],
+                minus: ["Sulit Beradaptasi", "Terlihat Kaku", "Kurang Peka Perasaan"]
             },
             "ENTJ": {
-                desc: "Anda adalah 'The Commander'—pemimpin alami yang visioner. Anda sangat ahli dalam mengorganisir sistem dan orang untuk mencapai target besar DJBC. Anda tidak ragu mengambil keputusan sulit dan fokus pada efisiensi maksimal. Anda melihat pola masa depan dan merencanakan strategi dengan sangat logis.",
-                plus: ["Kepemimpinan Kuat", "Sangat Efisien", "Percaya Diri", "Strategis"],
-                minus: ["Kurang Sabar", "Terlihat Dominan", "Kurang Empati", "Terlalu Ambisius"],
-                advice: "Luangkan waktu untuk mendengarkan masukan tim secara emosional agar suasana kerja lebih harmonis."
+                desc: "Pemimpin visioner yang tegas. Anda mampu mengorganisir sistem dan orang untuk mencapai target besar DJBC. Anda sangat efisien dan berorientasi pada hasil nyata.",
+                plus: ["Strategis", "Tegas", "Visioner", "Efisien"],
+                minus: ["Kurang Sabar", "Dominan", "Meremehkan Detail Kecil"]
             }
-            // Tambahkan tipe lain sesuai pola...
+            // Tipe lainnya bisa ditambahkan dengan pola yang sama
         };
 
-        const r = db[type] || {
-            desc: "Profil " + type + " menunjukkan Anda individu yang unik dengan kombinasi kekuatan yang luar biasa. Anda memiliki cara tersendiri dalam berkontribusi bagi kemajuan instansi Bea dan Cukai melalui perspektif Anda yang stabil.",
-            plus: ["Profesional", "Berdedikasi", "Adaptif"],
-            minus: ["Komunikasi", "Fleksibilitas"],
-            advice: "Gunakan kelebihan Anda untuk memimpin perubahan positif di unit kerja Anda."
+        const final = db[type] || {
+            desc: "Tipe Anda ("+type+") memiliki cara unik dalam bekerja. Anda memiliki kombinasi kekuatan yang jika dimaksimalkan akan memberikan dampak besar bagi unit kerja Anda di Bea Cukai.",
+            plus: ["Adaptif", "Profesional", "Berkomitmen"],
+            minus: ["Perlu peningkatan komunikasi", "Fleksibilitas"]
         };
 
-        document.getElementById('quiz-ui').style.display = 'none';
-        document.getElementById('result-area').style.display = 'block';
-        document.getElementById('finalType').innerText = type;
-        document.getElementById('descText').innerText = r.desc;
-        document.getElementById('plusList').innerHTML = r.plus.map(i => `<li>${i}</li>`).join('');
-        document.getElementById('minusList').innerHTML = r.minus.map(i => `<li>${i}</li>`).join('');
-        document.getElementById('adviceText').innerText = r.advice;
+        document.getElementById('res-desc').innerText = final.desc;
+        document.getElementById('res-plus').innerHTML = final.plus.map(i => `<li>${i}</li>`).join('');
+        document.getElementById('res-minus').innerHTML = final.minus.map(i => `<li>${i}</li>`).join('');
+
+        document.getElementById('step-2').classList.remove('active');
+        document.getElementById('step-3').classList.add('active');
         window.scrollTo(0,0);
     }
 </script>
