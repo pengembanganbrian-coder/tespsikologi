@@ -1,15 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Menu Tes Psikologi</title>
+    <meta charset="UTF-8">
+    <title>Menu Utama Tes Psikologi</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; }
+        .btn { 
+            display: inline-block; padding: 15px 25px; margin: 10px;
+            background-color: #007bff; color: white; 
+            text-decoration: none; border-radius: 5px; 
+        }
+        .btn:hover { background-color: #0056b3; }
+    </style>
 </head>
 <body>
-    <h1>Selamat Datang di Tes Psikologi</h1>
-    <p>Silakan pilih tes yang ingin Anda ikuti:</p>
-    
-    <ul>
-        <li><a href="mbti/">Tes MBTI</a></li>
-        <li><a href="tes-kepribadian/">Tes Kepribadian</a></li>
-    </ul>
+    <h1>Selamat Datang di Portal Tes Psikologi</h1>
+    <p>Silakan pilih jenis tes yang ingin kamu ikuti:</p>
+
+    <a href="mbti/" class="btn">Mulai Tes MBTI</a>
+
+    <a href="tesdisc/" class="btn">Mulai Tes DISC</a>
 </body>
 </html>
