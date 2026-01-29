@@ -5,39 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TES MBTI DJBC 2026</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f4f8; padding: 20px; color: #333; }
-        .container { max-width: 850px; margin: auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .header-box { text-align: center; border-bottom: 3px double #1a73e8; margin-bottom: 30px; padding-bottom: 10px; }
-        h1 { color: #1a73e8; margin: 0; font-size: 28px; text-transform: uppercase; }
-        .instruction { background: #fff9c4; padding: 15px; border-radius: 8px; font-size: 14px; margin-bottom: 30px; border: 1px solid #fbc02d; }
-        .question-box { display: none; }
-        .question-box.active { display: block; animation: fadeIn 0.4s; }
-        .options { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-        label { display: block; padding: 20px; border: 2px solid #eee; border-radius: 10px; cursor: pointer; transition: 0.3s; font-size: 16px; }
-        label:hover { border-color: #1a73e8; background: #f1f7ff; }
-        input[type="radio"] { margin-right: 15px; transform: scale(1.3); }
-        .nav-btns { display: flex; justify-content: space-between; margin-top: 40px; }
-        button { padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
-        .btn-next { background: #1a73e8; color: white; }
-        .btn-prev { background: #ccc; }
+        :root { --primary: #1a237e; --secondary: #0d47a1; --accent: #ffd600; }
+        body { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #f0f2f5; color: #333; padding: 20px; line-height: 1.6; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 50px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); position: relative; }
         
-        /* Area Laporan Hasil */
+        /* Header & Watermark */
+        .header-box { text-align: center; border-bottom: 4px solid var(--primary); margin-bottom: 40px; padding-bottom: 20px; }
+        .header-box h1 { color: var(--primary); margin: 0; font-size: 32px; letter-spacing: 2px; }
+        .header-box p { margin: 5px 0 0; font-weight: bold; color: #666; }
+        
+        /* Progress & Instructions */
+        .instruction { background: #fffde7; padding: 20px; border-radius: 5px; font-size: 15px; margin-bottom: 30px; border-left: 6px solid var(--accent); }
+        #progress { text-align: right; font-weight: bold; color: var(--primary); font-size: 18px; margin-bottom: 10px; }
+        
+        /* Quiz Elements */
+        .question-box { display: none; }
+        .question-box.active { display: block; animation: fadeIn 0.5s; }
+        .options { display: flex; flex-direction: column; gap: 15px; margin-top: 25px; }
+        label { display: block; padding: 22px; border: 2px solid #e0e0e0; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; font-size: 17px; }
+        label:hover { border-color: var(--primary); background: #f5f6ff; transform: translateX(5px); }
+        input[type="radio"] { margin-right: 15px; transform: scale(1.4); }
+        
+        .nav-btns { display: flex; justify-content: space-between; margin-top: 50px; }
+        button { padding: 15px 35px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; }
+        .btn-next { background: var(--primary); color: white; }
+        .btn-next:hover { background: var(--secondary); box-shadow: 0 4px 12px rgba(26,35,126,0.3); }
+        .btn-prev { background: #e0e0e0; color: #444; }
+
+        /* Result Styles */
         #result-area { display: none; }
-        .type-banner { background: #1a73e8; color: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 25px; }
-        .type-code { font-size: 60px; font-weight: bold; letter-spacing: 10px; margin: 0; }
-        .section-title { font-size: 18px; font-weight: bold; color: #1a73e8; border-bottom: 2px solid #1a73e8; margin-top: 25px; padding-bottom: 5px; }
-        .report-content { line-height: 1.8; font-size: 16px; text-align: justify; }
-        .list-box { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px; }
-        ul { padding-left: 20px; }
-        .print-btn { background: #2e7d32; color: white; width: 100%; margin-top: 30px; padding: 15px; font-size: 18px; }
+        .type-card { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 35px; }
+        .type-code { font-size: 80px; font-weight: 900; margin: 0; letter-spacing: 15px; text-shadow: 3px 3px 0px rgba(0,0,0,0.2); }
+        .section-title { font-size: 20px; font-weight: bold; color: var(--primary); border-bottom: 2px solid #ddd; margin: 35px 0 15px; padding-bottom: 8px; display: flex; align-items: center; }
+        .section-title::before { content: ""; width: 10px; height: 24px; background: var(--accent); margin-right: 12px; border-radius: 2px; }
+        
+        .report-text { text-align: justify; font-size: 16.5px; color: #444; }
+        .grid-box { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .list-item { margin-bottom: 8px; }
+        
+        .print-btn { background: #2e7d32; color: white; width: 100%; margin-top: 40px; padding: 18px; font-size: 18px; box-shadow: 0 4px 10px rgba(46,125,50,0.3); }
 
         @media print {
-            .no-print, .nav-btns, .instruction, button { display: none !important; }
-            .container { box-shadow: none; border: none; width: 100%; padding: 0; }
-            body { background: white; padding: 0; }
-            .header-box { border-bottom: 2px solid #000; }
+            .no-print { display: none !important; }
+            body { padding: 0; background: white; }
+            .container { box-shadow: none; border: none; padding: 20px; width: 100%; }
+            .type-card { background: #eee !important; color: black !important; border: 2px solid black; }
+            .type-code { text-shadow: none; }
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -46,59 +61,49 @@
     <div id="quiz-ui">
         <div class="header-box">
             <h1>TES MBTI DJBC 2026</h1>
+            <p>Direktorat Jenderal Bea dan Cukai</p>
         </div>
-        
         <div class="instruction">
-            <strong>Petunjuk:</strong> Pilihlah salah satu dari dua pernyataan di bawah ini yang paling sesuai dengan diri Anda. Tidak ada jawaban benar atau salah.
+            <strong>INSTRUKSI:</strong> Pilihlah satu pernyataan yang paling mendekati preferensi alami Anda. Fokuslah pada bagaimana Anda biasanya bertindak dalam situasi normal.
         </div>
-        
-        <p id="progress" style="text-align: right; font-weight: bold; color: #1a73e8;">Soal 1 / 60</p>
-        
-        <form id="mbtiForm">
-            <div id="questions"></div>
-            <div class="nav-btns">
-                <button type="button" class="btn-prev" id="prevBtn" onclick="move(-1)" style="display:none">KEMBALI</button>
-                <button type="button" class="btn-next" id="nextBtn" onclick="move(1)">LANJUTKAN</button>
-            </div>
-        </form>
+        <p id="progress">Soal 1 / 60</p>
+        <form id="mbtiForm"><div id="questions"></div></form>
+        <div class="nav-btns">
+            <button class="btn-prev no-print" id="prevBtn" onclick="move(-1)" style="display:none">KEMBALI</button>
+            <button class="btn-next no-print" id="nextBtn" onclick="move(1)">LANJUTKAN</button>
+        </div>
     </div>
 
     <div id="result-area">
         <div class="header-box">
-            <h1>LAPORAN HASIL TES MBTI DJBC 2026</h1>
+            <h1>LAPORAN HASIL ASESMEN MBTI</h1>
+            <p>DJBC COMPETENCY MAPPING 2026</p>
         </div>
-        
-        <div class="type-banner">
-            <p style="margin:0; font-weight:bold;">TIPE KEPRIBADIAN ANDA:</p>
+        <div class="type-card">
+            <p style="margin:0; font-size: 18px; opacity: 0.9;">Profil Kepribadian Anda adalah:</p>
             <h2 class="type-code" id="finalType"></h2>
         </div>
-
-        <div class="report-content">
-            <div class="section-title">GAMBARAN UMUM</div>
-            <p id="descText"></p>
-
-            <div class="list-box">
-                <div>
-                    <div class="section-title">KELEBIHAN</div>
-                    <ul id="plusList"></ul>
-                </div>
-                <div>
-                    <div class="section-title">KEKURANGAN</div>
-                    <ul id="minusList"></ul>
-                </div>
+        <div class="section-title">GAMBARAN UMUM</div>
+        <p id="descText" class="report-text"></p>
+        <div class="grid-box">
+            <div>
+                <div class="section-title">KEKUATAN UTAMA</div>
+                <ul id="plusList" style="padding-left: 20px;"></ul>
             </div>
-
-            <div class="section-title">SARAN PENGEMBANGAN</div>
-            <p id="adviceText"></p>
+            <div>
+                <div class="section-title">AREA PENGEMBANGAN</div>
+                <ul id="minusList" style="padding-left: 20px;"></ul>
+            </div>
         </div>
-
-        <button class="print-btn no-print" onclick="window.print()">CETAK HASIL (SIMPAN PDF)</button>
-        <button class="no-print" onclick="location.reload()" style="background:#eee; width:100%; margin-top:10px; border:1px solid #ccc;">ULANGI TES</button>
+        <div class="section-title">SARAN PROFESIONAL</div>
+        <p id="adviceText" class="report-text"></p>
+        <button class="print-btn no-print" onclick="window.print()">UNDUH LAPORAN (PDF)</button>
+        <button class="no-print" onclick="location.reload()" style="background:#f5f5f5; width:100%; margin-top:15px; border:1px solid #ddd; padding: 12px; cursor: pointer;">ULANGI TES</button>
     </div>
 </div>
 
 <script>
-    // DATA PERTANYAAN PERSIS LEMBAR KERJA PDF
+    // DATA PERTANYAAN (DIAMBIL DARI LEMBAR KERJA PDF)
     const data = [
         // EI (1-15)
         {a:"Lebih memilih berkomunikasi dengan menulis.", b:"Lebih memilih berkomunikasi dengan berbicara.", cat:"IE"},
@@ -173,7 +178,7 @@
         const div = document.createElement('div');
         div.className = `question-box ${i === 0 ? 'active' : ''}`;
         div.id = `q-${i}`;
-        div.innerHTML = `<p style="font-size:18px; font-weight:bold;">${i+1}. Mana yang paling menggambarkan diri Anda?</p>
+        div.innerHTML = `<p style="font-size:19px; font-weight:bold; color:#1a237e; margin-bottom:10px;">Pertanyaan ${i+1}</p>
             <div class="options">
                 <label><input type="radio" name="q${i}" value="${item.cat[0]}"> ${item.a}</label>
                 <label><input type="radio" name="q${i}" value="${item.cat[1]}"> ${item.b}</label>
@@ -182,8 +187,9 @@
     });
 
     function move(step) {
-        if (step === 1) {
-            if (!document.querySelector(`input[name="q${current}"]:checked`)) return alert("Mohon pilih salah satu jawaban.");
+        if (step === 1 && !document.querySelector(`input[name="q${current}"]:checked`)) {
+            alert("Mohon pilih salah satu jawaban sebelum melanjutkan.");
+            return;
         }
         document.getElementById(`q-${current}`).classList.remove('active');
         current += step;
@@ -191,6 +197,7 @@
         document.getElementById(`q-${current}`).classList.add('active');
         document.getElementById('prevBtn').style.display = current === 0 ? 'none' : 'block';
         document.getElementById('progress').innerText = `Soal ${current + 1} / 60`;
+        window.scrollTo(0,0);
     }
 
     function renderResult() {
@@ -200,48 +207,60 @@
 
         const type = (s.E >= s.I ? "E" : "I") + (s.S >= s.N ? "S" : "N") + (s.T >= s.F ? "T" : "F") + (s.J >= s.P ? "J" : "P");
         
-        const reports = {
+        const db = {
             "ISTJ": {
-                desc: "Anda adalah individu yang sangat bertanggung jawab, teliti, dan menghargai tradisi. Anda mengandalkan fakta dan logika dalam bekerja.",
-                plus: ["Sangat Terorganisir", "Setia pada Janji", "Fokus pada Detail", "Bekerja Mandiri"],
-                minus: ["Sulit Beradaptasi", "Terlihat Kaku", "Kurang Peka Perasaan", "Perfeksionis"],
-                advice: "Cobalah untuk lebih terbuka terhadap ide-ide baru yang belum teruji secara praktis."
-            },
-            "ENFP": {
-                desc: "Anda adalah sosok yang antusias, kreatif, dan penuh imajinasi. Anda melihat hidup penuh dengan peluang dan makna tersembunyi.",
-                plus: ["Sangat Kreatif", "Komunikator Ulung", "Energi Positif", "Empati Tinggi"],
-                minus: ["Cepat Bosan", "Kurang Disiplin", "Sulit Fokus Detail", "Terlalu Emosional"],
-                advice: "Belajarlah untuk menyelesaikan apa yang telah dimulai sebelum berpindah ke ide baru."
-            },
-            "INTJ": {
-                desc: "Pemikir strategis dengan visi tajam. Anda mandiri, bertekad kuat, dan memiliki standar kualitas yang sangat tinggi.",
-                plus: ["Logika Tajam", "Pemikir Strategis", "Sangat Mandiri", "Cepat Belajar"],
-                minus: ["Terlalu Kritis", "Kurang Toleran", "Suka Menyendiri", "Terlihat Sombong"],
-                advice: "Sering-seringlah menghargai kontribusi orang lain meskipun tidak sesempurna standar Anda."
+                desc: "Anda adalah individu yang sangat berdedikasi, bertanggung jawab, dan mengutamakan integritas dalam bekerja. Sebagai seorang ISTJ, Anda dikenal sebagai sosok yang praktis dan faktual. Anda sangat menghargai tradisi, struktur, dan aturan yang jelas. Dalam organisasi seperti DJBC, Anda adalah aset yang sangat handal dalam memastikan kepatuhan dan ketertiban administrasi. Anda cenderung bekerja secara sistematis, fokus pada detail, dan tidak mudah terpengaruh oleh opini yang tidak didukung data. Kepercayaan diri Anda muncul dari kompetensi dan pengetahuan mendalam terhadap bidang tugas Anda.",
+                plus: ["Sangat Terorganisir", "Integritas Tinggi", "Fokus pada Detail", "Sangat Mandiri", "Disiplin Tinggi"],
+                minus: ["Cenderung Kaku", "Sulit Terima Perubahan", "Kurang Peka Perasaan", "Terlalu Menghakimi"],
+                advice: "Cobalah untuk sesekali mempertimbangkan perspektif baru yang belum teruji secara data untuk meningkatkan inovasi."
             },
             "ENTJ": {
-                desc: "Pemimpin alami yang tegas dan visioner. Anda ahli dalam mengorganisir orang dan sistem untuk mencapai tujuan besar.",
-                plus: ["Kepemimpinan Kuat", "Sangat Percaya Diri", "Efisien", "Visioner"],
-                minus: ["Tidak Sabaran", "Dominan/Otoriter", "Kurang Empati", "Terlalu Ambisius"],
-                advice: "Dengarkanlah masukan dari rekan tim sebelum mengambil keputusan final secara sepihak."
+                desc: "Anda adalah pemimpin alami yang visioner dan tegas. Anda memiliki kemampuan luar biasa dalam mengorganisir orang dan sistem untuk mencapai target yang ambisius. Sebagai seorang ENTJ, Anda sangat menghargai efisiensi dan kompetensi. Anda mampu melihat pola dan gambaran besar secara strategis, lalu merincinya ke dalam langkah-langkah logis. Anda tidak ragu untuk mengambil keputusan sulit demi kemajuan organisasi. Kehadiran Anda seringkali menjadi motor penggerak perubahan karena sifat Anda yang energik, percaya diri, dan berorientasi pada hasil nyata yang terukur.",
+                plus: ["Kepemimpinan Strategis", "Sangat Efisien", "Visioner", "Tegas Mengambil Keputusan", "Percaya Diri Tinggi"],
+                minus: ["Kurang Sabar", "Terlihat Dominan/Otoriter", "Sering Meremehkan Emosi", "Terlalu Ambisius"],
+                advice: "Berikan ruang bagi rekan tim untuk menyampaikan ide mereka tanpa rasa takut, dan kembangkan empati dalam kepemimpinan."
+            },
+            "INTJ": {
+                desc: "Anda adalah seorang arsitek strategi yang mandiri dan memiliki visi jangka panjang yang sangat tajam. Sebagai INTJ, Anda hidup dalam dunia ide dan perencanaan strategis. Anda sangat analitis dan selalu mencari cara untuk meningkatkan efisiensi sistem yang ada. Anda memiliki standar yang sangat tinggi bagi diri sendiri maupun rekan kerja. Dalam lingkungan DJBC, Anda sangat unggul dalam perencanaan teknis dan analisis risiko. Anda cenderung lebih suka bekerja dalam ketenangan untuk memformulasikan solusi kompleks sebelum mempresentasikannya kepada publik.",
+                plus: ["Analisis Sangat Tajam", "Berpikir Strategis", "Independen", "Haus Akan Ilmu", "Gigih Mencapai Tujuan"],
+                minus: ["Cenderung Introvert Kaku", "Terlalu Perfeksionis", "Terlalu Kritis", "Sulit Menghargai Basa-basi"],
+                advice: "Belajarlah untuk mengkomunikasikan ide-ide kompleks Anda dalam bahasa yang lebih sederhana agar mudah dipahami tim."
+            },
+            "ENFP": {
+                desc: "Anda adalah sosok yang antusias, kreatif, dan penuh energi positif yang menular. Sebagai ENFP, Anda melihat dunia sebagai tempat yang penuh dengan kemungkinan yang menyenangkan. Anda sangat menghargai kebebasan berekspresi dan hubungan antar manusia. Dalam tim, Anda sering menjadi katalisator inovasi dan pemberi semangat. Anda mampu melihat hubungan antara peristiwa yang tampaknya tidak berkaitan dan memberikan solusi yang out-of-the-box. Kemampuan komunikasi Anda sangat baik, sehingga Anda sangat efektif dalam peran yang membutuhkan diplomasi dan motivasi.",
+                plus: ["Sangat Kreatif", "Komunikator Ulung", "Energik", "Ramah & Empati", "Sangat Fleksibel"],
+                minus: ["Kurang Detail", "Mudah Kehilangan Fokus", "Cepat Bosan", "Sering Menunda Tugas Rutin"],
+                advice: "Berusahalah untuk lebih disiplin dalam mencatat detail administrasi dan menyelesaikan tugas yang bersifat rutin."
+            },
+            "INFJ": {
+                desc: "Anda adalah seorang visioner yang tenang dengan kedalaman empati yang luar biasa. Sebagai INFJ, Anda memiliki prinsip hidup yang kuat dan dedikasi tinggi terhadap nilai-nilai kemanusiaan. Anda mampu memahami perasaan dan motivasi orang lain meskipun mereka tidak mengatakannya. Dalam organisasi, Anda sering menjadi penengah yang bijak dan pengatur strategi di balik layar. Anda sangat menghargai harmoni namun tetap fokus pada tujuan jangka panjang. Keinginan Anda untuk membuat perubahan positif di lingkungan kerja menjadikan Anda sosok yang sangat inspiratif bagi rekan sejawat.",
+                plus: ["Wawasan Mendalam", "Sangat Setia", "Pemikir Kreatif", "Pendengar Yang Baik", "Memiliki Integritas"],
+                minus: ["Terlalu Sensitif", "Mudah Mengalami Burnout", "Cenderung Tertutup", "Perfeksionis Terhadap Nilai"],
+                advice: "Jangan terlalu keras pada diri sendiri dan berikan waktu bagi diri Anda untuk beristirahat dari tuntutan emosional sekitar."
+            },
+            "ESTJ": {
+                desc: "Anda adalah administrator yang handal, praktis, dan berorientasi pada fakta. Sebagai ESTJ, Anda sangat unggul dalam mengelola proyek, orang, dan sumber daya dengan sangat terorganisir. Anda percaya bahwa hasil dicapai melalui kerja keras dan kepatuhan pada prosedur yang sudah mapan. Dalam konteks DJBC, Anda adalah garda depan yang memastikan standar operasional dijalankan tanpa celah. Anda menghargai kejujuran, dedikasi, dan efisiensi. Kemampuan Anda untuk membuat keputusan cepat berdasarkan realitas objektif membuat Anda sangat diandalkan dalam situasi krisis.",
+                plus: ["Manajer Handal", "Loyalitas Tinggi", "Sangat Disiplin", "Objektif", "Cepat Bertindak"],
+                minus: ["Tidak Fleksibel", "Suka Mengatur", "Kurang Ekspresif", "Fokus Berlebih pada Status"],
+                advice: "Cobalah untuk mendengarkan masukan dari bawahan atau rekan kerja tanpa langsung menghakimi kebenaran ide tersebut."
             }
-            // Tambahkan tipe lainnya dengan pola yang sama di sini...
         };
 
-        const r = reports[type] || {
-            desc: "Anda adalah pribadi " + type + " yang unik. Memiliki potensi besar dalam bidang yang Anda tekuni.",
-            plus: ["Adaptif", "Komitmen", "Resilien"],
-            minus: ["Kurang Fokus", "Ragu-ragu"],
-            advice: "Teruslah eksplorasi diri untuk menemukan potensi maksimal Anda."
+        const res = db[type] || {
+            desc: "Profil " + type + " menunjukkan bahwa Anda adalah individu yang memiliki karakteristik unik dalam memproses informasi dan mengambil keputusan. Berdasarkan hasil asesmen DJBC 2026, Anda memiliki preferensi yang stabil dalam menjalankan tugas-tugas profesional Anda. Anda cenderung mengandalkan kekuatan utama Anda untuk memberikan kontribusi terbaik bagi organisasi. Penting untuk memahami bahwa setiap tipe kepribadian memiliki keunikan tersendiri yang jika dikelola dengan baik akan menjadi kekuatan kolaborasi yang luar biasa dalam mencapai target institusi Bea dan Cukai.",
+            plus: ["Komitmen Kerja", "Adaptabilitas", "Etos Kerja"],
+            minus: ["Ragu dalam Perubahan", "Komunikasi Interpersonal"],
+            advice: "Gunakan hasil ini sebagai cermin untuk mengenali potensi diri dan mulailah mengeksplorasi area yang masih perlu diperkuat."
         };
 
         document.getElementById('quiz-ui').style.display = 'none';
         document.getElementById('result-area').style.display = 'block';
         document.getElementById('finalType').innerText = type;
-        document.getElementById('descText').innerText = r.desc;
-        document.getElementById('adviceText').innerText = r.advice;
-        document.getElementById('plusList').innerHTML = r.plus.map(i => `<li>${i}</li>`).join('');
-        document.getElementById('minusList').innerHTML = r.minus.map(i => `<li>${i}</li>`).join('');
+        document.getElementById('descText').innerText = res.desc;
+        document.getElementById('adviceText').innerText = res.advice;
+        document.getElementById('plusList').innerHTML = res.plus.map(i => `<li>${i}</li>`).join('');
+        document.getElementById('minusList').innerHTML = res.minus.map(i => `<li>${i}</li>`).join('');
+        window.scrollTo(0,0);
     }
 </script>
 </body>
