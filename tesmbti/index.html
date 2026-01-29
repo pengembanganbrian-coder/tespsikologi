@@ -3,336 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tes MBTI Lengkap</title>
+    <title>Tes MBTI Online</title>
     <style>
-        :root { --primary: #2c3e50; --secondary: #3498db; --accent: #27ae60; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: #333; padding: 20px; }
-        .wrapper { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: var(--primary); margin-bottom: 30px; border-bottom: 2px solid var(--secondary); display: inline-block; width: 100%; padding-bottom: 10px; }
-        .instruction { background: #e8f4fd; border-left: 5px solid var(--secondary); padding: 20px; margin-bottom: 30px; border-radius: 5px; font-size: 15px; }
-        .q-row { display: flex; align-items: center; padding: 25px 0; border-bottom: 1px solid #eee; }
-        .option { flex: 1; display: flex; align-items: center; cursor: pointer; font-size: 14px; padding: 10px; border-radius: 8px; transition: 0.3s; }
-        .option:hover { background: #f0f7ff; }
-        .option input { margin-right: 15px; transform: scale(1.3); }
-        .vs { font-weight: bold; color: #bdc3c7; margin: 0 20px; font-size: 12px; }
-        .q-num { font-weight: bold; color: var(--secondary); width: 40px; }
-        button#submitBtn { width: 100%; padding: 20px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; cursor: pointer; margin-top: 40px; transition: 0.3s; }
-        button#submitBtn:hover { background: #219150; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(39,174,96,0.3); }
-        
-        /* Hasil Style */
-        #resultBox { display: none; }
-        .res-header { text-align: center; margin-bottom: 40px; }
-        .res-type { font-size: 80px; font-weight: 900; color: var(--secondary); letter-spacing: 8px; margin: 0; }
-        .section-card { background: #fff; border: 1px solid #e1e8ed; padding: 25px; border-radius: 12px; margin-bottom: 20px; }
-        .section-card h3 { margin-top: 0; color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px; margin-bottom: 15px; }
-        .list-style { padding-left: 20px; margin: 0; }
-        .list-style li { margin-bottom: 10px; }
-        .career-tag { display: inline-block; background: #ebf5ff; color: #2b6cb0; padding: 5px 15px; border-radius: 20px; margin: 5px; font-weight: bold; font-size: 14px; }
-        
-        @media (max-width: 600px) { .q-row { flex-direction: column; align-items: flex-start; } .vs { margin: 15px 0; align-self: center; } }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; }
+        .question { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .options { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        label { cursor: pointer; padding: 10px; border: 1px solid #ddd; border-radius: 6px; transition: 0.3s; }
+        label:hover { background-color: #e8f0fe; }
+        input[type="radio"] { margin-right: 10px; }
+        #btn-hasil { display: block; width: 100%; padding: 15px; background: #1a73e8; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        #btn-hasil:hover { background: #1557b0; }
+        #result { margin-top: 30px; padding: 20px; background: #e7f3ff; border-radius: 8px; display: none; text-align: center; }
+        .type-code { font-size: 48px; font-weight: bold; color: #1a73e8; display: block; }
     </style>
 </head>
 <body>
 
-<div class="wrapper">
-    <div id="quizSection">
-        <h1>Tes Kepribadian MBTI</h1>
-        <div class="instruction">
-            <strong>Petunjuk:</strong> Pilih satu pernyataan yang paling sering menggambarkan diri Anda secara jujur. Tidak ada jawaban benar atau salah. Tes ini terdiri dari 60 soal untuk hasil yang akurat.
-        </div>
-        <form id="mbtiForm">
-            <div id="questionsContainer"></div>
-            <button type="button" id="submitBtn" onclick="calculate()">Lihat Analisis Mendalam</button>
-        </form>
-    </div>
+<div class="card">
+    <h1>Tes Kepribadian MBTI</h1>
+    <p style="text-align: center;">Pilih pernyataan yang paling menggambarkan diri Anda.</p>
+    <hr>
 
-    <div id="resultBox">
-        <div class="res-header">
-            <h2>Tipe Kepribadian Anda:</h2>
-            <p class="res-type" id="typeCode"></p>
-            <p id="typeName" style="font-size: 24px; font-weight: bold; color: #7f8c8d;"></p>
-        </div>
-
-        <div class="section-card">
-            <h3>Siapa Anda? (Gambaran Umum)</h3>
-            <p id="fullDesc" style="text-align: justify; line-height: 1.8;"></p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" id="gridRes">
-            <div class="section-card">
-                <h3>Kekuatan Utama</h3>
-                <ul id="sList" class="list-style"></ul>
-            </div>
-            <div class="section-card">
-                <h3>Area Pengembangan</h3>
-                <ul id="wList" class="list-style"></ul>
+    <form id="mbtiForm">
+        <div class="question">
+            <p>1. Bagaimana Anda mengisi energi kembali?</p>
+            <div class="options">
+                <label><input type="radio" name="q1" value="E" required> Berkumpul dengan banyak orang / bersosialisasi</label>
+                <label><input type="radio" name="q1" value="I"> Menghabiskan waktu sendirian atau dengan teman dekat</label>
             </div>
         </div>
 
-        <div class="section-card">
-            <h3>Gaya Komunikasi & Hubungan</h3>
-            <p id="commStyle"></p>
+        <div class="question">
+            <p>2. Saat memproses informasi, Anda lebih fokus pada:</p>
+            <div class="options">
+                <label><input type="radio" name="q2" value="S" required> Fakta, detail, dan kenyataan saat ini</label>
+                <label><input type="radio" name="q2" value="N"> Kemungkinan, ide kreatif, dan masa depan</label>
+            </div>
         </div>
 
-        <div class="section-card">
-            <h3>Saran Karier & Pekerjaan</h3>
-            <div id="jobTags"></div>
+        <div class="question">
+            <p>3. Saat mengambil keputusan, Anda cenderung menggunakan:</p>
+            <div class="options">
+                <label><input type="radio" name="q3" value="T" required> Logika, analisis, dan objektivitas</label>
+                <label><input type="radio" name="q3" value="F"> Perasaan, nilai-nilai pribadi, dan empati</label>
+            </div>
         </div>
 
-        <button onclick="location.reload()" style="background:#95a5a6; width:auto; padding: 10px 30px; margin: 20px auto; display:block;">Ulangi Tes</button>
+        <div class="question">
+            <p>4. Bagaimana Anda menjalani kehidupan sehari-hari?</p>
+            <div class="options">
+                <label><input type="radio" name="q4" value="J" required> Terencana, teratur, dan suka membuat jadwal</label>
+                <label><input type="radio" name="q4" value="P"> Fleksibel, spontan, dan mengikuti arus</label>
+            </div>
+        </div>
+
+        <button type="button" id="btn-hasil" onclick="hitungMBTI()">Lihat Hasil Tes</button>
+    </form>
+
+    <div id="result">
+        <h3>Tipe Kepribadian Anda Adalah:</h3>
+        <span class="type-code" id="mbtiType">----</span>
+        <p id="mbtiDesc"></p>
+        <button onclick="window.location.reload()" style="margin-top:10px;">Ulangi Tes</button>
     </div>
 </div>
 
 <script>
-    const mbtiDetails = {
-        "ISTJ": {
-            name: "Sang Inspektur / Logistik",
-            desc: "Anda adalah individu yang sangat berdedikasi, bertanggung jawab, dan praktis. Anda menjunjung tinggi tradisi, aturan, dan standar moral. Anda bekerja secara sistematis dan tidak suka membuang waktu untuk hal-hal yang tidak jelas faktanya.",
-            strengths: ["Sangat teliti dan detail", "Sangat setia dan jujur", "Mampu menciptakan struktur dan keteraturan", "Dapat diandalkan dalam situasi sulit"],
-            weaknesses: ["Kaku terhadap perubahan", "Cenderung menghakimi orang yang tidak efisien", "Terlalu menyalahkan diri sendiri jika gagal"],
-            comm: "Langsung, faktual, dan tidak suka basa-basi. Anda lebih suka diskusi yang memiliki data pendukung daripada teori abstrak.",
-            jobs: ["Akuntan", "Manajer Operasional", "Polisi/Militer", "Hakim", "Auditor Finansial"]
-        },
-        "ISFJ": {
-            name: "Sang Pelindung / Pembela",
-            desc: "Individu yang hangat, teliti, dan memiliki rasa kewajiban yang sangat kuat. Anda cenderung tenang namun sangat peka terhadap kebutuhan orang di sekitar Anda. Anda adalah pilar stabilitas dalam tim.",
-            strengths: ["Sangat suportif dan peduli", "Pekerja keras yang loyal", "Keterampilan praktis yang luar biasa", "Pendengar yang baik"],
-            weaknesses: ["Terlalu rendah hati hingga sering dimanfaatkan", "Sulit menerima perubahan mendadak", "Mudah stres jika ada konflik"],
-            comm: "Lembut, sopan, dan berusaha menjaga harmoni. Anda lebih suka komunikasi satu lawan satu daripada dalam kelompok besar.",
-            jobs: ["Perawat", "Guru/Dosen", "Pekerja Sosial", "Admin Perkantoran", "Konselor"]
-        },
-        "INFJ": {
-            name: "Sang Advokat / Penasihat",
-            desc: "Pribadi yang misterius namun visioner. Anda memiliki idealisme yang kuat dan keinginan mendalam untuk memahami motivasi orang lain. Anda bukan sekadar pemimpi, tapi juga eksekutor rencana jangka panjang.",
-            strengths: ["Wawasan psikologis yang dalam", "Kreatif dan inspiratif", "Sangat empatik", "Integritas moral yang tinggi"],
-            weaknesses: ["Sensitif terhadap kritik", "Cenderung perfeksionis", "Sulit terbuka pada orang baru"],
-            comm: "Sangat bermakna, sering menggunakan metafora, dan fokus pada pengembangan potensi manusia.",
-            jobs: ["Psikolog", "Penulis", "Konselor", "Desainer UI/UX", "Aktivis Kemanusiaan"]
-        },
-        "INTJ": {
-            name: "Sang Arsitek / Ahli Strategi",
-            desc: "Pemikir strategis yang sangat mandiri. Anda melihat hidup seperti papan catur, selalu berpikir beberapa langkah ke depan. Anda memiliki standar kualitas yang sangat tinggi untuk diri sendiri dan orang lain.",
-            strengths: ["Pemikiran logis dan sistematis", "Sangat mandiri dan percaya diri", "Mampu memecahkan masalah kompleks", "Inovatif dalam strategi"],
-            weaknesses: ["Cenderung dingin/kurang empati", "Sangat kritis terhadap inkompetensi", "Kurang sabar dengan aturan yang dianggap tidak logis"],
-            comm: "To-the-point, sangat rasional, dan terkadang terlihat arogan karena fokus pada efisiensi.",
-            jobs: ["Ilmuwan", "Arsitek Sistem", "Analyst Bisnis", "Insinyur", "Programmer Senior"]
-        },
-        "ISTP": {
-            name: "Sang Pengrajin / Virtuoso",
-            desc: "Pengamat yang tenang namun bertindak cepat jika ada masalah teknis. Anda menyukai kebebasan dan eksplorasi. Anda belajar paling baik melalui praktik langsung daripada teori panjang di kelas.",
-            strengths: ["Tenang dalam situasi darurat", "Sangat praktis dan terampil", "Mudah beradaptasi", "Optimis dan enerjik"],
-            weaknesses: ["Cepat bosan", "Sulit dipahami secara emosional", "Cenderung mengambil risiko yang tidak perlu"],
-            comm: "Hemat bicara, fokus pada solusi teknis, dan lebih suka menunjukkan daripada menjelaskan.",
-            jobs: ["Teknisi/Mekanik", "Pilot", "Atlet", "Ahli Forensik", "Programmer Sistem"]
-        },
-        "ISFP": {
-            name: "Sang Seniman / Petualang",
-            desc: "Individu yang hidup untuk saat ini dan memiliki kepekaan estetika yang tinggi. Anda sangat fleksibel dan terbuka pada pengalaman baru. Anda benci dikurung dalam aturan yang kaku.",
-            strengths: ["Sangat artistik dan kreatif", "Peka terhadap perasaan orang", "Imajinatif", "Sangat toleran dan rendah hati"],
-            weaknesses: ["Terlalu sensitif", "Buruk dalam perencanaan masa depan", "Sulit menangani stres berat"],
-            comm: "Sangat santai, suportif, dan lebih banyak menggunakan tindakan nyata daripada kata-kata puitis.",
-            jobs: ["Desainer Grafis", "Fotografer", "Dokter Hewan", "Musisi", "Chef"]
-        },
-        "INFP": {
-            name: "Sang Mediator / Idealis",
-            desc: "Individu yang penuh empati dan kreatif. Anda mencari harmoni dan makna di balik segala hal. Anda sangat loyal pada prinsip batin Anda dan sering menjadi pembela bagi kaum lemah.",
-            strengths: ["Sangat kreatif dan orisinal", "Empati yang sangat kuat", "Pikiran yang terbuka", "Sangat idealis"],
-            weaknesses: ["Terlalu mengambil hati (sensitif)", "Sering terjebak dalam angan-angan", "Sulit mengolah data teknis yang kaku"],
-            comm: "Hangat, mendalam, dan cenderung personal. Anda menghindari konflik sebisa mungkin.",
-            jobs: ["Penulis", "Editor", "Aktivis Lingkungan", "Psikolog", "Human Resources"]
-        },
-        "INTP": {
-            name: "Sang Pemikir / Logikawan",
-            desc: "Pecinta teori dan logika murni. Anda selalu ingin tahu 'mengapa' sesuatu bekerja seperti itu. Anda adalah inovator yang melihat kemungkinan-kemungkinan baru di luar pemikiran konvensional.",
-            strengths: ["Analitis dan obyektif", "Imajinasi intelektual yang luas", "Jujur dan langsung", "Cepat belajar hal baru"],
-            weaknesses: ["Kurang peka sosial", "Mudah meragukan diri sendiri", "Cenderung mengabaikan detail praktis"],
-            comm: "Sangat teknis, sering kali terlalu kompleks bagi orang awam, dan sangat menghargai kebenaran logika.",
-            jobs: ["Peneliti", "Analis Data", "Filsuf", "Programmer Khusus", "Fisikawan"]
-        },
-        "ESTP": {
-            name: "Sang Pengusaha / Dinamisator",
-            desc: "Penuh energi dan spontanitas. Anda hidup di tengah aksi dan sangat persuasif. Anda lebih suka membereskan masalah saat itu juga daripada duduk rapat berjam-jam.",
-            strengths: ["Berani mengambil risiko", "Keterampilan sosial yang hebat", "Sangat praktis", "Cepat tanggap dalam aksi"],
-            weaknesses: ["Tidak sabaran", "Cenderung tidak peka perasaan", "Sering mengabaikan aturan formal"],
-            comm: "Penuh semangat, jenaka, dan sangat persuasif. Anda hebat dalam negosiasi cepat.",
-            jobs: ["Sales Executive", "Entrepreneur", "Pialang Saham", "Damkar/Militer", "Marketing Manajer"]
-        },
-        "ESFP": {
-            name: "Sang Penghibur / Entertainer",
-            desc: "Pecinta kehidupan yang membuat lingkungan menjadi ceria. Anda sangat menghargai kenyamanan materi dan hubungan sosial yang menyenangkan. Anda adalah pusat perhatian dalam pesta.",
-            strengths: ["Optimis dan ceria", "Sangat pandai bergaul", "Praktis dan realistis", "Mudah beradaptasi"],
-            weaknesses: ["Sulit fokus pada hal serius", "Buruk dalam perencanaan jangka panjang", "Sangat sensitif terhadap penolakan"],
-            comm: "Sangat ekpresif, banyak bercerita, dan penuh tawa. Anda hebat dalam mencairkan suasana.",
-            jobs: ["Event Organizer", "Aktor/Aktris", "Public Relations", "Tour Guide", "Fashion Stylist"]
-        },
-        "ENFP": {
-            name: "Sang Juru Kampanye / Inspirator",
-            desc: "Jiwa yang bebas, enerjik, dan penuh kasih. Anda melihat hidup penuh dengan peluang baru. Anda sangat hebat dalam membangun koneksi emosional dengan siapa saja.",
-            strengths: ["Sangat kreatif", "Sangat antusias", "Komunikator yang ulung", "Sangat suportif"],
-            weaknesses: ["Terlalu memikirkan pendapat orang lain", "Sulit fokus pada detail rutin", "Mudah stres karena terlalu banyak ide"],
-            comm: "Sangat inspiratif, penuh ide-ide baru, dan sangat hangat kepada lawan bicara.",
-            jobs: ["Creative Director", "Reporter", "Konsultan Bisnis", "Motivator", "Psikolog Sosial"]
-        },
-        "ENTP": {
-            name: "Sang Pendebat / Inovator",
-            desc: "Cerdas dan sangat menyukai tantangan intelektual. Anda sering kali menjadi 'iblis advokat' yang mempertanyakan status quo. Anda sangat hebat dalam melihat gambaran besar dan pola yang hilang.",
-            strengths: ["Sangat inovatif", "Cepat tanggap (Wit)", "Percaya diri tinggi", "Penuh energi intelektual"],
-            weaknesses: ["Suka mendebat hal kecil", "Kurang toleran terhadap emosi", "Sulit fokus pada implementasi detail"],
-            comm: "Cerdas, menantang, dan penuh argumen logis. Anda senang berdiskusi panjang lebar.",
-            jobs: ["Pengacara", "Analis Politik", "Entrepreneur", "Penemu", "Konsultan Strategis"]
-        },
-        "ESTJ": {
-            name: "Sang Eksekutif / Pengatur",
-            desc: "Pengatur yang hebat bagi orang dan sistem. Anda menjunjung tinggi kejujuran, dedikasi, dan martabat. Anda sangat fokus pada hasil nyata dan efisiensi organisasi.",
-            strengths: ["Sangat terorganisir", "Setia dan berdedikasi", "Sangat jujur dan langsung", "Pemimpin alami"],
-            weaknesses: ["Kaku dan tidak fleksibel", "Sering dianggap menghakimi", "Sulit mengekspresikan emosi personal"],
-            comm: "Tegas, otoriter namun adil, dan sangat fokus pada instruksi yang jelas.",
-            jobs: ["Manajer Proyek", "Eksekutif Perusahaan", "Pejabat Pemerintah", "Kepala Sekolah", "Polisi/Militer"]
-        },
-        "ESFJ": {
-            name: "Sang Konsul / Pengasuh",
-            desc: "Sangat sosial dan kooperatif. Anda ingin menciptakan harmoni dalam lingkungan Anda dan sangat peka terhadap kebutuhan praktis orang lain. Anda adalah 'lem' yang menyatukan kelompok.",
-            strengths: ["Sangat bertanggung jawab", "Peka dan hangat", "Pandai berorganisasi", "Sangat setia"],
-            weaknesses: ["Kaku terhadap hal baru", "Terlalu butuh pengakuan (Validation)", "Sangat takut konflik"],
-            comm: "Ramah, penuh empati, dan sering menanyakan kabar serta perasaan orang lain.",
-            jobs: ["Guru", "Perawat Utama", "HR Officer", "Customer Service Manager", "Koordinator Komunitas"]
-        },
-        "ENFJ": {
-            name: "Sang Protagonis / Pemimpin Karismatik",
-            desc: "Pemimpin yang karismatik dan inspiratif. Anda sangat peka terhadap emosi orang lain dan mampu membawa perubahan positif. Anda fokus pada pertumbuhan orang-orang di sekitar Anda.",
-            strengths: ["Sangat persuasif", "Karismatik", "Sangat empatik", "Toleran dan sabar"],
-            weaknesses: ["Terlalu idealis", "Terlalu mengorbankan diri sendiri", "Sangat benci konflik"],
-            comm: "Inspiratif, mampu menyatukan orang, dan sangat fokus pada visi masa depan.",
-            jobs: ["Motivator", "HR Director", "Koordinator NGO", "Politisi", "Konselor Pendidikan"]
-        },
-        "ENTJ": {
-            name: "Sang Komandan / Pemimpin Strategis",
-            desc: "Pemimpin alami yang visioner dan tegas. Anda melihat inefisiensi sebagai musuh besar. Anda mahir menyusun rencana jangka panjang dan menggerakkan orang untuk mencapai target besar.",
-            strengths: ["Sangat efisien", "Pemikir strategis kelas satu", "Percaya diri tinggi", "Sangat berwibawa"],
-            weaknesses: ["Keras kepala", "Tidak sabar dengan ketidakefisienan", "Sering dianggap dominan atau dingin"],
-            comm: "Sangat langsung, berorientasi target, dan penuh perintah yang logis.",
-            jobs: ["CEO/Direktur", "Manajer Strategi", "Pengacara Korporat", "Analis Keuangan", "Konsultan Manajemen"]
-        }
+function hitungMBTI() {
+    const form = document.getElementById('mbtiForm');
+    const formData = new FormData(form);
+    
+    // Inisialisasi skor sesuai dimensi eMBTI2020.xlsm
+    let scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+    let totalAnswered = 0;
+
+    for (let value of formData.values()) {
+        scores[value]++;
+        totalAnswered++;
+    }
+
+    // Validasi jika belum semua dijawab
+    if (totalAnswered < 4) {
+        alert("Harap jawab semua pertanyaan terlebih dahulu!");
+        return;
+    }
+
+    // Logika Perbandingan (Sesuai Cara Kerja Lampiran)
+    let result = "";
+    result += (scores.E >= scores.I) ? "E" : "I";
+    result += (scores.S >= scores.N) ? "S" : "N";
+    result += (scores.T >= scores.F) ? "T" : "F";
+    result += (scores.J >= scores.P) ? "J" : "P";
+
+    // Menampilkan Hasil
+    document.getElementById('mbtiType').innerText = result;
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('mbtiForm').style.display = 'none';
+    
+    // Penjelasan singkat (Opsional)
+    const deskripsi = {
+        "ISTJ": "Praktis, faktual, dan sangat teratur.",
+        "ENFP": "Antusias, kreatif, dan berjiwa bebas.",
+        "INTJ": "Pemikir strategis dengan rencana untuk segala hal.",
+        "ESFJ": "Sangat peduli, populer, dan suka membantu."
+        // Tambahkan deskripsi tipe lain di sini
     };
-
-    const questions = [
-        {a: "Memilih komunikasi dengan menulis", b: "Memilih komunikasi dengan berbicara", cat: "I", alt: "E"},
-        {a: "Ide dengan merenungkan", b: "Ide dengan mendiskusikan", cat: "I", alt: "E"},
-        {a: "Dunia internal (memori, ide)", b: "Dunia eksternal (kegiatan, orang)", cat: "I", alt: "E"},
-        {a: "Fokus hobi mendalam", b: "Fokus hobi meluas", cat: "I", alt: "E"},
-        {a: "Tertutup dan mandiri", b: "Sosial dan ekspresif", cat: "I", alt: "E"},
-        {a: "Aktivitas sosial melelahkan", b: "Aktivitas sosial bersemangat", cat: "I", alt: "E"},
-        {a: "Sendirian menyenangkan", b: "Sendirian membosankan", cat: "I", alt: "E"},
-        {a: "Inisiatif jika terpaksa", b: "Inisiatif tinggi", cat: "I", alt: "E"},
-        {a: "Tempat tenang & pribadi", b: "Tempat ramai & interaksi", cat: "I", alt: "E"},
-        {a: "Berpikir matang baru bertindak", b: "Berani bertindak tanpa pikir lama", cat: "I", alt: "E"},
-        {a: "Menyimpan semangat dalam hati", b: "Mengekspresikan semangat", cat: "I", alt: "E"},
-        {a: "Komunikasi perorangan", b: "Komunikasi sekelompok orang", cat: "I", alt: "E"},
-        {a: "Komunikasi tidak langsung (email)", b: "Komunikasi langsung (tatap muka)", cat: "I", alt: "E"},
-        {a: "Membangun ide matang baru bicara", b: "Membangun ide saat berbicara", cat: "I", alt: "E"},
-        {a: "Berhati-hati & kaku", b: "Spontan & fleksibel", cat: "I", alt: "E"},
-        {a: "Detail ke gambaran besar", b: "Gambaran umum ke detail", cat: "S", alt: "N"},
-        {a: "Langkah praktis hari ini", b: "Visi masa depan & konsep", cat: "S", alt: "N"},
-        {a: "Pengalaman sebagai pedoman", b: "Imajinasi sebagai pedoman", cat: "S", alt: "N"},
-        {a: "SOP sangat membantu", b: "SOP sangat membosankan", cat: "S", alt: "N"},
-        {a: "Prosedural & tradisional", b: "Bebas dan dinamis", cat: "S", alt: "N"},
-        {a: "Fakta lebih penting", b: "Ide inspiratif lebih penting", cat: "S", alt: "N"},
-        {a: "Kontinuitas & stabilitas", b: "Perubahan & variasi", cat: "S", alt: "N"},
-        {a: "Step by step (teratur)", b: "Tanpa urutan kaku", cat: "S", alt: "N"},
-        {a: "Kesimpulan hati-hati", b: "Kesimpulan naluri (cepat)", cat: "S", alt: "N"},
-        {a: "Klarifikasi sebelum praktek", b: "Paham saat mempraktekkan", cat: "S", alt: "N"},
-        {a: "Fokus pada masa kini", b: "Fokus pada masa depan", cat: "S", alt: "N"},
-        {a: "Ingat detail secara spesifik", b: "Ingat detail jika ada polanya", cat: "S", alt: "N"},
-        {a: "Sangat praktis", b: "Sangat konseptual", cat: "S", alt: "N"},
-        {a: "Gunakan skill yang dikuasai", b: "Tantangan kuasai skill baru", cat: "S", alt: "N"},
-        {a: "Cara yang sudah terbukti", b: "Cara unik yang belum dicoba", cat: "S", alt: "N"},
-        {a: "Obyektif", b: "Subyektif", cat: "T", alt: "F"},
-        {a: "Penjelasan masuk akal", b: "Penjelasan menyentuh perasaan", cat: "T", alt: "F"},
-        {a: "Fokus pada tugas", b: "Fokus pada hubungan manusia", cat: "T", alt: "F"},
-        {a: "Logika dan aturan", b: "Perasaan dan keharmonisan", cat: "T", alt: "F"},
-        {a: "Tujuan dulu baru sepakat", b: "Kesepakatan dulu baru jalan", cat: "T", alt: "F"},
-        {a: "Hargai skill teknis orang", b: "Hargai sifat personal orang", cat: "T", alt: "F"},
-        {a: "Perasaan itu tidak profesional", b: "Kaku itu kejam", cat: "T", alt: "F"},
-        {a: "Tujuan tercapai", b: "Harmoni terjaga", cat: "T", alt: "F"},
-        {a: "Mempertanyakan", b: "Mengakomodasi", cat: "T", alt: "F"},
-        {a: "Kritik kesalahan", b: "Tolong/luruskan kesalahan", cat: "T", alt: "F"},
-        {a: "Standar ditegakkan", b: "Perasaan dihargai", cat: "T", alt: "F"},
-        {a: "Adil (sama rata)", b: "Khusus (personal)", cat: "T", alt: "F"},
-        {a: "Sebab akibat itu mutlak", b: "Nilai personal itu penting", cat: "T", alt: "F"},
-        {a: "Sering dianggap keras kepala", b: "Sering dianggap memihak", cat: "T", alt: "F"},
-        {a: "Menganalisa", b: "Berempati", cat: "T", alt: "F"},
-        {a: "Terencana & deadline jelas", b: "Spontan & fleksibel", cat: "J", alt: "P"},
-        {a: "Tidak suka hal mendadak", b: "Perubahan mendadak tak masalah", cat: "J", alt: "P"},
-        {a: "Jadwal sangat membantu", b: "Jadwal mengikat & beban", cat: "J", alt: "P"},
-        {a: "Orientasi pada hasil akhir", b: "Orientasi pada proses", cat: "J", alt: "P"},
-        {a: "Fokus pada target", b: "Siap mengubah target", cat: "J", alt: "P"},
-        {a: "Tenang jika sudah diputuskan", b: "Nyaman situasi tetap terbuka", cat: "J", alt: "P"},
-        {a: "Ketidakpastian meresahkan", b: "Ketidakpastian itu seru", cat: "J", alt: "P"},
-        {a: "Last minute itu menyiksa", b: "Last minute memicu potensi", cat: "J", alt: "P"},
-        {a: "Perubahan adalah musuh", b: "Perubahan adalah semangat", cat: "J", alt: "P"},
-        {a: "Bertindak sesuai rencana", b: "Bertindak sesuai situasi", cat: "J", alt: "P"},
-        {a: "Hidup harus diatur", b: "Hidup harus mengalir", cat: "J", alt: "P"},
-        {a: "Daftar checklist itu penting", b: "Checklist itu beban", cat: "J", alt: "P"},
-        {a: "Puas jika rencana terlaksana", b: "Puas jika adaptif", cat: "J", alt: "P"},
-        {a: "Atur orang dengan aturan", b: "Biarkan orang bebas", cat: "J", alt: "P"},
-        {a: "Teguh pada pendirian", b: "Bisa berubah sesuai kondisi", cat: "J", alt: "P"}
-    ];
-
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-    }
-
-    function renderQuestions() {
-        const container = document.getElementById('questionsContainer');
-        shuffle(questions);
-        questions.forEach((q, i) => {
-            container.innerHTML += `
-                <div class="q-row">
-                    <span class="q-num">${i + 1}.</span>
-                    <label class="option"><input type="radio" name="q${i}" value="${q.cat}" required> ${q.a}</label>
-                    <span class="vs">VS</span>
-                    <label class="option"><input type="radio" name="q${i}" value="${q.alt}"> ${q.b}</label>
-                </div>`;
-        });
-    }
-
-    function calculate() {
-        const form = new FormData(document.getElementById('mbtiForm'));
-        let scores = { I:0, E:0, S:0, N:0, T:0, F:0, J:0, P:0 };
-        let count = 0;
-        for (let v of form.values()) { scores[v]++; count++; }
-
-        if (count < 60) { alert("Selesaikan semua 60 soal untuk hasil akurat!"); return; }
-
-        let res = (scores.I >= scores.E ? "I" : "E") + 
-                  (scores.S >= scores.N ? "S" : "N") + 
-                  (scores.T >= scores.F ? "T" : "F") + 
-                  (scores.J >= scores.P ? "J" : "P");
-
-        const data = mbtiDetails[res];
-        document.getElementById('quizSection').style.display = 'none';
-        document.getElementById('resultBox').style.display = 'block';
-        document.getElementById('typeCode').innerText = res;
-        document.getElementById('typeName').innerText = data.name;
-        document.getElementById('fullDesc').innerText = data.desc;
-        document.getElementById('commStyle').innerText = data.comm;
-
-        const sList = document.getElementById('sList');
-        const wList = document.getElementById('wList');
-        const jobs = document.getElementById('jobTags');
-        sList.innerHTML = ""; wList.innerHTML = ""; jobs.innerHTML = "";
-        
-        data.strengths.forEach(s => sList.innerHTML += `<li>${s}</li>`);
-        data.weaknesses.forEach(w => wList.innerHTML += `<li>${w}</li>`);
-        data.jobs.forEach(j => jobs.innerHTML += `<span class="career-tag">${j}</span>`);
-        
-        window.scrollTo(0,0);
-    }
-
-    renderQuestions();
+    
+    document.getElementById('mbtiDesc').innerText = deskripsi[result] || "Anda adalah pribadi yang unik dengan karakter " + result;
+}
 </script>
+
 </body>
 </html>
