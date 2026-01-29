@@ -3,81 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi e-DISC 2020</title>
+    <title>DISC DJBC 2026</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { background-color: #f4f4f4; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background-color: #f4f7f9; font-family: 'Segoe UI', Arial, sans-serif; }
         .container { max-width: 900px; margin-top: 30px; margin-bottom: 50px; }
-        .header-excel { background-color: #217346; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
-        .instruction { background-color: #e2efda; padding: 15px; border: 1px solid #c6e0b4; font-size: 0.9rem; margin-bottom: 20px; }
+        .header-djbc { background-color: #002855; color: white; padding: 25px; text-align: center; border-radius: 8px 8px 0 0; }
+        .identitas-box { background: white; padding: 25px; border: 1px solid #ccc; border-top: none; margin-bottom: 20px; }
         
-        /* Table Layout: M - Pernyataan - L */
-        .disc-table { width: 100%; background: white; border-collapse: collapse; margin-bottom: 25px; border: 1px solid #ddd; }
-        .disc-table th { background-color: #f2f2f2; padding: 10px; border: 1px solid #ddd; text-align: center; }
-        .disc-table td { padding: 10px; border: 1px solid #ddd; vertical-align: middle; text-align: center; }
-        .col-m { width: 50px; background-color: #ebf1de; }
-        .col-l { width: 50px; background-color: #f2dcdb; }
-        .col-text { text-align: left !important; padding-left: 15px !important; }
+        .disc-table { width: 100%; background: white; border-collapse: collapse; margin-bottom: 25px; border: 2px solid #333; }
+        .disc-table th { background-color: #d9e1f2; padding: 10px; border: 1px solid #333; text-align: center; font-weight: bold; }
+        .disc-table td { padding: 12px; border: 1px solid #333; vertical-align: middle; text-align: center; }
+        
+        .col-m { width: 60px; background-color: #e2f0d9; }
+        .col-l { width: 60px; background-color: #fbe5d6; }
+        .col-text { text-align: center !important; font-weight: 500; color: #333; }
 
-        input[type="radio"] { transform: scale(1.4); cursor: pointer; }
-        .btn-process { background-color: #217346; color: white; padding: 15px 40px; font-weight: bold; border-radius: 5px; border: none; }
-        .btn-process:hover { background-color: #1a5a37; }
-
-        #resultArea { display: none; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .chart-box { max-width: 600px; margin: 0 auto; }
+        input[type="radio"] { transform: scale(1.6); cursor: pointer; }
+        .btn-submit { background-color: #002855; color: white; padding: 15px 60px; font-weight: bold; border: none; border-radius: 4px; font-size: 1.1rem; }
+        .btn-submit:hover { background-color: #001a38; }
+        
+        #resultArea { display: none; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .report-section { margin-top: 30px; border-top: 3px solid #002855; padding-top: 25px; }
+        .report-title { color: #002855; font-weight: bold; font-size: 1.4rem; margin-bottom: 20px; text-transform: uppercase; }
+        .chart-container { position: relative; height: 350px; margin: 0 auto 40px auto; padding: 20px; background: #fff; border: 1px solid #eee; }
+        
+        @media print { .no-print { display: none; } }
     </style>
 </head>
 <body>
 
-<div class="container shadow-lg">
+<div class="container">
     <div id="quizArea">
-        <div class="header-excel">
-            <h2>LEMBAR KERJA e-DISC 2020</h2>
-            <p>Sistem Skoring Otomatis Berbasis Web</p>
+        <div class="header-djbc">
+            <h1 class="mb-0">DISC DJBC 2026</h1>
         </div>
         
-        <div class="p-4 bg-white border">
-            <div class="row mb-4">
-                <div class="col-md-6"><label>Nama Peserta:</label><input type="text" id="name" class="form-control"></div>
-                <div class="col-md-6"><label>ID / Jabatan:</label><input type="text" id="job" class="form-control"></div>
+        <div class="identitas-box shadow-sm">
+            <div class="row g-3">
+                <div class="col-md-4"><label class="form-label fw-bold">Nama Pegawai</label><input type="text" id="nama" class="form-control" placeholder="Nama Lengkap"></div>
+                <div class="col-md-4"><label class="form-label fw-bold">NIP</label><input type="text" id="nip" class="form-control" placeholder="Nomor Induk Pegawai"></div>
+                <div class="col-md-4"><label class="form-label fw-bold">Jabatan</label><input type="text" id="jabatan" class="form-control" placeholder="Jabatan Saat Ini"></div>
             </div>
-
-            <div class="instruction">
-                <strong>INSTRUKSI:</strong> Pilih satu (X) pada kolom <strong>M</strong> untuk yang paling MIRIP, dan satu (X) pada kolom <strong>L</strong> untuk yang paling TIDAK MIRIP di setiap kotak nomor.
-            </div>
-
-            <form id="discForm">
-                <div id="soalBox"></div>
-                <div class="text-center mt-5">
-                    <button type="button" class="btn btn-process" onclick="hitungSkorExcel()">PROSES ANALISA KEPRIBADIAN</button>
-                </div>
-            </form>
         </div>
+
+        <form id="discForm">
+            <div id="soalContainer"></div>
+            <div class="text-center mt-4">
+                <button type="button" class="btn btn-submit shadow" onclick="prosesSkoring()">TAMPILKAN HASIL ANALISIS</button>
+            </div>
+        </form>
     </div>
 
     <div id="resultArea">
-        <h3 class="text-center text-success mb-4">HASIL PROFIL DISC</h3>
-        <div class="row">
-            <div class="col-md-7">
-                <div class="chart-box">
-                    <canvas id="discChart"></canvas>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div id="resultDetails"></div>
-            </div>
+        <h2 class="text-center mb-5 fw-bold">LAPORAN PROFIL PSIKOLOGI DISC</h2>
+        
+        <div class="chart-container">
+            <canvas id="discLineChart"></canvas>
         </div>
-        <div class="text-center mt-5">
-            <button class="btn btn-outline-secondary" onclick="location.reload()">Reset Tes</button>
+
+        <div id="detailUraian"></div>
+
+        <div class="text-center mt-5 no-print">
+            <button class="btn btn-primary px-5 me-2" onclick="window.print()">CETAK LAPORAN</button>
+            <button class="btn btn-outline-secondary px-5" onclick="location.reload()">TES ULANG</button>
         </div>
     </div>
 </div>
 
 <script>
-    // Database Soal Sesuai Excel Anda
-    const soal = [
-        {id:1, opt:[{t:"Mudah bergaul, menyenangkan", v:"I"}, {t:"Mudah percaya kepada orang lain", v:"S"}, {t:"Suka berpetualangan, pengambil Resiko", v:"D"}, {t:"Penuh toleransi, menghormati orang lain", v:"S"}]},
+    const listSoal = [
+        {id:1, opt:[{t:"Suka berpetualangan, pengambil Resiko", v:"D"}, {t:"Mudah bergaul, menyenangkan", v:"I"}, {t:"Penuh toleransi, menghormati orang lain", v:"S"}, {t:"Mudah percaya kepada orang lain", v:"S"}]},
         {id:2, opt:[{t:"Berbicara lembut, pendiam", v:"C"}, {t:"Optimis, berpikir positif", v:"I"}, {t:"Pusat perhatian", v:"I"}, {t:"Lakukan dengan benar, ketepatan penting", v:"C"}]},
         {id:3, opt:[{t:"Buatlah sesuatu menjadi menyenangkan", v:"I"}, {t:"Mari lakukan bersama-sama", v:"S"}, {t:"Tidak tergantung orang lain", v:"D"}, {t:"Hasil adalah segalanya", v:"D"}]},
         {id:4, opt:[{t:"Akan membeli mengikuti dorongan hati", v:"I"}, {t:"Akan menunggu dengan sabar", v:"S"}, {t:"Akan mengeluarkan uang untuk hal diinginkan", v:"D"}, {t:"Pendidikan, budaya", v:"C"}]},
@@ -103,95 +100,94 @@
         {id:24, opt:[{t:"Dapat dipercaya/diandalkan", v:"S"}, {t:"Kreatif, unik", v:"I"}, {t:"Berorientasi pada hasil", v:"D"}, {t:"Memegang standar tinggi, teliti", v:"C"}]}
     ];
 
-    function renderSoal() {
-        const container = document.getElementById('soalBox');
-        soal.forEach((s, idx) => {
-            let html = `
-            <div class="mb-4">
-                <table class="disc-table">
-                    <thead><tr><th class="col-m">M</th><th class="col-text">Kotak ${s.id}</th><th class="col-l">L</th></tr></thead>
-                    <tbody>
-                        ${s.opt.map((o, i) => `
-                        <tr>
-                            <td class="col-m"><input type="radio" name="m${idx}" value="${o.v}" required></td>
-                            <td class="col-text">${o.t}</td>
-                            <td class="col-l"><input type="radio" name="l${idx}" value="${o.v}" required></td>
-                        </tr>`).join('')}
-                    </tbody>
-                </table>
-            </div>`;
-            container.innerHTML += html;
+    function renderTable() {
+        const div = document.getElementById('soalContainer');
+        listSoal.forEach((s, idx) => {
+            div.innerHTML += `
+            <table class="disc-table">
+                <thead><tr><th class="col-m">M</th><th class="col-text">PERNYATAAN</th><th class="col-l">L</th></tr></thead>
+                <tbody>
+                    ${s.opt.map((o, i) => `
+                    <tr>
+                        <td class="col-m"><input type="radio" name="m${idx}" value="${o.v}" required></td>
+                        <td class="col-text">${o.t}</td>
+                        <td class="col-l"><input type="radio" name="l${idx}" value="${o.v}" required></td>
+                    </tr>`).join('')}
+                </tbody>
+            </table>`;
         });
     }
 
-    function hitungSkorExcel() {
-        let m = {D:0, I:0, S:0, C:0}, l = {D:0, I:0, S:0, C:0};
-        
+    function prosesSkoring() {
+        let scores = { D: 0, I: 0, S: 0, C: 0 };
         for(let i=0; i<24; i++) {
-            let selM = document.querySelector(`input[name="m${i}"]:checked`);
-            let selL = document.querySelector(`input[name="l${i}"]:checked`);
-            
-            if(!selM || !selL) return alert("Nomor "+(i+1)+" belum lengkap!");
-            if(selM.parentElement.parentElement === selL.parentElement.parentElement) 
-                return alert("Kesalahan di nomor "+(i+1)+": M dan L tidak boleh di baris yang sama.");
-            
-            m[selM.value]++;
-            l[selL.value]++;
+            let m = document.querySelector(`input[name="m${i}"]:checked`);
+            let l = document.querySelector(`input[name="l${i}"]:checked`);
+            if(!m || !l) return alert("Selesaikan semua pilihan di Kotak " + (i+1));
+            if(m.parentElement.parentElement === l.parentElement.parentElement) return alert("Baris M & L tidak boleh sama pada satu pernyataan.");
+            scores[m.value]++;
+            scores[l.value]--; 
         }
-
-        // Logika Excel: Most - Least
-        const final = {
-            D: m.D - l.D,
-            I: m.I - l.I,
-            S: m.S - l.S,
-            C: m.C - l.C
-        };
-
-        showResult(final, m, l);
+        showReport(scores);
     }
 
-    function showResult(final, m, l) {
+    function showReport(data) {
         document.getElementById('quizArea').style.display = 'none';
         document.getElementById('resultArea').style.display = 'block';
 
-        const ctx = document.getElementById('discChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
+        new Chart(document.getElementById('discLineChart'), {
+            type: 'line',
             data: {
-                labels: ['Dominance', 'Influence', 'Steadiness', 'Compliance'],
+                labels: ['D', 'I', 'S', 'C'],
                 datasets: [{
-                    label: 'Profil (Most - Least)',
-                    data: [final.D, final.I, final.S, final.C],
-                    backgroundColor: ['#e74c3c', '#f1c40f', '#2ecc71', '#3498db']
+                    label: 'Garis Profil DISC',
+                    data: [data.D, data.I, data.S, data.C],
+                    borderColor: '#002855',
+                    backgroundColor: '#002855',
+                    borderWidth: 4,
+                    pointRadius: 8,
+                    pointBackgroundColor: '#fff',
+                    fill: false,
+                    tension: 0
                 }]
             },
             options: {
-                scales: { y: { beginAtZero: false } }
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { min: -24, max: 24, grid: { color: '#ddd' } } }
             }
         });
 
-        // Ringkasan Tipe
-        const maxType = Object.keys(final).reduce((a, b) => final[a] > final[b] ? a : b);
+        const max = Object.keys(data).reduce((a, b) => data[a] > data[b] ? a : b);
         const profil = {
-            'D': 'Dominance (Penggerak)',
-            'I': 'Influence (Antusias)',
-            'S': 'Steadiness (Stabil)',
-            'C': 'Compliance (Teliti)'
+            'D': { judul: 'DOMINANCE (D)', karakter: 'Mandiri, tegas, berorientasi hasil, menyukai tantangan dan kontrol.', tampilan: 'Percaya diri, lugas, terkadang terlihat terburu-buru.', perilaku: 'Bekerja cepat, fokus pada target objektif, menyukai efisiensi.', emosi: 'Mudah terpancing rasa tidak sabar jika proses melambat.', kekuatan: 'Keputusan cepat, visi kuat, determinasi tinggi dalam memimpin.', kelemahan: 'Bisa mengabaikan perasaan orang lain, cenderung mendominasi.', kepemimpinan: 'Otokratis dan mengarahkan.', pekerjaan: 'Penegakan hukum, Audit, Penyidikan, Manajerial.' },
+            'I': { judul: 'INFLUENCE (I)', karakter: 'Antusias, persuasif, optimis, sangat sosial dan komunikatif.', tampilan: 'Ramah, penuh energi, ekspresif dalam bicara.', perilaku: 'Bekerja melalui kolaborasi, menyukai pengakuan sosial.', emosi: 'Optimisme berlebih, takut akan penolakan.', kekuatan: 'Membangun jaringan, negosiator ulung, motivator tim.', kelemahan: 'Kurang detail, sulit mengatur waktu secara presisi.', kepemimpinan: 'Partisipatif dan karismatik.', pekerjaan: 'Humas, Penyuluhan, Pelayanan Publik, Negosiasi.' },
+            'S': { judul: 'STEADINESS (S)', karakter: 'Sabar, setia, pendengar yang baik, menyukai harmoni.', tampilan: 'Tenang, sopan, stabil, tidak banyak menuntut.', perilaku: 'Bekerja secara metodis, fokus pada proses dan loyalitas.', emosi: 'Tidak menonjolkan emosi, takut akan perubahan mendadak.', kekuatan: 'Konsisten, tim player yang andal, pereda konflik.', kelemahan: 'Sulit berkata tidak, lambat dalam perubahan radikal.', kepemimpinan: 'Suportif dan melayani.', pekerjaan: 'Administrasi, Manajemen Data, Staf Internal.' },
+            'C': { judul: 'COMPLIANCE (C)', karakter: 'Teliti, logis, analitis, menjunjung tinggi akurasi.', tampilan: 'Formal, serius, berhati-hati, detail-oriented.', perilaku: 'Bekerja berdasarkan fakta dan data, mematuhi SOP.', emosi: 'Takut akan kritik terhadap kualitas hasil kerjanya.', kekuatan: 'Akurasi tinggi, perencanaan matang, integritas standar.', kelemahan: 'Perfeksionis kaku, sering terjebak dalam detail.', kepemimpinan: 'Berbasis standar dan pengawasan kualitas.', pekerjaan: 'Analis Data, Pengawasan Keuangan, Legal/Hukum.' }
         };
 
-        document.getElementById('resultDetails').innerHTML = `
-            <div class="card p-3 border-success">
-                <h5>Tipe Dominan: ${profil[maxType]}</h5>
-                <hr>
-                <p><strong>Skor M:</strong> D:${m.D} I:${m.I} S:${m.S} C:${m.C}</p>
-                <p><strong>Skor L:</strong> D:${l.D} I:${l.I} S:${l.S} C:${l.C}</p>
-                <hr>
-                <p>Hasil ini menggambarkan gaya perilaku Anda dalam lingkungan kerja.</p>
+        const r = profil[max];
+        document.getElementById('detailUraian').innerHTML = `
+            <div class="report-section">
+                <div class="report-title">Profil Dominan: ${r.judul}</div>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <p class="mb-3"><strong>Karakteristik Umum:</strong><br>${r.karakter}</p>
+                        <p class="mb-3"><strong>Tampilan Kerja:</strong><br>${r.tampilan}</p>
+                        <p class="mb-3"><strong>Perilaku Kerja:</strong><br>${r.perilaku}</p>
+                        <p class="mb-3"><strong>Suasana Emosi:</strong><br>${r.emosi}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-3"><strong>Kekuatan:</strong><br>${r.kekuatan}</p>
+                        <p class="mb-3"><strong>Kelemahan:</strong><br>${r.kelemahan}</p>
+                        <p class="mb-3"><strong>Gaya Kepemimpinan:</strong><br>${r.kepemimpinan}</p>
+                        <p class="mb-3"><strong>Karakteristik Pekerjaan Sesuai:</strong><br>${r.pekerjaan}</p>
+                    </div>
+                </div>
             </div>
         `;
     }
-
-    renderSoal();
+    renderTable();
 </script>
 </body>
 </html>
