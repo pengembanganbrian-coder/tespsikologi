@@ -3,191 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DISC DJBC 2026</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Tes MBTI Lengkap - 60 Soal</title>
     <style>
-        body { background-color: #f4f7f9; font-family: 'Segoe UI', Arial, sans-serif; }
-        .container { max-width: 900px; margin-top: 30px; margin-bottom: 50px; }
-        .header-djbc { background-color: #002855; color: white; padding: 25px; text-align: center; border-radius: 8px 8px 0 0; }
-        .identitas-box { background: white; padding: 25px; border: 1px solid #ccc; border-top: none; margin-bottom: 20px; }
-        
-        .disc-table { width: 100%; background: white; border-collapse: collapse; margin-bottom: 25px; border: 2px solid #333; }
-        .disc-table th { background-color: #d9e1f2; padding: 10px; border: 1px solid #333; text-align: center; font-weight: bold; }
-        .disc-table td { padding: 12px; border: 1px solid #333; vertical-align: middle; text-align: center; }
-        
-        .col-m { width: 60px; background-color: #e2f0d9; }
-        .col-l { width: 60px; background-color: #fbe5d6; }
-        .col-text { text-align: center !important; font-weight: 500; color: #333; }
-
-        input[type="radio"] { transform: scale(1.6); cursor: pointer; }
-        .btn-submit { background-color: #002855; color: white; padding: 15px 60px; font-weight: bold; border: none; border-radius: 4px; font-size: 1.1rem; }
-        .btn-submit:hover { background-color: #001a38; }
-        
-        #resultArea { display: none; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .report-section { margin-top: 30px; border-top: 3px solid #002855; padding-top: 25px; }
-        .report-title { color: #002855; font-weight: bold; font-size: 1.4rem; margin-bottom: 20px; text-transform: uppercase; }
-        .chart-container { position: relative; height: 350px; margin: 0 auto 40px auto; padding: 20px; background: #fff; border: 1px solid #eee; }
-        
-        @media print { .no-print { display: none; } }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f7f9; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1 { text-align: center; color: #1a73e8; margin-bottom: 20px; }
+        .progress-bar { height: 8px; background: #e0e0e0; border-radius: 4px; margin-bottom: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #1a73e8; width: 0%; transition: 0.4s; }
+        .question-item { display: none; }
+        .question-item.active { display: block; animation: fadeIn 0.5s; }
+        .options { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        label { cursor: pointer; padding: 15px; border: 2px solid #eee; border-radius: 10px; transition: 0.3s; display: block; }
+        label:hover { background: #f0f7ff; border-color: #1a73e8; }
+        input[type="radio"] { margin-right: 10px; }
+        .nav-btns { display: flex; justify-content: space-between; margin-top: 30px; }
+        button { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        #next-btn { background: #1a73e8; color: white; }
+        #prev-btn { background: #eee; }
+        #result-area { display: none; text-align: center; }
+        .type-code { font-size: 72px; font-weight: bold; color: #1a73e8; margin: 10px 0; letter-spacing: 5px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="quizArea">
-        <div class="header-djbc">
-            <h1 class="mb-0">DISC DJBC 2026</h1>
-        </div>
+<div class="card">
+    <div id="quiz-ui">
+        <h1>Tes MBTI Profesional</h1>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <p id="counter" style="text-align: right; font-weight: bold; margin-bottom: 20px;">Soal 1 / 60</p>
         
-        <div class="identitas-box shadow-sm">
-            <div class="row g-3">
-                <div class="col-md-4"><label class="form-label fw-bold">Nama Pegawai</label><input type="text" id="nama" class="form-control" placeholder="Nama Lengkap"></div>
-                <div class="col-md-4"><label class="form-label fw-bold">NIP</label><input type="text" id="nip" class="form-control" placeholder="Nomor Induk Pegawai"></div>
-                <div class="col-md-4"><label class="form-label fw-bold">Jabatan</label><input type="text" id="jabatan" class="form-control" placeholder="Jabatan Saat Ini"></div>
-            </div>
-        </div>
-
-        <form id="discForm">
-            <div id="soalContainer"></div>
-            <div class="text-center mt-4">
-                <button type="button" class="btn btn-submit shadow" onclick="prosesSkoring()">TAMPILKAN HASIL ANALISIS</button>
+        <form id="mbtiForm">
+            <div id="questionArea"></div>
+            <div class="nav-btns">
+                <button type="button" id="prev-btn" onclick="changeQ(-1)" style="display:none;">Kembali</button>
+                <button type="button" id="next-btn" onclick="changeQ(1)">Lanjut</button>
             </div>
         </form>
     </div>
 
-    <div id="resultArea">
-        <h2 class="text-center mb-5 fw-bold">LAPORAN PROFIL PSIKOLOGI DISC</h2>
-        
-        <div class="chart-container">
-            <canvas id="discLineChart"></canvas>
-        </div>
-
-        <div id="detailUraian"></div>
-
-        <div class="text-center mt-5 no-print">
-            <button class="btn btn-primary px-5 me-2" onclick="window.print()">CETAK LAPORAN</button>
-            <button class="btn btn-outline-secondary px-5" onclick="location.reload()">TES ULANG</button>
-        </div>
+    <div id="result-area">
+        <h2>Tipe Kepribadian Anda:</h2>
+        <div class="type-code" id="typeLabel"></div>
+        <p id="descLabel" style="font-size: 20px; color: #555; margin-bottom: 30px;"></p>
+        <button onclick="window.location.reload()" style="background:#1a73e8; color:white;">Ulangi Tes</button>
     </div>
 </div>
 
 <script>
-    const listSoal = [
-        {id:1, opt:[{t:"Suka berpetualangan, pengambil Resiko", v:"D"}, {t:"Mudah bergaul, menyenangkan", v:"I"}, {t:"Penuh toleransi, menghormati orang lain", v:"S"}, {t:"Mudah percaya kepada orang lain", v:"S"}]},
-        {id:2, opt:[{t:"Berbicara lembut, pendiam", v:"C"}, {t:"Optimis, berpikir positif", v:"I"}, {t:"Pusat perhatian", v:"I"}, {t:"Lakukan dengan benar, ketepatan penting", v:"C"}]},
-        {id:3, opt:[{t:"Buatlah sesuatu menjadi menyenangkan", v:"I"}, {t:"Mari lakukan bersama-sama", v:"S"}, {t:"Tidak tergantung orang lain", v:"D"}, {t:"Hasil adalah segalanya", v:"D"}]},
-        {id:4, opt:[{t:"Akan membeli mengikuti dorongan hati", v:"I"}, {t:"Akan menunggu dengan sabar", v:"S"}, {t:"Akan mengeluarkan uang untuk hal diinginkan", v:"D"}, {t:"Pendidikan, budaya", v:"C"}]},
-        {id:5, opt:[{t:"Prestasi, penghargaan", v:"D"}, {t:"Keselamatan, keamanan", v:"S"}, {t:"Bergaul, berkumpul dengan kelompok", v:"I"}, {t:"Memimpin, bicara langsung", v:"D"}]},
-        {id:6, opt:[{t:"Terbuka, antusias, bersemangat", v:"I"}, {t:"Mudah diduga, konsisten", v:"S"}, {t:"Berhati-hati", v:"C"}, {t:"Pendamai, pembawa keharmonisan", v:"S"}]},
-        {id:7, opt:[{t:"Memberikan dorongan kepada orang lain", v:"I"}, {t:"Ramah, mudah berteman", v:"I"}, {t:"Berusaha untuk selalu sempurna", v:"C"}, {t:"Menjadi bagian dari sebuah kelompok", v:"S"}]},
-        {id:8, opt:[{t:"Ingin menetapkan tujuan", v:"D"}, {t:"Unik, mudah bosan terhadap rutinitas", v:"I"}, {t:"Aktif mengubah sesuatu", v:"D"}, {t:"Ingin segala sesuatu tepat", v:"C"}]},
-        {id:9, opt:[{t:"Mudah menjadi frustasi", v:"D"}, {t:"Tidak melawan, mengalah", v:"S"}, {t:"Memendam perasaan, tertutup", v:"C"}, {t:"Menyampaikan pendapatnya, terbuka", v:"I"}]},
-        {id:10, opt:[{t:"Berani menghadapi pihak oposisi", v:"D"}, {t:"Menyukai hal rinci/detil", v:"C"}, {t:"Penuh semangat, banyak bicara", v:"I"}, {t:"Bertindak cepat, tegas", v:"D"}]},
-        {id:11, opt:[{t:"Mencoba untuk menjaga kedamaian", v:"S"}, {t:"Mencoba untuk mengikuti aturan", v:"C"}, {t:"Mengatur waktu dengan baik", v:"C"}, {t:"Seringkali terburu-buru, merasa tertekan", v:"D"}]},
-        {id:12, opt:[{t:"Berhubungan dengan orang lain itu penting", v:"I"}, {t:"Tenang, suka menyendiri", v:"S"}, {t:"Gembira, periang", v:"I"}, {t:"Menyenangkan, ramah", v:"I"}]},
-        {id:13, opt:[{t:"Senang menyelesaikan hal yang telah dimulai", v:"S"}, {t:"Tegas, berani", v:"D"}, {t:"Menolak perubahan yang mendadak", v:"S"}, {t:"Cenderung terlalu banyak berjanji", v:"I"}]},
-        {id:14, opt:[{t:"Menarik diri ketika dibawah tekanan", v:"C"}, {t:"Menghabiskan waktu dengan orang lain", v:"I"}, {t:"Mencari tantangan baru", v:"D"}, {t:"Tidak takut konfrontasi langsung", v:"D"}]},
-        {id:15, opt:[{t:"Pendorong, pemberi semangat yang baik", v:"I"}, {t:"Pendengar yang baik", v:"S"}, {t:"Penganalisis yang baik", v:"C"}, {t:"Pendelegasi yang baik", v:"D"}]},
-        {id:16, opt:[{t:"Merencanakan masa depan, penuh persiapan", v:"C"}, {t:"Menerima penghargaan atas tujuan", v:"D"}, {t:"Peraturan perlu diuji", v:"D"}, {t:"Peraturan membuat adil", v:"C"}]},
-        {id:17, opt:[{t:"Peraturan membuat bosan", v:"I"}, {t:"Peraturan membuat aman", v:"S"}, {t:"Berubah di saat-saat terakhir", v:"I"}, {t:"Penuntut, kasar", v:"D"}]},
-        {id:18, opt:[{t:"Ingin maju", v:"D"}, {t:"Puas dengan apa yang ada", v:"S"}, {t:"Terbuka mengungkapkan perasaan", v:"I"}, {t:"Rendah hati, sederhana", v:"S"}]},
-        {id:19, opt:[{t:"Tidak mudah dikalahkan", v:"D"}, {t:"Mengikuti keinginan pemimpin", v:"S"}, {t:"Bersemangat, periang", v:"I"}, {t:"Ingin teratur, rapi", v:"C"}]},
-        {id:20, opt:[{t:"Saya akan memimpin orang lain", v:"D"}, {t:"Saya akan melaksanakannya", v:"S"}, {t:"Saya akan meyakinkan orang lain", v:"I"}, {t:"Saya akan mendapatkan fakta", v:"C"}]},
-        {id:21, opt:[{t:"Mendahulukan kepentingan orang lain", v:"S"}, {t:"Suka bersaing, suka tantangan", v:"D"}, {t:"Optimis, berpikir positif", v:"I"}, {t:"Berpikir logis, sistematis", v:"C"}]},
-        {id:22, opt:[{t:"Menyenangkan orang, mudah setuju", v:"S"}, {t:"Tertawa dengan keras, hidup", v:"I"}, {t:"Berani, tegas", v:"D"}, {t:"Pendiam/suka menyendiri", v:"C"}]},
-        {id:23, opt:[{t:"Menginginkan otoritas yang lebih", v:"D"}, {t:"Menginginkan kesempatan baru", v:"I"}, {t:"Menghindari konflik", v:"S"}, {t:"Menginginkan arahan yang jelas", v:"C"}]},
-        {id:24, opt:[{t:"Dapat dipercaya/diandalkan", v:"S"}, {t:"Kreatif, unik", v:"I"}, {t:"Berorientasi pada hasil", v:"D"}, {t:"Memegang standar tinggi, teliti", v:"C"}]}
+    // Data Pertanyaan Asli dari MBTI2020-Scoring.xlsm 
+    const questions = [
+        // 1-15: EI (Extraversion vs Introversion)
+        { q: "Saat berada di lingkungan sosial yang ramai, Anda cenderung...", a: "Mendapat energi dari interaksi", b: "Merasa energi terkuras setelah beberapa saat", cat: "EI" },
+        { q: "Anda lebih suka dikenal sebagai orang yang...", a: "Mudah didekati dan terbuka", b: "Tenang dan menjaga privasi", cat: "EI" },
+        { q: "Dalam kelompok, Anda biasanya...", a: "Mengambil peran aktif dalam berbicara", b: "Lebih banyak mendengarkan", cat: "EI" },
+        { q: "Anda lebih suka berkomunikasi melalui...", a: "Berbicara langsung atau telepon", b: "Pesan tertulis atau email", cat: "EI" },
+        { q: "Setelah minggu yang melelahkan, Anda memilih...", a: "Pergi keluar bersama teman-teman", b: "Istirahat tenang di rumah", cat: "EI" },
+        { q: "Anda cenderung bertindak...", a: "Lalu baru berpikir", b: "Berpikir matang sebelum bertindak", cat: "EI" },
+        { q: "Anda merasa lebih nyaman...", a: "Menjadi pusat perhatian sesekali", b: "Bekerja di balik layar", cat: "EI" },
+        { q: "Anda memiliki lingkaran pertemanan yang...", a: "Luas dengan banyak kenalan", b: "Sempit namun sangat mendalam", cat: "EI" },
+        { q: "Saat memulai proyek baru, Anda lebih suka...", a: "Mendiskusikannya dengan orang lain", b: "Memikirkannya sendiri terlebih dahulu", cat: "EI" },
+        { q: "Anda dianggap sebagai orang yang...", a: "Ekspresif dan antusias", b: "Reflektif dan tenang", cat: "EI" },
+        { q: "Anda lebih mudah...", a: "Mengenal orang baru", b: "Menunggu orang lain memperkenalkan diri", cat: "EI" },
+        { q: "Anda lebih suka lingkungan kerja yang...", a: "Sibuk dan penuh interaksi", b: "Tenang dan fokus", cat: "EI" },
+        { q: "Anda seringkali...", a: "Berpikir sambil berbicara", b: "Berbicara setelah ide matang", cat: "EI" },
+        { q: "Anda lebih menikmati...", a: "Kegiatan kelompok besar", b: "Pertemuan satu lawan satu", cat: "EI" },
+        { q: "Anda cenderung...", a: "Cepat merespons stimulasi luar", b: "Lebih fokus pada dunia internal", cat: "EI" },
+
+        // 16-30: SN (Sensing vs Intuition)
+        { q: "Anda lebih tertarik pada...", a: "Fakta dan kenyataan saat ini", b: "Kemungkinan dan potensi masa depan", cat: "SN" },
+        { q: "Anda lebih suka instruksi yang...", a: "Jelas, spesifik, dan bertahap", b: "Bersifat umum dan memberi ruang kreasi", cat: "SN" },
+        { q: "Anda dianggap sebagai orang yang...", a: "Praktis dan membumi", b: "Imajinatif dan kreatif", cat: "SN" },
+        { q: "Anda lebih menghargai...", a: "Pengalaman masa lalu", b: "Inovasi masa depan", cat: "SN" },
+        { q: "Saat membaca buku, Anda lebih suka yang...", a: "Berdasarkan kisah nyata/fakta", b: "Fiksi penuh simbolisme/makna", cat: "SN" },
+        { q: "Anda cenderung memperhatikan...", a: "Detail-detail kecil", b: "Gambaran besar (Big Picture)", cat: "SN" },
+        { q: "Anda lebih nyaman bekerja dengan...", a: "Hal-hal yang terukur dan pasti", b: "Teori dan konsep abstrak", cat: "SN" },
+        { q: "Anda lebih suka belajar melalui...", a: "Praktik langsung", b: "Pemahaman konsep", cat: "SN" },
+        { q: "Anda dianggap sebagai orang yang...", a: "Realistis", b: "Visioner", cat: "SN" },
+        { q: "Saat menceritakan kejadian, Anda fokus pada...", a: "Apa yang benar-benar terjadi", b: "Apa makna di balik kejadian itu", cat: "SN" },
+        { q: "Anda lebih suka menggunakan...", a: "Cara yang sudah terbukti berhasil", b: "Cara baru yang belum pernah dicoba", cat: "SN" },
+        { q: "Anda sering disebut orang yang...", a: "Sangat teliti", b: "Sangat kreatif", cat: "SN" },
+        { q: "Anda lebih tertarik pada...", a: "Penerapan ide", b: "Ide itu sendiri", cat: "SN" },
+        { q: "Anda lebih suka hidup di...", a: "Sini dan sekarang", b: "Dunia kemungkinan", cat: "SN" },
+        { q: "Anda lebih percaya pada...", a: "Panca indera", b: "Firasat/Intuisi", cat: "SN" },
+
+        // 31-45: TF (Thinking vs Feeling)
+        { q: "Dalam mengambil keputusan, Anda mengutamakan...", a: "Logika dan objektivitas", b: "Nilai-nilai dan perasaan", cat: "TF" },
+        { q: "Anda lebih suka dianggap sebagai orang yang...", a: "Adil dan tidak memihak", b: "Penuh empati dan pengertian", cat: "TF" },
+        { q: "Saat terjadi konflik, Anda cenderung...", a: "Mencari kebenaran secara logis", b: "Mencari keharmonisan antar pihak", cat: "TF" },
+        { q: "Anda lebih sering menggunakan...", a: "Kepala (Pikiran)", b: "Hati (Perasaan)", cat: "TF" },
+        { q: "Anda lebih menghargai...", a: "Kompetensi dan efisiensi", b: "Kerja sama dan dukungan", cat: "TF" },
+        { q: "Anda cenderung bersifat...", a: "Kritis dan jujur", b: "Apresiatif dan taktis", cat: "TF" },
+        { q: "Anda merasa lebih puas saat...", a: "Masalah terselesaikan dengan benar", b: "Semua orang merasa senang", cat: "TF" },
+        { q: "Dalam diskusi, Anda lebih fokus pada...", a: "Isi argumen", b: "Perasaan orang yang berbicara", cat: "TF" },
+        { q: "Anda lebih suka pemimpin yang...", a: "Tegas dan konsisten", b: "Peka dan memotivasi", cat: "TF" },
+        { q: "Anda dianggap sebagai orang yang...", a: "Objektif", b: "Subjektif/Personal", cat: "TF" },
+        { q: "Anda lebih mudah tersentuh oleh...", a: "Argumen yang kuat", b: "Cerita yang mengharukan", cat: "TF" },
+        { q: "Anda percaya bahwa kejujuran...", a: "Harus diutamakan meski menyakitkan", b: "Harus disampaikan dengan menjaga perasaan", cat: "TF" },
+        { q: "Anda lebih suka menganalisis...", a: "Sebab dan akibat", b: "Dampak pada orang lain", cat: "TF" },
+        { q: "Anda sering dianggap...", a: "Keras hati/dingin", b: "Lembut hati/hangat", cat: "TF" },
+        { q: "Anda membuat aturan berdasarkan...", a: "Standar yang sama bagi semua", b: "Kebutuhan individu yang berbeda", cat: "TF" },
+
+        // 46-60: JP (Judging vs Perceiving)
+        { q: "Anda lebih suka memiliki hari yang...", a: "Terencana dan terstruktur", b: "Fleksibel dan mengalir", cat: "JP" },
+        { q: "Saat mengerjakan tugas, Anda cenderung...", a: "Menyelesaikan jauh sebelum tenggat", b: "Bekerja di bawah tekanan menit terakhir", cat: "JP" },
+        { q: "Anda merasa lebih nyaman dengan...", a: "Keputusan yang sudah final", b: "Pilihan yang tetap terbuka", cat: "JP" },
+        { q: "Dalam perjalanan, Anda biasanya...", a: "Menyiapkan itinerary lengkap", b: "Pergi tanpa rencana yang kaku", cat: "JP" },
+        { q: "Lingkungan Anda biasanya...", a: "Rapi dan teratur", b: "Berantakan namun kreatif", cat: "JP" },
+        { q: "Anda lebih suka...", a: "Menyelesaikan tugas dulu baru bermain", b: "Bermain dulu baru menyelesaikan tugas", cat: "JP" },
+        { q: "Anda merasa terganggu oleh...", a: "Ketidakpastian", b: "Rutinitas yang terlalu kaku", cat: "JP" },
+        { q: "Anda cenderung membuat daftar...", a: "Untuk memastikan semua selesai", b: "Hanya sebagai panduan kasar", cat: "JP" },
+        { q: "Anda lebih suka...", a: "Menetapkan target yang jelas", b: "Menjelajahi berbagai opsi", cat: "JP" },
+        { q: "Anda dianggap sebagai orang yang...", a: "Disiplin dan tepat waktu", b: "Adaptif dan santai", cat: "JP" },
+        { q: "Anda lebih suka gaya hidup...", a: "Penuh persiapan", b: "Spontan", cat: "JP" },
+        { q: "Anda merasa puas ketika...", a: "Sesuatu sudah diputuskan", b: "Sesuatu sedang berjalan", cat: "JP" },
+        { q: "Anda lebih suka memulai proyek dengan...", a: "Rencana langkah demi langkah", b: "Melihat bagaimana hal itu berkembang", cat: "JP" },
+        { q: "Anda cenderung...", a: "Menghindari kejutan", b: "Menikmati kejutan", cat: "JP" },
+        { q: "Anda lebih suka bekerja dalam...", a: "Sistem yang terorganisir", b: "Kondisi yang berubah-ubah", cat: "JP" }
     ];
 
-    function renderTable() {
-        const div = document.getElementById('soalContainer');
-        listSoal.forEach((s, idx) => {
-            div.innerHTML += `
-            <table class="disc-table">
-                <thead><tr><th class="col-m">M</th><th class="col-text">PERNYATAAN</th><th class="col-l">L</th></tr></thead>
-                <tbody>
-                    ${s.opt.map((o, i) => `
-                    <tr>
-                        <td class="col-m"><input type="radio" name="m${idx}" value="${o.v}" required></td>
-                        <td class="col-text">${o.t}</td>
-                        <td class="col-l"><input type="radio" name="l${idx}" value="${o.v}" required></td>
-                    </tr>`).join('')}
-                </tbody>
-            </table>`;
-        });
-    }
+    let current = 0;
+    const area = document.getElementById('questionArea');
 
-    function prosesSkoring() {
-        let scores = { D: 0, I: 0, S: 0, C: 0 };
-        for(let i=0; i<24; i++) {
-            let m = document.querySelector(`input[name="m${i}"]:checked`);
-            let l = document.querySelector(`input[name="l${i}"]:checked`);
-            if(!m || !l) return alert("Selesaikan semua pilihan di Kotak " + (i+1));
-            if(m.parentElement.parentElement === l.parentElement.parentElement) return alert("Baris M & L tidak boleh sama pada satu pernyataan.");
-            scores[m.value]++;
-            scores[l.value]--; 
+    questions.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = `question-item ${i === 0 ? 'active' : ''}`;
+        div.innerHTML = `<p style="font-size:20px; font-weight:bold;">${i+1}. ${item.q}</p>
+            <div class="options">
+                <label><input type="radio" name="q${i}" value="${item.cat[0]}"> ${item.a}</label>
+                <label><input type="radio" name="q${i}" value="${item.cat[1]}"> ${item.b}</label>
+            </div>`;
+        area.appendChild(div);
+    });
+
+    function changeQ(step) {
+        const radios = document.getElementsByName(`q${current}`);
+        let checked = false;
+        if(step > 0) {
+            for(let r of radios) if(r.checked) checked = true;
+            if(!checked) return alert("Pilih satu jawaban!");
         }
-        showReport(scores);
+
+        const items = document.querySelectorAll('.question-item');
+        items[current].classList.remove('active');
+        current += step;
+
+        if(current >= 60) return showResult();
+
+        items[current].classList.add('active');
+        document.getElementById('prev-btn').style.display = current === 0 ? 'none' : 'block';
+        document.getElementById('next-btn').innerText = current === 59 ? "Lihat Hasil" : "Lanjut";
+        document.getElementById('counter').innerText = `Soal ${current + 1} / 60`;
+        document.getElementById('progressFill').style.width = ((current+1)/60*100) + '%';
     }
 
-    function showReport(data) {
-        document.getElementById('quizArea').style.display = 'none';
-        document.getElementById('resultArea').style.display = 'block';
+    function showResult() {
+        const data = new FormData(document.getElementById('mbtiForm'));
+        let s = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
+        for(let v of data.values()) s[v]++;
 
-        new Chart(document.getElementById('discLineChart'), {
-            type: 'line',
-            data: {
-                labels: ['D', 'I', 'S', 'C'],
-                datasets: [{
-                    label: 'Garis Profil DISC',
-                    data: [data.D, data.I, data.S, data.C],
-                    borderColor: '#002855',
-                    backgroundColor: '#002855',
-                    borderWidth: 4,
-                    pointRadius: 8,
-                    pointBackgroundColor: '#fff',
-                    fill: false,
-                    tension: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: { y: { min: -24, max: 24, grid: { color: '#ddd' } } }
-            }
-        });
-
-        const max = Object.keys(data).reduce((a, b) => data[a] > data[b] ? a : b);
-        const profil = {
-            'D': { judul: 'DOMINANCE (D)', karakter: 'Mandiri, tegas, berorientasi hasil, menyukai tantangan dan kontrol.', tampilan: 'Percaya diri, lugas, terkadang terlihat terburu-buru.', perilaku: 'Bekerja cepat, fokus pada target objektif, menyukai efisiensi.', emosi: 'Mudah terpancing rasa tidak sabar jika proses melambat.', kekuatan: 'Keputusan cepat, visi kuat, determinasi tinggi dalam memimpin.', kelemahan: 'Bisa mengabaikan perasaan orang lain, cenderung mendominasi.', kepemimpinan: 'Otokratis dan mengarahkan.', pekerjaan: 'Penegakan hukum, Audit, Penyidikan, Manajerial.' },
-            'I': { judul: 'INFLUENCE (I)', karakter: 'Antusias, persuasif, optimis, sangat sosial dan komunikatif.', tampilan: 'Ramah, penuh energi, ekspresif dalam bicara.', perilaku: 'Bekerja melalui kolaborasi, menyukai pengakuan sosial.', emosi: 'Optimisme berlebih, takut akan penolakan.', kekuatan: 'Membangun jaringan, negosiator ulung, motivator tim.', kelemahan: 'Kurang detail, sulit mengatur waktu secara presisi.', kepemimpinan: 'Partisipatif dan karismatik.', pekerjaan: 'Humas, Penyuluhan, Pelayanan Publik, Negosiasi.' },
-            'S': { judul: 'STEADINESS (S)', karakter: 'Sabar, setia, pendengar yang baik, menyukai harmoni.', tampilan: 'Tenang, sopan, stabil, tidak banyak menuntut.', perilaku: 'Bekerja secara metodis, fokus pada proses dan loyalitas.', emosi: 'Tidak menonjolkan emosi, takut akan perubahan mendadak.', kekuatan: 'Konsisten, tim player yang andal, pereda konflik.', kelemahan: 'Sulit berkata tidak, lambat dalam perubahan radikal.', kepemimpinan: 'Suportif dan melayani.', pekerjaan: 'Administrasi, Manajemen Data, Staf Internal.' },
-            'C': { judul: 'COMPLIANCE (C)', karakter: 'Teliti, logis, analitis, menjunjung tinggi akurasi.', tampilan: 'Formal, serius, berhati-hati, detail-oriented.', perilaku: 'Bekerja berdasarkan fakta dan data, mematuhi SOP.', emosi: 'Takut akan kritik terhadap kualitas hasil kerjanya.', kekuatan: 'Akurasi tinggi, perencanaan matang, integritas standar.', kelemahan: 'Perfeksionis kaku, sering terjebak dalam detail.', kepemimpinan: 'Berbasis standar dan pengawasan kualitas.', pekerjaan: 'Analis Data, Pengawasan Keuangan, Legal/Hukum.' }
+        let res = (s.E >= s.I ? "E" : "I") + (s.S >= s.N ? "S" : "N") + (s.T >= s.F ? "T" : "F") + (s.J >= s.P ? "J" : "P");
+        
+        document.getElementById('quiz-ui').style.display = 'none';
+        document.getElementById('result-area').style.display = 'block';
+        document.getElementById('typeLabel').innerText = res;
+        
+        const descriptions = {
+            "ISTJ": "Si Pengawas: Praktis, faktual, dan sangat teratur.",
+            "ISFJ": "Si Pelindung: Setia, berdedikasi, dan hangat.",
+            "INFJ": "Si Advokat: Idealis yang tenang namun sangat inspiratif.",
+            "INTJ": "Si Arsitek: Pemikir strategis dengan rencana matang.",
+            "ISTP": "Si Mekanik: Pengamat yang berani dan praktis.",
+            "ISFP": "Si Seniman: Fleksibel, menawan, dan selalu siap mencoba hal baru.",
+            "INFP": "Si Mediator: Puitis, baik hati, dan selalu ingin membantu.",
+            "INTP": "Si Pemikir: Penemu kreatif dengan haus akan pengetahuan.",
+            "ESTP": "Si Pengusaha: Cerdas, energik, dan sangat perseptif.",
+            "ESFP": "Si Penghibur: Spontan, energik, dan penuh semangat.",
+            "ENFP": "Si Juru Kampanye: Antusias, kreatif, dan berjiwa bebas.",
+            "ENTP": "Si Pendebat: Cerdas dan penasaran yang tidak bisa menahan tantangan intelektual.",
+            "ESTJ": "Si Eksekutif: Administrator yang hebat, tidak tertandingi dalam mengelola hal-hal.",
+            "ESFJ": "Si Pengasuh: Sangat peduli, sosial, dan populer.",
+            "ENFJ": "Si Protokol: Pemimpin yang karismatik dan inspiratif.",
+            "ENTJ": "Si Komandan: Pemimpin yang berani, imajinatif, dan berkemauan keras."
         };
-
-        const r = profil[max];
-        document.getElementById('detailUraian').innerHTML = `
-            <div class="report-section">
-                <div class="report-title">Profil Dominan: ${r.judul}</div>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <p class="mb-3"><strong>Karakteristik Umum:</strong><br>${r.karakter}</p>
-                        <p class="mb-3"><strong>Tampilan Kerja:</strong><br>${r.tampilan}</p>
-                        <p class="mb-3"><strong>Perilaku Kerja:</strong><br>${r.perilaku}</p>
-                        <p class="mb-3"><strong>Suasana Emosi:</strong><br>${r.emosi}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="mb-3"><strong>Kekuatan:</strong><br>${r.kekuatan}</p>
-                        <p class="mb-3"><strong>Kelemahan:</strong><br>${r.kelemahan}</p>
-                        <p class="mb-3"><strong>Gaya Kepemimpinan:</strong><br>${r.kepemimpinan}</p>
-                        <p class="mb-3"><strong>Karakteristik Pekerjaan Sesuai:</strong><br>${r.pekerjaan}</p>
-                    </div>
-                </div>
-            </div>
-        `;
+        document.getElementById('descLabel').innerText = descriptions[res];
     }
-    renderTable();
 </script>
 </body>
 </html>
