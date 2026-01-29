@@ -2,23 +2,25 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Menu Utama Tes Psikologi</title>
+    <title>Pilih Tes Psikologi</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
+        body { font-family: sans-serif; text-align: center; padding: 100px; background-color: #f4f4f4; }
+        .box { background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         .btn { 
-            display: inline-block; padding: 15px 25px; margin: 10px;
-            background-color: #007bff; color: white; 
-            text-decoration: none; border-radius: 5px; 
+            display: block; width: 200px; padding: 15px; margin: 10px auto;
+            background-color: #28a745; color: white; 
+            text-decoration: none; border-radius: 5px; font-weight: bold;
         }
-        .btn:hover { background-color: #0056b3; }
+        .btn-disc { background-color: #007bff; }
     </style>
 </head>
 <body>
-    <h1>Selamat Datang di Portal Tes Psikologi</h1>
-    <p>Silakan pilih jenis tes yang ingin kamu ikuti:</p>
-
-    <a href="mbti/" class="btn">Mulai Tes MBTI</a>
-
-    <a href="tesdisc/" class="btn">Mulai Tes DISC</a>
+    <div class="box">
+        <h1>Portal Tes Psikologi</h1>
+        <p>Pilih tes yang ingin kamu jalankan:</p>
+        
+        <a href="tesmbti/" class="btn">Mulai Tes MBTI</a>
+        <a href="tesdisc/" class="btn btn-disc">Mulai Tes DISC</a>
+    </div>
 </body>
 </html>
