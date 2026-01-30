@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asesmen MBTI DJBC 2026</title>
+    <title>E-MBTI DJBC 2026</title>
     <style>
         :root { --navy: #1a237e; --gold: #ffd600; --soft: #f4f6f9; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--soft); margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--soft); margin: 0; padding: 20px; }
+        .container { max-width: 950px; margin: auto; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
         .header { background: var(--navy); color: white; padding: 30px; text-align: center; border-bottom: 6px solid var(--gold); }
         .content { padding: 30px; }
         .id-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #eee; }
+        label { font-size: 11px; font-weight: bold; color: var(--navy); display: block; margin-bottom: 5px; }
         input[type="text"] { padding: 12px; border: 1px solid #ccc; border-radius: 5px; width: 100%; box-sizing: border-box; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th { background: #eee; padding: 15px; border: 1px solid #ddd; color: var(--navy); }
-        td { border: 1px solid #ddd; padding: 12px; font-size: 14px; cursor: pointer; }
-        tr:hover { background: #f1f1f1; }
+        td { border: 1px solid #ddd; padding: 15px; font-size: 14px; cursor: pointer; transition: 0.2s; }
         .selected { background: #e3f2fd !important; font-weight: bold; border-left: 5px solid var(--navy) !important; }
         .btn { background: var(--navy); color: white; padding: 20px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-size: 18px; font-weight: bold; margin-top: 20px; }
         #result-area { display: none; padding: 40px; text-align: center; }
@@ -28,16 +28,16 @@
 <div class="container">
     <div id="quiz-ui">
         <div class="header">
-            <h1 style="margin:0">E-MBTI ASSESSMENT DJBC</h1>
-            <p style="margin:5px 0 0; opacity:0.8">Berdasarkan Lembar Kerja MBTI 2020</p>
+            <h1 style="margin:0; letter-spacing: 2px;">E-MBTI DJBC 2026</h1>
+            <p style="margin:5px 0 0; opacity:0.8">Direktorat Jenderal Bea dan Cukai</p>
         </div>
 
         <div class="content">
             <div class="id-grid">
-                <div><label style="font-size:11px; font-weight:bold">NAMA LENGKAP</label><input type="text" id="nama" placeholder="Nama Lengkap"></div>
-                <div><label style="font-size:11px; font-weight:bold">NIP</label><input type="text" id="nip" placeholder="NIP"></div>
-                <div><label style="font-size:11px; font-weight:bold">JABATAN</label><input type="text" id="jabatan" placeholder="Jabatan"></div>
-                <div><label style="font-size:11px; font-weight:bold">TANGGAL TES</label><input type="text" id="tgl" value="30/01/2026" readonly></div>
+                <div><label>NAMA LENGKAP</label><input type="text" id="nama" placeholder="Nama Lengkap"></div>
+                <div><label>NIP</label><input type="text" id="nip" placeholder="NIP"></div>
+                <div><label>JABATAN</label><input type="text" id="jabatan" placeholder="Jabatan"></div>
+                <div><label>TANGGAL TES</label><input type="text" id="tgl" value="30/01/2026" readonly></div>
             </div>
 
             <table>
@@ -47,28 +47,26 @@
                 <tbody id="quiz-body"></tbody>
             </table>
 
-            <div id="loading">⏳ Sedang memproses data ke Spreadsheet...</div>
-            <button class="btn" id="submitBtn" onclick="submitTest()">KIRIM JAWABAN & LIHAT HASIL</button>
+            <div id="loading">⏳ Sedang mengirim data komplit ke Spreadsheet...</div>
+            <button class="btn" id="submitBtn" onclick="submitTest()">KIRIM JAWABAN SEKARANG</button>
         </div>
     </div>
 
     <div id="result-area">
         <div class="result-card">
-            <h2>DATA BERHASIL TERSIMPAN!</h2>
-            <p>Terima kasih, jawaban Anda telah masuk ke sistem Spreadsheet.</p>
-            <h1 id="mbti-res" style="font-size: 60px; letter-spacing: 10px; color: var(--gold);">✓</h1>
+            <h2>PENGIRIMAN BERHASIL!</h2>
+            <p>Data jawaban lengkap Anda telah tersimpan di Spreadsheet.</p>
+            <h1 style="font-size: 60px; color: var(--gold);">✓</h1>
         </div>
         <button class="btn" style="background:#555" onclick="location.reload()">ISI KEMBALI</button>
     </div>
 </div>
 
 <script>
-    // URL Web App Anda dari image_9d76fb.png
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyBi6Na5vV-j6jZT04ssOCMvYJP7dXb4-pzw5I5SGuJIVHgQ1M3c2CBgb330lkJ1bKBBQ/exec';
+    // URL SCRIPT TERBARU ANDA
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbywPLYRAyRK7502irRcrV7Ca-0pwi2gkc3cgQXOPvqohcadM9GhOfaLoIgrFmtm7k3ADw/exec';
 
-    // 60 Soal dari MBTI2020-Lembar Kerja.pdf
     const questions = [
-        // HALAMAN 1
         {a:"Lebih memilih berkomunikasi dengan menulis.", b:"Lebih memilih berkomunikasi dengan berbicara."},
         {a:"Menemukan dan mengembangkan ide dengan merenungkan.", b:"Menemukan dan mengembangkan ide dengan mendiskusikan."},
         {a:"Berorientasi pada dunia internal (memori, pemikiran, ide).", b:"Berorientasi pada dunia eksternal (kegiatan, orang, aktifitas)."},
@@ -84,7 +82,6 @@
         {a:"Komunikasi tidak langsung lebih disukai (telepon, surat, email).", b:"Komunikasi yang dilakukan secara langsung lebih disukai (tatap muka)."},
         {a:"Membangun ide dengan matang baru membicarakannya.", b:"Membangun idenya justru pada saat berbicara."},
         {a:"Berhati-hati, penuh pertimbangan, kaku.", b:"Spontan, easy going, fleksibel."},
-        // HALAMAN 2
         {a:"Bergerak dari detail kepada gambaran besar sebagai kesimpulan akhir.", b:"Bergerak dari gambaran umum (big picture) baru kemudian menuju detail."},
         {a:"Berbicara mengenai masalah yang dihadapi hari ini dan langkah praktis mengatasinya.", b:"Berbicara mengenai visi masa depan dan konsep-konsep mengenai visi tersebut."},
         {a:"Menggunakan pengalaman sebagai pedoman.", b:"Menggunakan imajinasi dan perenungan sebagai pedoman."},
@@ -100,7 +97,6 @@
         {a:"Praktis.", b:"Konseptual."},
         {a:"Menggunakan keterampilan yang sudah dikuasai.", b:"Menyukai tantangan untuk menguasai keterampilan baru."},
         {a:"Memilih cara yang sudah ada dan sudah terbukti.", b:"Memilih cara yang unik dan belum dipraktekkan orang lain."},
-        // HALAMAN 3
         {a:"Obyektif.", b:"Subyektif."},
         {a:"Diyakinkan dengan penjelasan yang masuk akal.", b:"Diyakinkan dengan penjelasan yang menyentuh perasaan."},
         {a:"Berorientasi tugas-tugas dan job description.", b:"Berorientasi pada manusia dan hubungan."},
@@ -111,27 +107,26 @@
         {a:"Yang penting tujuan tercapai.", b:"Yang penting situasi harmonis terjaga."},
         {a:"Mempertanyakan.", b:"Mengakomodasi."},
         {a:"Bersemangat saat mengkritik dan menemukan kesalahan.", b:"Bersemangat saat menolong orang keluar dari kesalahan dan meluruskan."},
-        {a:"Standar harus ditegakkan di atas segalanya (kehormatan dan harga diri).", b:"Perasaan manusia lebih penting dari sekedar standar (benda mati)."},
-        {a:"Menuntut perlakuan yang adil dan sama pada semua orang.", b:"Menuntut perlakukan khusus sesuai karakteristik masing-masing orang."},
+        {a:"Standar harus ditegakkan di atas segalanya.", b:"Perasaan manusia lebih penting dari sekedar standar."},
+        {a:"Menuntut perlakuan yang adil dan sama pada semua orang.", b:"Menuntut perlakukan khusus sesuai karakteristik orang."},
         {a:"Mementingkan sebab akibat.", b:"Mementingkan nilai-nilai personal."},
         {a:"Sering dianggap keras kepala.", b:"Sering dianggap terlalu memihak."},
         {a:"Menganalisa.", b:"Berempati."},
-        // HALAMAN 4
         {a:"Terencana, dan memiliki deadline jelas.", b:"Spontan, fleksibel, tidak diikat waktu."},
-        {a:"Tidak menyukai hal-hal yang bersifat mendadak dan diluar perencanaan.", b:"Perubahan mendadak tidak menjadi masalah."},
-        {a:"Aturan, jadwal dan target akan sangat membantu dan memperjelas tindakan.", b:"Aturan, jadwal dan target sangat mengikat dan membebani."},
+        {a:"Tidak menyukai hal-hal mendadak.", b:"Perubahan mendadak tidak masalah."},
+        {a:"Aturan dan jadwal memperjelas tindakan.", b:"Aturan dan jadwal mengikat dan membebani."},
         {a:"Berorientasi pada hasil.", b:"Berorientasi pada proses."},
-        {a:"Fokus pada target dan mengabaikan hal-hal baru.", b:"Memperhatikan hal-hal baru dan siap menyesuaikan diri dan merubah target."},
-        {a:"Merasa tenang bila semuanya sudah diputuskan.", b:"Merasa nyaman bila situasi tetap terbuka terhadap pilihan-pilihan lain."},
-        {a:"Ketidakpastian membuat bingung dan meresahkan.", b:"Ketidakpastian itu menegangkan, seru, dan membuat lebih fun."},
-        {a:"Situasi last minute sangat menyiksa, membuat stress, dan kesalahan.", b:"Situasi last minute membuat bersemangat dan memunculkan potensi."},
+        {a:"Fokus pada target.", b:"Siap menyesuaikan diri dan merubah target."},
+        {a:"Merasa tenang bila sudah diputuskan.", b:"Nyaman bila situasi tetap terbuka."},
+        {a:"Ketidakpastian membuat bingung.", b:"Ketidakpastian itu seru dan fun."},
+        {a:"Situasi last minute menyiksa.", b:"Situasi last minute memunculkan potensi."},
         {a:"Perubahan adalah musuh.", b:"Perubahan adalah semangat hidup."},
-        {a:"Bertindak sesuai dengan apa yang sudah direncanakan.", b:"Bertindak sesuai situasi dan kondisi yang terjadi saat itu."},
-        {a:"Hidup harus sudah diatur dari awal.", b:"Hidup harusnya mengalir sesuai kondisi."},
-        {a:"Daftar dan checklist adalah panduan penting.", b:"Daftar dan checklist adalah tugas dan beban."},
-        {a:"Kepuasan adalah ketika mampu menjalankan semua sesuai rencana.", b:"Kepuasan adalah ketika mampu beradaptasi dengan momentum yang terjadi."},
-        {a:"Mengatur orang lain dengan tata tertib agar tujuan tercapai.", b:"Membiarkan orang lain bertindak bebas asalkan tujuan tercapai."},
-        {a:"Berpegang teguh pada pendirian.", b:"Pendirian masih bisa berubah tergantung situasi nantinya."}
+        {a:"Bertindak sesuai rencana.", b:"Bertindak sesuai situasi kondisi."},
+        {a:"Hidup harus diatur dari awal.", b:"Hidup mengalir sesuai kondisi."},
+        {a:"Daftar checklist panduan penting.", b:"Daftar checklist adalah beban."},
+        {a:"Puas menjalankan rencana.", b:"Puas beradaptasi dengan momentum."},
+        {a:"Mengatur orang dengan tata tertib.", b:"Membiarkan orang lain bertindak bebas."},
+        {a:"Berpegang teguh pada pendirian.", b:"Pendirian bisa berubah tergantung situasi."}
     ];
 
     const tbody = document.getElementById('quiz-body');
@@ -160,10 +155,12 @@
                 document.getElementById(`row-${i}`).scrollIntoView({ behavior: 'smooth' });
                 return;
             }
-            answers.push(sel.value);
+            // MENGIRIM FORMAT: A. Teks Pernyataan
+            let text = sel.parentElement.innerText.trim();
+            answers.push(text); 
         }
 
-        document.getElementById('submitBtn').style.display = 'none';
+        document.getElementById('submitBtn').disabled = true;
         document.getElementById('loading').style.display = 'block';
 
         const payload = {
@@ -175,18 +172,16 @@
         };
 
         try {
-            // Menggunakan fetch dengan mode no-cors untuk menghindari error tampilan di browser
             await fetch(scriptURL, {
                 method: 'POST',
                 body: JSON.stringify(payload),
                 mode: 'no-cors'
             });
-            
             document.getElementById('quiz-ui').style.display = 'none';
             document.getElementById('result-area').style.display = 'block';
             window.scrollTo(0,0);
         } catch (e) {
-            alert("Data terkirim! Silakan cek Spreadsheet.");
+            alert("Terjadi gangguan, tapi data biasanya tetap masuk.");
             document.getElementById('quiz-ui').style.display = 'none';
             document.getElementById('result-area').style.display = 'block';
         }
