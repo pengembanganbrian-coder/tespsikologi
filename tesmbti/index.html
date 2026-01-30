@@ -60,11 +60,68 @@
     
     // 60 Soal Lengkap sesuai Lembar Kerja PDF
     const questions = [
-        {a:"Lebih memilih berkomunikasi dengan menulis.", b:"Lebih memilih berkomunikasi dengan berbicara."},
-        {a:"Menemukan dan mengembangkan ide dengan merenungkan.", b:"Menemukan dan mengembangkan ide dengan mendiskusikan."},
-        {a:"Berorientasi pada dunia internal.", b:"Berorientasi pada dunia eksternal."},
-        {a:"Fokus pada beberapa ketertarikan mendalam.", b:"Fokus pada banyak ketertarikan meluas."},
-        {a:"Tertutup dan mandiri.", b:"Sosial dan ekspresif."},
+        const questions = [
+    {a:"Lebih memilih berkomunikasi dengan menulis.", b:"Lebih memilih berkomunikasi dengan berbicara."}, //1
+    {a:"Menemukan dan mengembangkan ide dengan merenungkan.", b:"Menemukan dan mengembangkan ide dengan mendiskusikan."}, //2
+    {a:"Berorientasi pada dunia internal (memori, pemikiran, ide).", b:"Berorientasi pada dunia eksternal (kegiatan, orang, aktifitas)."}, //3
+    {a:"Fokus pada beberapa ketertarikan / hobi tertentu namun mendalam.", b:"Fokus pada banyak ketertarikan / hobi secara meluas dan general."}, //4
+    {a:"Tertutup dan mandiri.", b:"Sosial dan ekspresif."}, //5
+    {a:"Pertemuan dengan orang lain dan aktivitas sosial adalah melelahkan.", b:"Bertemu orang dan aktivitas sosial membuat bersemangat."}, //6
+    {a:"Beraktivitas sendirian di rumah adalah menyenangkan.", b:"Beraktivitas sendirian di rumah adalah membosankan."}, //7
+    {a:"Berinisiataif bila situasi memaksa.", b:"Berinisiatif tinggi hampir dalam berbagai hal meski tidak berhubungan dengan dirinya."}, //8
+    {a:"Lebih memilih tempat yang tenang dan pribadi.", b:"Lebih memilih tempat yang ramai dan banyak interaksi / aktivitas."}, //9
+    {a:"Berpikir secara matang sebelum bertindak.", b:"Bicara secara spontan atau sambil berpikir saat berbicara."}, //10
+    {a:"Menyimpan perasaan untuk diri sendiri.", b:"Mengekspresikan semangat."}, //11
+    {a:"Lebih banyak mendengarkan daripada berbicara.", b:"Mencari kesempatan untuk berkomunikasi secara perorangan."}, //12
+    {a:"Membutuhkan waktu untuk berpikir sebelum menjawab atau bereaksi.", b:"Komunikasi yang dilakukan secara langsung lebih disukai (bertatap muka)."}, //13
+    {a:"Tenang dan sulit ditebak.", b:"Membangun idenya justru pada saat berbicara."}, //14
+    {a:"Memahami dunia melalui diri sendiri.", b:"Spontan, easy going, fleksibel."}, //15
+    {a:"Fokus pada fakta, detail, dan data nyata apa adanya.", b:"Bergerak dari gambaran umum (big picture) baru kemudian menuju detail."}, //16
+    {a:"Menghargai pengalaman yang sudah terbukti.", b:"Berbicara mengenai visi masa depan dan konsep-konsep mengenai visi tersebut."}, //17
+    {a:"Orang yang praktis dan realistis.", b:"Menggunakan imajinasi dan perenungan sebagai pedoman."}, //18
+    {a:"Berpikir secara linear dan bertahap.", b:"SOP sangat membantu."}, //19
+    {a:"Tertarik pada kegunaan praktis saat ini.", b:"Bebas dan dinamis."}, //20
+    {a:"Suka mengerjakan tugas yang membutuhkan ketelitian dan instruksi yang jelas.", b:"Memilih fakta lebih penting daripada ide inspiratif."}, //21
+    {a:"Deskriptif dan spesifik saat menjelaskan sesuatu.", b:"Perubahan dan variasi lebih diutamakan."}, //22
+    {a:"Lebih percaya pada panca indera daripada intuisi.", b:"Bertindak step by step dengan timeframe yang jelas."}, //23
+    {a:"Suka mengulangi keahlian yang sudah dikuasai.", b:"Dalam menarik kesimpulan lama dan hati-hati."}, //24
+    {a:"Hidup untuk masa kini (enjoying the moment).", b:"Memahami ide dan teori saat mempraktekannya secara langsung."}, //25
+    {a:"Mengingat peristiwa secara detail sebagaimana adanya.", b:"Berfokus pada masa depan (apa yang mungkin bisa dicapai di masa mendatang)."}, //26
+    {a:"Bekerja dengan langkah yang konsisten.", b:"Secara konsisten mengamati dan mengingat detail."}, //27
+    {a:"Memilih cara yang konvensional.", b:"Praktis."}, //28
+    {a:"Dikenal sebagai orang yang realistis.", b:"Menyukai tantangan untuk menguasai keterampilan baru."}, //29
+    {a:"Melihat pohon di dalam hutan (fokus pada bagian-bagian kecil).", b:"Memilih cara yang unik dan belum dipraktekkan orang lain."}, //30
+    {a:"Keputusan berdasarkan analisa logis dan objektif.", b:"Obyektif."}, //31
+    {a:"Menghargai kebenaran dan keadilan di atas segalanya.", b:"Diyakinkan dengan penjelasan yang masuk akal."}, //32
+    {a:"Cenderung kritis dan mampu menemukan kelemahan secara cepat.", b:"Berorientasi pada manusia dan hubungan."}, //33
+    {a:"Memisahkan perasaan dari masalah saat mengambil keputusan.", b:"Mengambil keputusan berdasarkan logika dan aturan main."}, //34
+    {a:"Berorientasi pada tugas (Task oriented).", b:"Mengemukakan tujuan dan sasaran lebih dahulu."}, //35
+    {a:"Menggunakan logika 'kepala' daripada 'hati'.", b:"Menghargai seseorang karena skill dan faktor teknis."}, //36
+    {a:"Terlihat kaku dan dingin oleh orang lain.", b:"Terlalu kaku pada peraturan dan pekerjaan itu kejam."}, //37
+    {a:"Mampu berkata 'Tidak' jika merasa benar.", b:"Yang penting situasi harmonis terjaga."}, //38
+    {a:"Aturan harus ditegakkan secara konsisten.", b:"Mengakomodasi."}, //39
+    {a:"Menghargai kompetensi dan prestasi kerja.", b:"Bersemangat saat menolong orang keluar dari kesalahan dan meluruskan."}, //40
+    {a:"Mudah melihat kesalahan dan ketidakkonsistenan.", b:"Standar harus ditegakkan di atas segalanya (itu menunjukkan kehormatan dan harga diri)."}, //41
+    {a:"Menganalisa kelemahan sebuah rencana.", b:"Menuntut perlakuan yang adil dan sama pada semua orang."}, //42
+    {a:"Menuntut pembuktian yang masuk akal.", b:"Mementingkan nilai-nilai personal."}, //43
+    {a:"Percaya pada argumen yang kuat daripada perasaan.", b:"Sering dianggap keras kepala."}, //44
+    {a:"Ingin sukses dalam menjalankan tugas.", b:"Menganalisa."}, //45
+    {a:"Jadwal dan struktur sangat membantu produktivitas.", b:"Spontan, fleksibel, tidak diikat waktu."}, //46
+    {a:"Berorientasi pada hasil akhir.", b:"Perubahan mendadak tidak menjadi masalah."}, //47
+    {a:"Fokus pada target dan deadline.", b:"Aturan, jadwal dan target akan sangat membantu dan memperjelas tindakan."}, //48
+    {a:"Merasa tenang bila suatu keputusan sudah diambil.", b:"Berorientasi pada hasil."}, //49
+    {a:"Ketidakpastian membuat merasa tidak nyaman dan bingung.", b:"Memperhatikan hal-hal baru dan siap menyesuaikan diri dan merubah target."}, //50
+    {a:"Situasi 'last minute' adalah menyiksa.", b:"Merasa nyaman bila situasi tetap terbuka terhadap pilihan-pilihan lain."}, //51
+    {a:"Perubahan adalah gangguan bagi rencana yang sudah dibuat.", b:"Ketidakpastian itu menegangkan, seru, dan membuat lebih fun."}, //52
+    {a:"Bertindak sesuai dengan rencana yang sudah matang.", b:"Situasi last minute membuat bersemangat dan memunculkan potensi."}, //53
+    {a:"Hidup harusnya teratur dan terencana.", b:"Perubahan adalah semangat hidup."}, //54
+    {a:"Daftar dan checklist adalah panduan penting.", b:"Bertindak sesuai situasi dan kondisi yang terjadi saat itu."}, //55
+    {a:"Kepuasan adalah ketika mampu menjalankan rencana.", b:"Hidup harusnya mengalir sesuai kondisi."}, //56
+    {a:"Mengatur orang lain dengan tata tertib.", b:"Daftar dan checklist adalah panduan penting."}, //57
+    {a:"Berpegang teguh pada pendirian.", b:"Kepuasan adalah ketika mampu beradaptasi dengan momentum yang terjadi."}, //58
+    {a:"Bekerja secara sistematis dan metodis.", b:"Membiarkan orang lain bertindak bebas asalkan tujuan tercapai."}, //59
+    {a:"Menutup pilihan-pilihan agar tugas segera selesai.", b:"Berpegang teguh pada pendirian."} //60
+];
         // ... (Tambahkan soal 6-60 di sini sesuai isi PDF)
     ];
 
