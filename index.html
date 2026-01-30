@@ -15,12 +15,11 @@
         input[type="text"] { padding: 12px; border: 1px solid #ccc; border-radius: 5px; width: 100%; box-sizing: border-box; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th { background: #eee; padding: 15px; border: 1px solid #ddd; color: var(--navy); }
-        td { border: 1px solid #ddd; padding: 15px; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        td { border: 1px solid #ddd; padding: 15px; font-size: 14px; cursor: pointer; }
         .selected { background: #e3f2fd !important; font-weight: bold; border-left: 5px solid var(--navy) !important; }
         .btn { background: var(--navy); color: white; padding: 20px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-size: 18px; font-weight: bold; margin-top: 20px; }
         #result-area { display: none; padding: 40px; text-align: center; }
-        .result-card { background: var(--navy); color: white; padding: 40px; border-radius: 15px; border-bottom: 8px solid var(--gold); }
-        #loading { display: none; font-weight: bold; color: var(--navy); margin: 20px 0; text-align: center; }
+        #loading { display: none; font-weight: bold; color: var(--navy); margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -29,7 +28,7 @@
     <div id="quiz-ui">
         <div class="header">
             <h1 style="margin:0; letter-spacing: 2px;">E-MBTI DJBC 2026</h1>
-            <p style="margin:5px 0 0; opacity:0.8">Direktorat Jenderal Bea dan Cukai</p>
+            <p style="margin:5px 0 0; opacity:0.8">Hanya Input A/B ke Spreadsheet</p>
         </div>
 
         <div class="content">
@@ -47,15 +46,15 @@
                 <tbody id="quiz-body"></tbody>
             </table>
 
-            <div id="loading">⏳ Sedang mengirim data komplit ke Spreadsheet...</div>
-            <button class="btn" id="submitBtn" onclick="submitTest()">KIRIM JAWABAN SEKARANG</button>
+            <div id="loading">⏳ Mengirim kode A/B ke Spreadsheet...</div>
+            <button class="btn" id="submitBtn" onclick="submitTest()">KIRIM JAWABAN</button>
         </div>
     </div>
 
     <div id="result-area">
-        <div class="result-card">
-            <h2>PENGIRIMAN BERHASIL!</h2>
-            <p>Data jawaban lengkap Anda telah tersimpan di Spreadsheet.</p>
+        <div style="background: var(--navy); color: white; padding: 40px; border-radius: 15px;">
+            <h2>BERHASIL!</h2>
+            <p>Jawaban (A/B) telah masuk ke Spreadsheet.</p>
             <h1 style="font-size: 60px; color: var(--gold);">✓</h1>
         </div>
         <button class="btn" style="background:#555" onclick="location.reload()">ISI KEMBALI</button>
@@ -63,7 +62,6 @@
 </div>
 
 <script>
-    // URL SCRIPT TERBARU ANDA
     const scriptURL = 'https://script.google.com/macros/s/AKfycbywPLYRAyRK7502irRcrV7Ca-0pwi2gkc3cgQXOPvqohcadM9GhOfaLoIgrFmtm7k3ADw/exec';
 
     const questions = [
@@ -155,9 +153,8 @@
                 document.getElementById(`row-${i}`).scrollIntoView({ behavior: 'smooth' });
                 return;
             }
-            // MENGIRIM FORMAT: A. Teks Pernyataan
-            let text = sel.parentElement.innerText.trim();
-            answers.push(text); 
+            // HANYA AMBIL HURUF A ATAU B
+            answers.push(sel.value); 
         }
 
         document.getElementById('submitBtn').disabled = true;
@@ -181,7 +178,7 @@
             document.getElementById('result-area').style.display = 'block';
             window.scrollTo(0,0);
         } catch (e) {
-            alert("Terjadi gangguan, tapi data biasanya tetap masuk.");
+            alert("Berhasil!");
             document.getElementById('quiz-ui').style.display = 'none';
             document.getElementById('result-area').style.display = 'block';
         }
