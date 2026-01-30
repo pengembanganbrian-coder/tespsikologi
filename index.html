@@ -28,7 +28,7 @@
     <div id="quiz-ui">
         <div class="header">
             <h1 style="margin:0; letter-spacing: 2px;">E-MBTI DJBC 2026</h1>
-            <p style="margin:5px 0 0; opacity:0.8">Hanya Input A/B ke Spreadsheet</p>
+            <p style="margin:5px 0 0; opacity:0.8">Mode Input: Murni Kode A/B</p>
         </div>
 
         <div class="content">
@@ -46,15 +46,15 @@
                 <tbody id="quiz-body"></tbody>
             </table>
 
-            <div id="loading">⏳ Mengirim kode A/B ke Spreadsheet...</div>
+            <div id="loading">⏳ Mengirim kode A/B saja ke Spreadsheet...</div>
             <button class="btn" id="submitBtn" onclick="submitTest()">KIRIM JAWABAN</button>
         </div>
     </div>
 
     <div id="result-area">
         <div style="background: var(--navy); color: white; padding: 40px; border-radius: 15px;">
-            <h2>BERHASIL!</h2>
-            <p>Jawaban (A/B) telah masuk ke Spreadsheet.</p>
+            <h2>BERHASIL DISIMPAN!</h2>
+            <p>Data (A/B) sudah masuk ke kolom Spreadsheet Anda.</p>
             <h1 style="font-size: 60px; color: var(--gold);">✓</h1>
         </div>
         <button class="btn" style="background:#555" onclick="location.reload()">ISI KEMBALI</button>
@@ -153,7 +153,7 @@
                 document.getElementById(`row-${i}`).scrollIntoView({ behavior: 'smooth' });
                 return;
             }
-            // HANYA AMBIL HURUF A ATAU B
+            // BAGIAN INI SUDAH DIKUNCI: HANYA MENGAMBIL VALUE "A" ATAU "B"
             answers.push(sel.value); 
         }
 
@@ -178,7 +178,7 @@
             document.getElementById('result-area').style.display = 'block';
             window.scrollTo(0,0);
         } catch (e) {
-            alert("Berhasil!");
+            alert("Selesai! Silakan cek Spreadsheet.");
             document.getElementById('quiz-ui').style.display = 'none';
             document.getElementById('result-area').style.display = 'block';
         }
