@@ -6,9 +6,9 @@
     <title>Sistem Tes PAPI Kostick - Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         @media print { .no-print { display: none; } }
-        .sticky-header { position: sticky; top: 0; z-index: 50; background: white; border-bottom: 2px solid #e5e7eb; }
         input[type="radio"]:checked + span { font-weight: bold; color: #4f46e5; }
     </style>
 </head>
@@ -25,15 +25,15 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
-                    <input type="text" id="nama" placeholder="Masukkan nama..." class="w-full border p-2 rounded-md outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="text" id="nama" class="w-full border p-2 rounded-md outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-1">NIP / Nomor Induk</label>
-                    <input type="text" id="nip" placeholder="Masukkan NIP..." class="w-full border p-2 rounded-md outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="text" id="nip" class="w-full border p-2 rounded-md outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-1">Jabatan</label>
-                    <input type="text" id="jabatan" placeholder="Jabatan saat ini..." class="w-full border p-2 rounded-md outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="text" id="jabatan" class="w-full border p-2 rounded-md outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-1">Tanggal Tes</label>
@@ -42,15 +42,10 @@
             </div>
         </div>
 
-        <div class="p-8 bg-amber-50 text-amber-900 text-sm italic border-b border-amber-100">
-            <strong>Cara Mengerjakan:</strong> Di bawah ini terdapat 90 pasang pernyataan. Pilihlah salah satu dari pasangan pernyataan tersebut (A atau B) yang paling mendekati menggambarkan diri Anda. Anda harus memilih salah satu meskipun kedua pernyataan tersebut tidak ada yang benar-benar pas di hati Anda.
-        </div>
-
-        <div id="quiz-form" class="p-8 space-y-6">
-            </div>
+        <div id="quiz-form" class="p-8 space-y-6"></div>
 
         <div class="p-8 bg-slate-50 text-center no-print border-t">
-            <button onclick="kalkulasiHasil()" class="bg-indigo-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-indigo-700 shadow-lg transform transition hover:scale-105">
+            <button onclick="kalkulasiHasil()" class="bg-indigo-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-indigo-700 shadow-lg">
                 Selesai & Lihat Hasil
             </button>
         </div>
@@ -60,50 +55,25 @@
             
             <div class="flex flex-col lg:flex-row items-center gap-10">
                 <div class="w-full lg:w-1/2 flex justify-center">
-                    <div class="w-full max-w-md">
-                        <canvas id="papiChart"></canvas>
-                    </div>
+                    <canvas id="papiChart"></canvas>
                 </div>
                 <div class="w-full lg:w-1/2">
-                    <div class="grid grid-cols-4 sm:grid-cols-5 gap-2 text-center" id="skor-box">
-                        </div>
+                    <div class="grid grid-cols-4 sm:grid-cols-5 gap-2 text-center" id="skor-box"></div>
                 </div>
             </div>
 
-            <div class="mt-10 p-6 bg-slate-50 rounded-xl border">
-                <h3 class="font-bold mb-4 text-indigo-700">Keterangan Aspek Kepribadian:</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 text-[11px] gap-y-2 gap-x-4">
-                    <span><strong>G:</strong> Pekerja Keras</span>
-                    <span><strong>L:</strong> Pemimpin</span>
-                    <span><strong>I:</strong> Pengambil Keputusan</span>
-                    <span><strong>T:</strong> Perencanaan</span>
-                    <span><strong>V:</strong> Semangat/Energi</span>
-                    <span><strong>S:</strong> Hubungan Sosial</span>
-                    <span><strong>R:</strong> Konseptual</span>
-                    <span><strong>D:</strong> Minat pada Detail</span>
-                    <span><strong>C:</strong> Kontrol Diri</span>
-                    <span><strong>E:</strong> Emosionalitas</span>
-                    <span><strong>N:</strong> Fokus Selesai Tugas</span>
-                    <span><strong>A:</strong> Ambisi Berprestasi</span>
-                    <span><strong>P:</strong> Kontrol Orang Lain</span>
-                    <span><strong>X:</strong> Ingin Diperhatikan</span>
-                    <span><strong>B:</strong> Diterima Kelompok</span>
-                    <span><strong>O:</strong> Kedekatan Personal</span>
-                    <span><strong>Z:</strong> Kebutuhan Perubahan</span>
-                    <span><strong>K:</strong> Agresivitas</span>
-                    <span><strong>F:</strong> Loyalitas Atasan</span>
-                    <span><strong>W:</strong> Kebutuhan Aturan</span>
-                </div>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 no-print">
+                <button onclick="downloadExcel()" class="bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition flex items-center justify-center gap-2">
+                    <span>📊</span> Download Excel (.xlsx)
+                </button>
+                <button onclick="window.print()" class="bg-slate-800 text-white py-3 rounded-lg font-bold hover:bg-slate-900 transition flex items-center justify-center gap-2">
+                    <span>PDF</span> Cetak / Simpan PDF
+                </button>
             </div>
-
-            <button onclick="window.print()" class="mt-8 w-full bg-slate-800 text-white py-3 rounded-lg font-bold no-print hover:bg-slate-900 transition">
-                Simpan Sebagai PDF / Cetak
-            </button>
         </div>
     </div>
 
     <script>
-        // 1. DATA 90 SOAL (Teks yang Anda miliki)
         const soalPapi = [
             ["Saya seorang pekerja keras", "Saya bukan seorang pemurung"],
             ["Saya suka bekerja lebih baik dari yang lain", "Saya suka menekuni pekerjaan yang saya lakukan sampai selesai"],
@@ -197,7 +167,6 @@
             ["Saya suka diberitahu tentang apa yang saya perlu lakukan", "Saya harus menyelesaikan apa yang saya mulai"]
         ];
 
-        // 2. LOGIKA SKORING (Disesuaikan 100% dengan tabel gambar Anda)
         const mappingPapi = [
             ['G', 'E'], ['A', 'N'], ['P', 'A'], ['X', 'P'], ['B', 'X'], ['O', 'B'], ['Z', 'O'], ['K', 'Z'], ['F', 'K'], ['W', 'F'],
             ['G', 'C'], ['L', 'E'], ['P', 'N'], ['X', 'A'], ['B', 'P'], ['O', 'X'], ['Z', 'B'], ['K', 'O'], ['F', 'Z'], ['W', 'K'],
@@ -210,62 +179,50 @@
             ['G', 'L'], ['L', 'I'], ['I', 'T'], ['T', 'V'], ['V', 'S'], ['S', 'R'], ['R', 'D'], ['D', 'C'], ['C', 'E'], ['W', 'N']
         ];
 
-        // 3. RENDER SOAL
         const form = document.getElementById('quiz-form');
         soalPapi.forEach((pair, i) => {
             const no = i + 1;
             form.innerHTML += `
-                <div class="p-5 border-l-4 border-slate-300 bg-slate-50 rounded-r-xl shadow-sm hover:shadow-md transition duration-300">
-                    <p class="font-bold text-indigo-500 mb-3 italic">Pernyataan No. ${no}</p>
-                    <div class="grid grid-cols-1 gap-3">
-                        <label class="flex items-center gap-3 cursor-pointer p-3 bg-white rounded-lg border hover:border-indigo-400 transition">
-                            <input type="radio" name="q${no}" value="A" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                            <span class="text-sm sm:text-base">A. ${pair[0]}</span>
+                <div class="p-5 border-l-4 border-slate-300 bg-slate-50 rounded-r-xl shadow-sm">
+                    <p class="font-bold text-indigo-500 mb-3 italic">No. ${no}</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <label class="flex items-center gap-3 cursor-pointer p-3 bg-white rounded-lg border hover:border-indigo-400">
+                            <input type="radio" name="q${no}" value="A" class="w-4 h-4 text-indigo-600">
+                            <span>A. ${pair[0]}</span>
                         </label>
-                        <label class="flex items-center gap-3 cursor-pointer p-3 bg-white rounded-lg border hover:border-indigo-400 transition">
-                            <input type="radio" name="q${no}" value="B" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                            <span class="text-sm sm:text-base">B. ${pair[1]}</span>
+                        <label class="flex items-center gap-3 cursor-pointer p-3 bg-white rounded-lg border hover:border-indigo-400">
+                            <input type="radio" name="q${no}" value="B" class="w-4 h-4 text-indigo-600">
+                            <span>B. ${pair[1]}</span>
                         </label>
                     </div>
                 </div>
             `;
         });
 
-        // 4. KALKULASI HASIL
+        let currentScores = {};
+
         function kalkulasiHasil() {
-            // Validasi: Harus isi semua
             for(let i=1; i<=90; i++) {
                 if(!document.querySelector(`input[name="q${i}"]:checked`)) {
                     alert('Lengkapi soal nomor ' + i);
-                    document.getElementsByName(`q${i}`)[0].scrollIntoView({behavior: "smooth", block: "center"});
                     return;
                 }
             }
 
-            // Inisialisasi skor 20 aspek
-            let results = {
-                G:0, L:0, I:0, T:0, V:0, S:0, R:0, D:0, C:0, E:0,
-                N:0, A:0, P:0, X:0, B:0, O:0, Z:0, K:0, F:0, W:0
-            };
+            let results = { G:0, L:0, I:0, T:0, V:0, S:0, R:0, D:0, C:0, E:0, N:0, A:0, P:0, X:0, B:0, O:0, Z:0, K:0, F:0, W:0 };
 
-            // Hitung berdasarkan mapping
             for(let i=0; i<90; i++) {
                 const choice = document.querySelector(`input[name="q${i+1}"]:checked`).value;
-                const hurufA = mappingPapi[i][0];
-                const hurufB = mappingPapi[i][1];
-
-                if(choice === 'A') results[hurufA]++;
-                else results[hurufB]++;
+                if(choice === 'A') results[mappingPapi[i][0]]++;
+                else results[mappingPapi[i][1]]++;
             }
 
+            currentScores = results;
             renderHasil(results);
         }
 
-        // 5. RENDER VISUAL HASIL
         function renderHasil(scores) {
             document.getElementById('hasil-container').classList.remove('hidden');
-            
-            // Render Angka ke Box
             const box = document.getElementById('skor-box');
             box.innerHTML = '';
             Object.keys(scores).forEach(key => {
@@ -273,14 +230,11 @@
                     <div class="p-3 border rounded-lg bg-indigo-50 shadow-inner">
                         <div class="text-[10px] font-bold text-indigo-400">${key}</div>
                         <div class="text-xl font-black text-indigo-800">${scores[key]}</div>
-                    </div>
-                `;
+                    </div>`;
             });
 
-            // Radar Chart
             const ctx = document.getElementById('papiChart').getContext('2d');
             if(window.papiInstance) window.papiInstance.destroy();
-
             window.papiInstance = new Chart(ctx, {
                 type: 'radar',
                 data: {
@@ -290,30 +244,46 @@
                         data: Object.values(scores),
                         backgroundColor: 'rgba(79, 70, 229, 0.25)',
                         borderColor: '#4f46e5',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#ef4444',
-                        pointRadius: 4
+                        borderWidth: 3
                     }]
                 },
-                options: {
-                    scales: {
-                        r: {
-                            min: 0,
-                            max: 9,
-                            ticks: { stepSize: 1, display: false },
-                            grid: { color: '#e2e8f0' },
-                            angleLines: { color: '#e2e8f0' },
-                            pointLabels: { font: { size: 12, weight: 'bold' }, color: '#475569' }
-                        }
-                    },
-                    plugins: { legend: { display: false } }
-                }
+                options: { scales: { r: { min: 0, max: 9, ticks: { display: false } } } }
             });
-
             document.getElementById('hasil-container').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Set Default Date ke hari ini
+        function downloadExcel() {
+            const nama = document.getElementById('nama').value || 'Tanpa Nama';
+            const nip = document.getElementById('nip').value || '-';
+            const jabatan = document.getElementById('jabatan').value || '-';
+            const tanggal = document.getElementById('tanggal').value || '-';
+
+            // Data untuk Baris Atas (Identitas)
+            const dataHeader = [
+                ["HASIL TES PAPI KOSTICK DIGITAL"],
+                [""],
+                ["Nama", nama],
+                ["NIP", nip],
+                ["Jabatan", jabatan],
+                ["Tanggal", tanggal],
+                [""],
+                ["ASPEK", "SKOR"]
+            ];
+
+            // Data Skor
+            const dataSkor = Object.keys(currentScores).map(key => [key, currentScores[key]]);
+
+            // Gabungkan Semua
+            const finalData = [...dataHeader, ...dataSkor];
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(finalData);
+            XLSX.utils.book_append_sheet(wb, ws, "Hasil Tes");
+            
+            // Simpan File
+            XLSX.writeFile(wb, `Hasil_PAPI_${nama.replace(/ /g, '_')}.xlsx`);
+        }
+
         document.getElementById('tanggal').valueAsDate = new Date();
     </script>
 </body>
