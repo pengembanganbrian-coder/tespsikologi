@@ -3,259 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tes DASS-21 - DJBC 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Mental Health Assessment - DJBC 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
-            --bg: #f8fafc;
+            --bg: #f1f5f9;
             --primary: #1e3a8a;
+            --primary-light: #dbeafe;
             --accent: #b45309;
-            --text: #1e293b;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
             --card-bg: #ffffff;
+            --success: #10b981;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg);
-            color: var(--text);
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 850px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 700px;
             background: var(--card-bg);
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05);
+            position: relative;
         }
 
         header {
             text-align: center;
-            border-bottom: 2px solid #f1f5f9;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-        }
-
-        h1 { color: var(--primary); margin: 0; font-size: 1.8rem; }
-        .subtitle { color: var(--accent); font-weight: 600; font-size: 0.9rem; margin-top: 5px; }
-
-        .identity-section {
-            background: #fff;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
             margin-bottom: 30px;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
+        h1 { color: var(--primary); margin: 0; font-size: 1.5rem; letter-spacing: -0.5px; }
+        .subtitle { color: var(--accent); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; margin-top: 5px; }
 
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-        }
-
-        .form-group input {
+        /* Progress Bar */
+        .progress-container {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
+            height: 8px;
+            background: var(--primary-light);
+            border-radius: 10px;
+            margin: 20px 0 40px 0;
+            overflow: hidden;
+            display: none;
+        }
+
+        #progressBar {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* Identity Section */
+        .step { display: none; animation: fadeIn 0.5s ease; }
+        .step.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); }
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
             font-family: inherit;
             box-sizing: border-box;
+            transition: border-color 0.2s;
         }
+        input[type="text"]:focus { outline: none; border-color: var(--primary); }
 
-        .instruction {
-            background: #eff6ff;
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            margin-bottom: 30px;
-            border-left: 5px solid var(--primary);
-        }
+        /* Question Styles */
+        .question-number { color: var(--primary); font-weight: 700; font-size: 1.1rem; margin-bottom: 10px; display: block; }
+        .question-text { font-size: 1.25rem; font-weight: 600; line-height: 1.4; margin-bottom: 30px; }
 
-        .question-item {
-            margin-bottom: 30px;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #f1f5f9;
-        }
-
-        .question-text {
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: block;
-            font-size: 1.05rem;
-        }
-
-        .options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-        }
-
-        .option-label {
+        .options-list { display: flex; flex-direction: column; gap: 12px; }
+        .option-item {
+            padding: 16px 20px;
+            background: #f8fafc;
+            border: 2px solid #f1f5f9;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 12px;
-            background: #f1f5f9;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s;
-            text-align: center;
+        }
+        .option-item:hover { background: var(--primary-light); border-color: var(--primary); }
+        .option-item.selected { background: var(--primary); border-color: var(--primary); color: white; }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 15px;
         }
 
-        input[type="radio"] { display: none; }
-        input[type="radio"]:checked + .option-label {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-submit {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 18px;
+        .btn {
+            padding: 14px 28px;
             border-radius: 12px;
             font-weight: 700;
-            font-size: 1.1rem;
             cursor: pointer;
-            margin-top: 10px;
+            border: none;
+            transition: all 0.2s;
+            font-family: inherit;
         }
+        .btn-prev { background: #e2e8f0; color: var(--text-muted); }
+        .btn-next { background: var(--primary); color: white; flex-grow: 1; }
+        .btn-next:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .btn-download {
-            background: #059669;
-            margin-bottom: 10px;
-        }
-
-        #resultArea { display: none; margin-top: 30px; }
-
-        #pdfContent { padding: 20px; }
-
-        .user-info-display {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+        /* Result Styles */
+        .score-card {
+            padding: 20px;
             border: 1px solid #e2e8f0;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            font-size: 0.85rem;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        .score-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-        }
-
-        .score-table th, .score-table td {
-            padding: 15px;
-            border: 1px solid #e2e8f0;
-            text-align: center;
-        }
-
         .tag {
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
             font-weight: 800;
-            color: white;
             text-transform: uppercase;
-            font-size: 0.75rem;
         }
+        .cat-normal { background: #dcfce7; color: #166534; }
+        .cat-ringan { background: #fef9c3; color: #854d0e; }
+        .cat-sedang { background: #ffedd5; color: #9a3412; }
+        .cat-berat { background: #fee2e2; color: #991b1b; }
+        .cat-sangat-berat { background: #450a0a; color: white; }
 
-        .cat-normal { background: #10b981; color: white; }
-        .cat-ringan { background: #f59e0b; color: white; }
-        .cat-sedang { background: #f97316; color: white; }
-        .cat-berat { background: #ef4444; color: white; }
-        .cat-sangat-berat { background: #7f1d1d; color: white; }
-
-        /* Sembunyikan tombol saat print/download */
-        .no-print { display: block; }
+        .no-print { margin-top: 30px; display: flex; flex-direction: column; gap: 10px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="pdfWrapper"> <header>
-            <h1>Assessment Test DJBC 2026</h1>
-            <p class="subtitle">TIM DUKUNGAN KESEHATAN MENTAL DJBC 2026</p>
-        </header>
+<div class="container" id="mainContainer">
+    <header>
+        <h1>DASS-21 Assessment</h1>
+        <div class="subtitle">Dukungan Kesehatan Mental DJBC 2026</div>
+    </header>
 
-        <div id="quizSection">
-            <div class="identity-section">
-                <h3 style="margin-top:0; font-size: 1rem; color: var(--primary);">Identitas Peserta</h3>
-                <div class="form-group">
-                    <label>Nama Lengkap</label>
-                    <input type="text" id="userName" placeholder="Masukkan nama lengkap" required>
-                </div>
-                <div class="form-group">
-                    <label>NIP</label>
-                    <input type="text" id="userNIP" placeholder="Masukkan NIP" required>
-                </div>
-                <div class="form-group">
-                    <label>Jabatan / Unit Kerja</label>
-                    <input type="text" id="userJabatan" placeholder="Masukkan jabatan" required>
-                </div>
-            </div>
+    <div class="progress-container" id="progressWrapper">
+        <div id="progressBar"></div>
+    </div>
 
-            <div class="instruction">
-                <strong>Petunjuk:</strong> Silakan pilih jawaban yang paling menggambarkan keadaan Anda selama seminggu terakhir.
-            </div>
+    <div id="step-identity" class="step active">
+        <div class="form-group">
+            <label>Nama Lengkap</label>
+            <input type="text" id="userName" placeholder="Contoh: Budi Santoso">
+        </div>
+        <div class="form-group">
+            <label>NIP</label>
+            <input type="text" id="userNIP" placeholder="Masukkan 18 digit NIP">
+        </div>
+        <div class="form-group">
+            <label>Unit Kerja / Jabatan</label>
+            <input type="text" id="userJabatan" placeholder="Contoh: KPU Bea Cukai Tanjung Priok">
+        </div>
+        <button class="btn btn-next" onclick="startQuiz()" style="width: 100%;">Mulai Tes</button>
+    </div>
 
-            <form id="dassForm">
-                <div id="questionsList"></div>
-                <button type="button" class="btn-submit" onclick="processResults()">Kirim & Lihat Hasil Analisis</button>
-            </form>
+    <div id="quiz-container"></div>
+
+    <div id="step-result" class="step">
+        <div id="pdfContent">
+            <h2 style="text-align: center; margin-bottom: 5px;">Hasil Analisis Kesehatan Mental</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Laporan Rahasia Internal DJBC</p>
+            
+            <div id="userInfoDisplay" style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px; font-size: 0.9rem; line-height: 1.6;"></div>
+            
+            <div id="resultCards"></div>
+            
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 20px; font-style: italic;">
+                *Instrumen DASS-21 adalah alat skrining, bukan diagnosa klinis definitif. Jika hasil menunjukkan indikasi berat, disarankan berkonsultasi dengan profesional.
+            </p>
         </div>
 
-        <div id="resultArea">
-            <div id="pdfExportArea">
-                <h2 style="text-align:center; color: var(--primary);">Laporan Hasil Tes DASS-21</h2>
-                <div class="user-info-display" id="userInfoBox"></div>
-                
-                <table class="score-table">
-                    <thead>
-                        <tr>
-                            <th>Subskala</th>
-                            <th>Skor (x2)</th>
-                            <th>Interpretasi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultBody"></tbody>
-                </table>
-
-                <p style="font-size: 0.85rem; color: #64748b; line-height: 1.6;">
-                    *Hasil ini bersifat rahasia dan digunakan untuk kepentingan dukungan kesehatan mental internal DJBC.
-                </p>
-            </div>
-
-            <div class="no-print">
-                <button class="btn-submit btn-download" onclick="downloadPDF()">Unduh Hasil (PDF)</button>
-                <button class="btn-submit" style="background:#64748b" onclick="location.reload()">Ulangi Tes</button>
-            </div>
+        <div class="no-print">
+            <button class="btn btn-next" onclick="downloadPDF()" style="background: var(--success);">Unduh Hasil (PDF)</button>
+            <button class="btn btn-prev" onclick="location.reload()">Ulangi Tes Dari Awal</button>
         </div>
     </div>
 </div>
 
 <script>
-    // Data pertanyaan & mapping (Sama seperti sebelumnya)
-    const questionsData = [
+    const questions = [
         "Saya merasa sulit untuk bersantai", "Saya merasa mulut saya sering kering", "Saya sama sekali tidak dapat merasakan perasaan positif",
         "Saya mengalami kesulitan bernafas (terengah-engah tanpa aktivitas fisik)", "Saya sepertinya tidak kuat lagi untuk melakukan suatu kegiatan",
         "Saya cenderung bereaksi berlebihan terhadap suatu situasi", "Saya merasa gemetar (misalnya: pada tangan)",
         "Saya merasa telah menghabiskan banyak energi disaat merasa cemas", "Saya merasa khawatir dengan situasi dimana saya mungkin menjadi panik",
-        "Saya merasa tidak ada hal yang dapat diharapkan di masa depan", "Saya mendapati diri saya gelisah", "Saya merasa sulit untuk bersantai",
+        "Saya merasa tidak ada hal yang dapat diharapkan di masa depan", "Saya mendapati diri saya gelisah", "Saya merasa sulit untuk tenang",
         "Saya merasa sedih dan tertekan", "Saya sulit untuk sabar dalam menghadapi gangguan", "Saya merasa saya hampir panik",
         "Saya tidak merasa antusias dalam hal apapun", "Saya merasa bahwa saya tidak berharga sebagai seorang manusia",
         "Saya merasa bahwa saya mudah tersinggung", "Saya menyadari perubahan detak jantung tanpa aktivitas fisik",
@@ -264,103 +219,173 @@
 
     const mapping = ["S", "A", "D", "A", "D", "S", "A", "S", "A", "D", "S", "S", "D", "S", "A", "D", "D", "S", "A", "A", "D"];
     const labels = ["Tidak Pernah", "Kadang-kadang", "Cukup Sering", "Sangat Sering"];
+    
+    let currentStep = -1; // -1 is Identity
+    let answers = new Array(questions.length).fill(null);
 
-    const questionsList = document.getElementById('questionsList');
-    questionsData.forEach((q, i) => {
-        questionsList.innerHTML += `
-            <div class="question-item">
-                <span class="question-text">${i + 1}. ${q}</span>
-                <div class="options">
-                    ${labels.map((label, val) => `
-                        <label><input type="radio" name="q${i}" value="${val}" required><span class="option-label">${label}</span></label>
+    function startQuiz() {
+        const name = document.getElementById('userName').value;
+        const nip = document.getElementById('userNIP').value;
+        if(!name || !nip) { alert("Mohon lengkapi identitas."); return; }
+        
+        document.getElementById('step-identity').classList.remove('active');
+        document.getElementById('progressWrapper').style.display = 'block';
+        currentStep = 0;
+        renderQuestion();
+    }
+
+    function renderQuestion() {
+        const container = document.getElementById('quiz-container');
+        const progress = ((currentStep + 1) / questions.length) * 100;
+        document.getElementById('progressBar').style.width = `${progress}%`;
+
+        container.innerHTML = `
+            <div class="step active">
+                <span class="question-number">Pertanyaan ${currentStep + 1} dari ${questions.length}</span>
+                <div class="question-text">${questions[currentStep]}</div>
+                <div class="options-list">
+                    ${labels.map((label, i) => `
+                        <div class="option-item ${answers[currentStep] === i ? 'selected' : ''}" onclick="selectOption(${i})">
+                            ${label}
+                        </div>
                     `).join('')}
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-prev" onclick="prevStep()">${currentStep === 0 ? 'Kembali ke Identitas' : 'Kembali'}</button>
+                    ${currentStep === questions.length - 1 ? 
+                        `<button class="btn btn-next" id="btnFinish" ${answers[currentStep] === null ? 'disabled' : ''} onclick="showResults()">Lihat Hasil</button>` : 
+                        `<button class="btn btn-next" id="btnNext" ${answers[currentStep] === null ? 'disabled' : ''} onclick="nextStep()">Lanjut</button>`
+                    }
                 </div>
             </div>
         `;
-    });
+    }
 
-    function getInterpretation(score, type) {
-        if (type === "D") {
-            if (score <= 9) return { text: "Normal", class: "cat-normal" };
-            if (score <= 13) return { text: "Ringan", class: "cat-ringan" };
-            if (score <= 20) return { text: "Sedang", class: "cat-sedang" };
-            if (score <= 27) return { text: "Berat", class: "cat-berat" };
-            return { text: "Sangat Berat", class: "cat-sangat-berat" };
-        }
-        if (type === "A") {
-            if (score <= 7) return { text: "Normal", class: "cat-normal" };
-            if (score <= 9) return { text: "Ringan", class: "cat-ringan" };
-            if (score <= 14) return { text: "Sedang", class: "cat-sedang" };
-            if (score <= 19) return { text: "Berat", class: "cat-berat" };
-            return { text: "Sangat Berat", class: "cat-sangat-berat" };
-        }
-        if (type === "S") {
-            if (score <= 14) return { text: "Normal", class: "cat-normal" };
-            if (score <= 18) return { text: "Ringan", class: "cat-ringan" };
-            if (score <= 25) return { text: "Sedang", class: "cat-sedang" };
-            if (score <= 33) return { text: "Berat", class: "cat-berat" };
-            return { text: "Sangat Berat", class: "cat-sangat-berat" };
+    function selectOption(val) {
+        answers[currentStep] = val;
+        // Visual feedback
+        const items = document.querySelectorAll('.option-item');
+        items.forEach((item, i) => {
+            if(i === val) item.classList.add('selected');
+            else item.classList.remove('selected');
+        });
+        
+        // Auto-next dengan delay sedikit agar user sempat melihat pilihannya
+        setTimeout(() => {
+            if (currentStep < questions.length - 1) {
+                nextStep();
+            } else {
+                document.getElementById('btnFinish').disabled = false;
+            }
+        }, 300);
+    }
+
+    function nextStep() {
+        if (currentStep < questions.length - 1) {
+            currentStep++;
+            renderQuestion();
         }
     }
 
-    function processResults() {
+    function prevStep() {
+        if (currentStep === 0) {
+            currentStep = -1;
+            document.getElementById('quiz-container').innerHTML = '';
+            document.getElementById('step-identity').classList.add('active');
+            document.getElementById('progressWrapper').style.display = 'none';
+        } else {
+            currentStep--;
+            renderQuestion();
+        }
+    }
+
+    function getInterpretation(score, type) {
+        const data = {
+            D: { 
+                name: "Depresi",
+                levels: [
+                    { max: 9, label: "Normal", class: "cat-normal" },
+                    { max: 13, label: "Ringan", class: "cat-ringan" },
+                    { max: 20, label: "Sedang", class: "cat-sedang" },
+                    { max: 27, label: "Berat", class: "cat-berat" },
+                    { max: Infinity, label: "Sangat Berat", class: "cat-sangat-berat" }
+                ]
+            },
+            A: { 
+                name: "Kecemasan",
+                levels: [
+                    { max: 7, label: "Normal", class: "cat-normal" },
+                    { max: 9, label: "Ringan", class: "cat-ringan" },
+                    { max: 14, label: "Sedang", class: "cat-sedang" },
+                    { max: 19, label: "Berat", class: "cat-berat" },
+                    { max: Infinity, label: "Sangat Berat", class: "cat-sangat-berat" }
+                ]
+            },
+            S: { 
+                name: "Stres",
+                levels: [
+                    { max: 14, label: "Normal", class: "cat-normal" },
+                    { max: 18, label: "Ringan", class: "cat-ringan" },
+                    { max: 25, label: "Sedang", class: "cat-sedang" },
+                    { max: 33, label: "Berat", class: "cat-berat" },
+                    { max: Infinity, label: "Sangat Berat", class: "cat-sangat-berat" }
+                ]
+            }
+        };
+        const config = data[type];
+        const res = config.levels.find(l => score <= l.max);
+        return { ...res, title: config.name };
+    }
+
+    function showResults() {
+        document.getElementById('quiz-container').innerHTML = '';
+        document.getElementById('progressWrapper').style.display = 'none';
+        document.getElementById('step-result').classList.add('active');
+
+        let scores = { D: 0, A: 0, S: 0 };
+        answers.forEach((val, i) => {
+            scores[mapping[i]] += val;
+        });
+
+        // Display Info
         const name = document.getElementById('userName').value;
         const nip = document.getElementById('userNIP').value;
         const jabatan = document.getElementById('userJabatan').value;
-
-        if (!name || !nip || !jabatan) { alert("Harap isi identitas terlebih dahulu."); return; }
-
-        const form = document.getElementById('dassForm');
-        const formData = new FormData(form);
-        let scores = { D: 0, A: 0, S: 0 };
-        let count = 0;
-
-        for (let i = 0; i < questionsData.length; i++) {
-            const val = formData.get(`q${i}`);
-            if (val !== null) { scores[mapping[i]] += parseInt(val); count++; }
-        }
-
-        if (count < 21) { alert("Mohon selesaikan semua pertanyaan."); return; }
-
-        document.getElementById('quizSection').style.display = 'none';
-        document.getElementById('resultArea').style.display = 'block';
-
-        document.getElementById('userInfoBox').innerHTML = `
-            <div><strong>Nama:</strong><br>${name}</div>
-            <div><strong>NIP:</strong><br>${nip}</div>
-            <div><strong>Jabatan:</strong><br>${jabatan}</div>
+        document.getElementById('userInfoDisplay').innerHTML = `
+            <strong>Nama:</strong> ${name}<br>
+            <strong>NIP:</strong> ${nip}<br>
+            <strong>Unit/Jabatan:</strong> ${jabatan}<br>
+            <strong>Waktu Tes:</strong> ${new Date().toLocaleString('id-ID')}
         `;
 
-        const subscales = [{ id: "D", name: "Depresi" }, { id: "A", name: "Kecemasan" }, { id: "S", name: "Stres" }];
-        document.getElementById('resultBody').innerHTML = subscales.map(sub => {
-            const finalScore = scores[sub.id] * 2;
-            const interpret = getInterpretation(finalScore, sub.id);
-            return `<tr><td style="text-align:left">${sub.name}</td><td>${finalScore}</td><td><span class="tag ${interpret.class}">${interpret.text}</span></td></tr>`;
+        // Display Cards
+        const subscales = ['D', 'A', 'S'];
+        document.getElementById('resultCards').innerHTML = subscales.map(sub => {
+            const finalScore = scores[sub] * 2;
+            const interpret = getInterpretation(finalScore, sub);
+            return `
+                <div class="score-card">
+                    <div>
+                        <div style="font-weight:700; font-size: 1.1rem;">${interpret.title}</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">Skor: ${finalScore}</div>
+                    </div>
+                    <span class="tag ${interpret.class}">${interpret.label}</span>
+                </div>
+            `;
         }).join('');
-        
-        window.scrollTo(0, 0);
     }
 
-    // FUNGSI DOWNLOAD PDF
     function downloadPDF() {
-        const element = document.getElementById('pdfWrapper');
-        const buttons = document.querySelector('.no-print');
+        const element = document.getElementById('pdfContent');
         const nip = document.getElementById('userNIP').value;
-        
-        // Sembunyikan tombol saat proses convert ke PDF
-        buttons.style.display = 'none';
-
         const opt = {
-            margin:       10,
-            filename:     `Hasil_DASS21_${nip}.pdf`,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            margin: 15,
+            filename: `DASS21_Result_${nip}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
-
-        html2pdf().set(opt).from(element).save().then(() => {
-            buttons.style.display = 'block'; // Tampilkan kembali tombol setelah selesai
-        });
+        html2pdf().set(opt).from(element).save();
     }
 </script>
 
