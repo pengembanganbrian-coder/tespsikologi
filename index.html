@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pusat Tes Psikologi</title>
+    <title>Assessment Test DJBC 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #fdfdfd;
-            --card-border: #f1f5f9;
+            --bg: #f8fafc;
+            --card-border: #e2e8f0;
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --accent: #4f46e5;
+            --djbc-blue: #1e3a8a; /* Biru formal instansi */
+            --djbc-gold: #b45309; /* Aksen emas */
         }
 
         body {
@@ -37,29 +38,33 @@
         }
 
         header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 12px;
-            letter-spacing: -1px;
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: var(--djbc-blue);
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         header p {
-            color: var(--text-muted);
+            color: var(--djbc-gold);
             font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 0;
         }
 
         .test-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
+            gap: 20px;
         }
 
         .test-card {
             background: white;
             border: 1px solid var(--card-border);
-            padding: 32px;
-            border-radius: 20px;
+            padding: 35px 25px;
+            border-radius: 16px;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             color: inherit;
             display: flex;
@@ -68,39 +73,45 @@
         }
 
         .test-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+            border-color: var(--djbc-blue);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(30, 58, 138, 0.1);
         }
 
         .test-icon {
-            width: 60px;
-            height: 60px;
-            background: #eef2ff;
-            border-radius: 14px;
+            width: 50px;
+            height: 50px;
+            background: #f1f5f9;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 22px;
             margin-bottom: 20px;
-            color: var(--accent);
         }
 
         .test-card h3 {
             margin: 0 0 10px 0;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
         }
 
         .test-card p {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
         }
 
         @media (max-width: 768px) {
-            header h1 { font-size: 1.8rem; }
+            header h1 { font-size: 1.5rem; }
+            header p { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -108,34 +119,38 @@
 
 <div class="wrapper">
     <header>
-        <h1>Platform Asesmen Mandiri</h1>
-        <p>Silakan pilih modul tes yang ingin dikerjakan</p>
+        <h1>Assessment Test DJBC 2026</h1>
+        <p>Tim Dukungan Kesehatan Mental DJBC 2026</p>
     </header>
 
     <div class="test-grid">
         <a href="DASS/index.html" class="test-card">
-            <div class="test-icon">📊</div>
-            <h3>DASS</h3>
-            <p>Mengukur tingkat Depresi, Kecemasan (Anxiety), dan Stres.</p>
+            <div class="test-icon">🧠</div>
+            <h3>Tes DASS</h3>
+            <p>Evaluasi kondisi psikologis terkait tingkat depresi, kecemasan, dan stres.</p>
         </a>
 
         <a href="papikostick/index.html" class="test-card">
             <div class="test-icon">📋</div>
             <h3>PAPI Kostick</h3>
-            <p>Evaluasi preferensi perilaku dan gaya kerja di lingkungan profesional.</p>
+            <p>Pengukuran kecenderungan perilaku dan gaya kerja dalam organisasi.</p>
         </a>
 
         <a href="tesdisc/index.html" class="test-card">
             <div class="test-icon">🎯</div>
             <h3>DISC Test</h3>
-            <p>Analisis tipe kepribadian berdasarkan dominansi dan pengaruh sosial.</p>
+            <p>Identifikasi tipe kepribadian dalam interaksi sosial dan profesional.</p>
         </a>
 
         <a href="tesmbti/index.html" class="test-card">
             <div class="test-icon">✨</div>
             <h3>MBTI</h3>
-            <p>Identifikasi tipe kepribadian melalui 16 profil psikologis yang berbeda.</p>
+            <p>Pemetaan tipe kepribadian berdasarkan preferensi psikologis individu.</p>
         </a>
+    </div>
+
+    <div class="footer-note">
+        &copy; 2026 DJBC - Kerahasiaan data peserta sepenuhnya terlindungi.
     </div>
 </div>
 
