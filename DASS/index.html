@@ -1,1 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tes DASS-21 - DJBC 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --primary: #1e3a8a;
+            --accent: #b45309;
+            --text: #1e293b;
+            --card-bg: #ffffff;
+        }
 
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid #f1f5f9;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        h1 { color: var(--primary); margin: 0; font-size: 1.8rem; }
+        .subtitle { color: var(--accent); font-weight: 600; font-size: 0.9rem; margin-top: 5px; }
+
+        .instruction {
+            background: #eff6ff;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .question-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #f1f5f9;
+            transition: border-color 0.2s;
+        }
+
+        .question-item:hover { border-color: #cbd5e1; }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+            font-size: 1.05rem;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-align: center;
+            min-height: 40px;
+        }
+
+        input[type="radio"] { display: none; }
+
+        input[type="radio"]:checked + .option-label {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.3);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: opacity 0.2s;
+        }
+
+        #resultArea {
+            display: none;
+            margin-top: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: #fff;
+        }
+
+        .score-table th, .score-table td {
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .score-table th { background: #f8fafc; color: var(--primary); }
+
+        .tag {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 800;
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            display: inline-block;
+        }
+
+        .cat-normal { background: #10b981; }
+        .cat-ringan { background: #f59e0b; }
+        .cat-sedang { background: #f97316; }
+        .cat-berat { background: #ef4444; }
+        .cat-sangat-berat { background: #7f1d1d; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Assessment Test DJBC 2026</h1>
+        <p class="subtitle">TIM DUKUNGAN KESEHATAN MENTAL DJBC 2026</p>
+    </header>
+
+    <div id="quizSection">
+        <div class="instruction">
+            <strong>Petunjuk:</strong> Silakan baca setiap pernyataan dan pilih jawaban yang paling menggambarkan keadaan Anda <strong>selama seminggu terakhir</strong>.
+        </div>
+
+        <form id="dassForm">
+            <div id="questionsList"></div>
+            <button type="button" class="btn-submit" onclick="processResults()">Kirim & Lihat Hasil Analisis</button>
+        </form>
+    </div>
+
+    <div id="resultArea">
+        <h2 style="text-align:center; color: var(--primary);">Hasil Analisis Psikologis</h2>
+        <div style="background: #fdf2f2; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; color: #991b1b; text-align: center;">
+            Interpretasi skor berdasarkan norma DASS-21 (Skor telah dikalikan 2).
+        </div>
+        
+        <table class="score-table">
+            <thead>
+                <tr>
+                    <th>Subskala</th>
+                    <th>Total Skor (x2)</th>
+                    <th>Kategori Interpretasi</th>
+                </tr>
+            </thead>
+            <tbody id="resultBody"></tbody>
+        </table>
+
+        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.6;">
+            <strong>Catatan:</strong> Hasil ini merupakan gambaran kondisi saat ini dan bukan merupakan diagnosa klinis final. Jika Anda memerlukan tindak lanjut atau diskusi lebih mendalam, silakan hubungi <strong>Tim Dukungan Kesehatan Mental DJBC</strong>.
+        </p>
+        <button class="btn-submit" style="background:#64748b" onclick="location.reload()">Ulangi Tes</button>
+    </div>
+</div>
+
+<script>
+    const questionsData = [
+        "Saya merasa sulit untuk bersantai",
+        "Saya merasa mulut saya sering kering",
+        "Saya sama sekali tidak dapat merasakan perasaan positif",
+        "Saya mengalami kesulitan bernafas (terengah-engah tanpa aktivitas fisik)",
+        "Saya sepertinya tidak kuat lagi untuk melakukan suatu kegiatan",
+        "Saya cenderung bereaksi berlebihan terhadap suatu situasi",
+        "Saya merasa gemetar (misalnya: pada tangan)",
+        "Saya merasa telah menghabiskan banyak energi disaat merasa cemas",
+        "Saya merasa khawatir dengan situasi dimana saya mungkin menjadi panik dan mempermalukan diri sendiri",
+        "Saya merasa tidak ada hal yang dapat diharapkan di masa depan",
+        "Saya mendapati diri saya gelisah",
+        "Saya merasa sulit untuk bersantai",
+        "Saya merasa sedih dan tertekan",
+        "Saya sulit untuk sabar dalam menghadapi gangguan terhadap hal yang sedang saya lakukan",
+        "Saya merasa saya hampir panik",
+        "Saya tidak merasa antusias dalam hal apapun",
+        "Saya merasa bahwa saya tidak berharga sebagai seorang manusia",
+        "Saya merasa bahwa saya mudah tersinggung",
+        "Saya menyadari perubahan detak jantung, walaupun tidak sehabis melakukan aktivitas fisik",
+        "Saya merasa takut tanpa alasan yang jelas",
+        "Saya merasa bahwa hidup tidak bermanfaat"
+    ];
+
+    // Mapping based on your document
+    // D=Depression, A=Anxiety, S=Stress
+    const mapping = ["S", "A", "D", "A", "D", "S", "A", "S", "A", "D", "S", "S", "D", "S", "A", "D", "D", "S", "A", "A", "D"];
+    const labels = ["Tidak Pernah", "Kadang-kadang", "Cukup Sering", "Sangat Sering"];
+
+    const questionsList = document.getElementById('questionsList');
+    questionsData.forEach((q, i) => {
+        questionsList.innerHTML += `
+            <div class="question-item">
+                <span class="question-text">${i + 1}. ${q}</span>
+                <div class="options">
+                    ${labels.map((label, val) => `
+                        <label>
+                            <input type="radio" name="q${i}" value="${val}" required>
+                            <span class="option-label">${label}</span>
+                        </label>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    });
+
+    function getInterpretation(score, type) {
+        if (type === "D") { // Depresi
+            if (score <= 9) return { text: "Normal", class: "cat-normal" };
+            if (score <= 13) return { text: "Ringan", class: "cat-ringan" };
+            if (score <= 20) return { text: "Sedang", class: "cat-sedang" };
+            if (score <= 27) return { text: "Berat", class: "cat-berat" };
+            return { text: "Sangat Berat", class: "cat-sangat-berat" };
+        }
+        if (type === "A") { // Kecemasan
+            if (score <= 7) return { text: "Normal", class: "cat-normal" };
+            if (score <= 9) return { text: "Ringan", class: "cat-ringan" };
+            if (score <= 14) return { text: "Sedang", class: "cat-sedang" };
+            if (score <= 19) return { text: "Berat", class: "cat-berat" };
+            return { text: "Sangat Berat", class: "cat-sangat-berat" };
+        }
+        if (type === "S") { // Stres
+            if (score <= 14) return { text: "Normal", class: "cat-normal" };
+            if (score <= 18) return { text: "Ringan", class: "cat-ringan" };
+            if (score <= 25) return { text: "Sedang", class: "cat-sedang" };
+            if (score <= 33) return { text: "Berat", class: "cat-berat" };
+            return { text: "Sangat Berat", class: "cat-sangat-berat" };
+        }
+    }
+
+    function processResults() {
+        const form = document.getElementById('dassForm');
+        const formData = new FormData(form);
+        let scores = { D: 0, A: 0, S: 0 };
+        let count = 0;
+
+        for (let i = 0; i < questionsData.length; i++) {
+            const val = formData.get(`q${i}`);
+            if (val !== null) {
+                scores[mapping[i]] += parseInt(val);
+                count++;
+            }
+        }
+
+        if (count < 21) {
+            alert("Harap jawab semua pertanyaan sebelum melihat hasil.");
+            return;
+        }
+
+        document.getElementById('quizSection').style.display = 'none';
+        document.getElementById('resultArea').style.display = 'block';
+
+        const subscales = [
+            { id: "D", name: "Depresi (Depression)" },
+            { id: "A", name: "Kecemasan (Anxiety)" },
+            { id: "S", name: "Stres (Stress)" }
+        ];
+
+        const resultBody = document.getElementById('resultBody');
+        resultBody.innerHTML = subscales.map(sub => {
+            const finalScore = scores[sub.id] * 2; // Formula from document
+            const interpret = getInterpretation(finalScore, sub.id);
+            return `
+                <tr>
+                    <td style="text-align: left; font-weight: 600;">${sub.name}</td>
+                    <td style="font-size: 1.2rem; font-weight: 700;">${finalScore}</td>
+                    <td><span class="tag ${interpret.class}">${interpret.text}</span></td>
+                </tr>
+            `;
+        }).join('');
+        
+        window.scrollTo(0, 0);
+    }
+</script>
+
+</body>
+</html>
