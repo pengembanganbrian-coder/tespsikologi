@@ -3,279 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tes PAPI Kostick Online</title>
+    <title>Sistem Tes PAPI Kostick - Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .radar-container { max-width: 600px; margin: auto; }
         @media print { .no-print { display: none; } }
+        .sticky-header { position: sticky; top: 0; z-index: 50; background: white; border-bottom: 2px solid #e5e7eb; }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="bg-slate-100 font-sans text-slate-800">
 
-    <div class="max-w-4xl mx-auto my-10 bg-white p-8 rounded-xl shadow-md">
-        <div class="text-center border-b-2 border-blue-600 pb-4 mb-8">
-            <h1 class="text-3xl font-extrabold text-gray-800">TES PAPI KOSTICK</h1>
-            <p class="text-gray-500 italic">Perception and Preference Inventory</p>
+    <div class="max-w-5xl mx-auto my-8 bg-white shadow-2xl rounded-2xl overflow-hidden">
+        <div class="bg-indigo-700 p-6 text-white text-center">
+            <h1 class="text-3xl font-bold">PAPI KOSTICK TEST</h1>
+            <p class="opacity-80">Perception and Preference Inventory</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 bg-blue-50 p-6 rounded-lg">
-            <div>
-                <label class="block text-sm font-semibold text-gray-600">Nama Lengkap</label>
-                <input type="text" id="nama" class="w-full p-2 border rounded mt-1 focus:ring-2 focus:ring-blue-400 outline-none">
-            </div>
-            <div>
-                <label class="block text-sm font-semibold text-gray-600">NIP / ID Karyawan</label>
-                <input type="text" id="nip" class="w-full p-2 border rounded mt-1 focus:ring-2 focus:ring-blue-400 outline-none">
-            </div>
-            <div>
-                <label class="block text-sm font-semibold text-gray-600">Jabatan</label>
-                <input type="text" id="jabatan" class="w-full p-2 border rounded mt-1 focus:ring-2 focus:ring-blue-400 outline-none">
-            </div>
-            <div>
-                <label class="block text-sm font-semibold text-gray-600">Tanggal Tes</label>
-                <input type="date" id="tanggal" class="w-full p-2 border rounded mt-1 focus:ring-2 focus:ring-blue-400 outline-none">
-            </div>
-        </div>
-
-        <div class="mb-8 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-sm text-yellow-800">
-            <strong>Instruksi:</strong> Pilihlah satu pernyataan (A atau B) yang paling menggambarkan diri Anda pada setiap nomor. Tidak ada jawaban benar atau salah.
-        </div>
-
-        <form id="papiForm">
-            <div id="soal-container" class="space-y-6">
+        <div class="p-8 border-b">
+            <h2 class="text-xl font-semibold mb-4 text-indigo-700">Identitas Peserta</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
+                    <input type="text" id="nama" placeholder="Masukkan nama..." class="w-full border p-2 rounded-md outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">NIP / Nomor Induk</label>
+                    <input type="text" id="nip" placeholder="Masukkan NIP..." class="w-full border p-2 rounded-md outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Jabatan</label>
+                    <input type="text" id="jabatan" placeholder="Jabatan saat ini..." class="w-full border p-2 rounded-md outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Tanggal Tes</label>
+                    <input type="date" id="tanggal" class="w-full border p-2 rounded-md outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+            </div>
+        </div>
 
-            <button type="button" onclick="prosesHasil()" class="no-print w-full bg-blue-600 text-white font-bold py-4 mt-10 rounded-lg shadow-lg hover:bg-blue-700 transition">
-                SUBMIT & LIHAT HASIL
+        <div class="p-8 bg-amber-50 text-amber-900 text-sm italic">
+            <strong>Cara Mengerjakan:</strong> Di bawah ini terdapat 90 pasang pernyataan. Pilihlah salah satu dari pasangan pernyataan tersebut (A atau B) yang paling mendekati menggambarkan diri Anda. Anda harus memilih salah satu meskipun kedua pernyataan tersebut tidak ada yang benar-benar pas di hati Anda.
+        </div>
+
+        <div id="quiz-form" class="p-8 space-y-8">
+            </div>
+
+        <div class="p-8 bg-slate-50 text-center no-print">
+            <button onclick="kalkulasiHasil()" class="bg-indigo-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-indigo-700 shadow-lg transform transition hover:scale-105">
+                Selesai & Proses Skor
             </button>
-        </form>
+        </div>
 
-        <div id="hasil-section" class="hidden mt-16 pt-10 border-t-2 border-gray-200">
-            <h2 class="text-2xl font-bold text-center mb-6 text-blue-800">PROFIL KEPRIBADIAN</h2>
+        <div id="hasil-container" class="hidden p-8 border-t-4 border-indigo-600">
+            <h2 class="text-2xl font-bold text-center mb-8">HASIL ANALISIS PROFIL</h2>
             
-            <div class="radar-container">
-                <canvas id="papiChart"></canvas>
-            </div>
-
-            <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4" id="ringkasan-skor">
+            <div class="flex flex-col md:flex-row items-center gap-10">
+                <div class="w-full md:w-1/2">
+                    <canvas id="papiChart"></canvas>
                 </div>
-
-            <div class="mt-10 no-print flex justify-center">
-                <button onclick="window.print()" class="bg-gray-800 text-white px-6 py-2 rounded hover:bg-black">Cetak Hasil (PDF)</button>
+                <div class="w-full md:w-1/2 grid grid-cols-4 gap-2 text-center" id="skor-box">
+                    </div>
             </div>
+
+            <div class="mt-10 p-6 bg-slate-100 rounded-lg">
+                <h3 class="font-bold mb-2">Keterangan Aspek:</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 text-xs gap-2">
+                    <span><strong>G:</strong> Peran Pekerja Keras</span>
+                    <span><strong>L:</strong> Peran Pemimpin</span>
+                    <span><strong>I:</strong> Peran Membuat Keputusan</span>
+                    <span><strong>T:</strong> Peran Perencanaan</span>
+                    <span><strong>V:</strong> Peran Kuat/Sregep</span>
+                    <span><strong>S:</strong> Hubungan Sosial</span>
+                    <span><strong>R:</strong> Teoretis/Konseptual</span>
+                    <span><strong>D:</strong> Minat pada Rincian</span>
+                    <span><strong>C:</strong> Kontrol Diri</span>
+                    <span><strong>E:</strong> Emosionalitas</span>
+                </div>
+            </div>
+
+            <button onclick="window.print()" class="mt-8 w-full bg-slate-800 text-white py-2 rounded no-print">Cetak Hasil ke PDF</button>
         </div>
     </div>
 
     <script>
-        // DATA 90 SOAL PAPI KOSTICK
-        const dataSoal = [
+        // DATA 90 SOAL LENGKAP
+        const soalPapi = [
             ["Saya seorang pekerja keras", "Saya bukan seorang pemurung"],
-            ["Saya suka bekerja lebih baik dari orang lain", "Saya suka mengerjakan apa yang sedang saya kerjakan, sampai selesai"],
-            ["Saya suka menunjukkan pada orang lain bagaimana melakukan sesuatu", "Saya suka melakukan yang terbaik dalam apa saja"],
-            ["Saya suka melakukan hal-hal yang lucu", "Saya suka mengatakan kepada orang lain apa yang harus dilakukannya"],
-            ["Saya suka bergabung dengan kelompok-kelompok", "Saya suka diperhatikan oleh kelompok"],
-            ["Saya suka membuat kawan karib", "Saya suka berteman dengan kelompok"],
-            ["Saya cepat berubah jika hal itu diperlukan", "Saya suka mencoba membuat kawan karib"],
-            ["Saya suka membalas dendam jika saya disakiti", "Saya suka melakukan hal-hal yang baru dan berbeda"],
-            ["Saya suka atasan saya menyukai saya", "Saya suka mengatakan kepada orang lain jika mereka salah"],
-            ["Saya suka mengikuti petunjuk-petunjuk yang diberikan kepada saya", "Saya suka menyenangkan hati atasan saya"],
-            ["Saya mencoba sekuat tenaga", "Saya seorang tertib. Saya meletakkan segala sesuatu pada tempatnya"],
-            ["Saya membuat orang lain melakukan apa yang saya inginkan", "Saya bukan seorang yang cepat gusar"],
-            ["Saya suka menunjukkan kepada orang lain bagaimana melakukan sesuatu", "Saya melakukan apa yang diharapkan dari saya"],
-            ["Saya suka menjadi pusat perhatian", "Saya suka melakukan sesuatu sampai selesai"],
-            ["Saya suka merasa menjadi bagian dari kelompok", "Saya suka melakukan yang terbaik dalam apa saja"],
-            ["Saya suka membuat kawan karib", "Saya suka membimbing orang lain"],
-            ["Saya suka mencoba hal-hal yang baru", "Saya suka melakukan hal-hal yang lucu"],
-            ["Jika saya benar, saya suka mempertahankannya", "Saya suka berteman dengan kelompok"],
-            ["Saya suka didekati oleh atasan saya", "Saya suka mencoba hal-hal yang baru dan berbeda"],
-            ["Saya suka mengikuti petunjuk-petunjuk dengan teliti", "Saya suka membiarkan orang lain mengetahui bahwa saya benar"],
-            ["Saya mencoba sekuat tenaga", "Saya seorang yang ramah tamah"],
-            ["Saya seorang pemimpin yang baik", "Saya selalu mengerjakan pekerjaan dengan teliti"],
-            ["Saya membuat orang lain melakukan apa yang saya inginkan", "Saya seorang yang tertib. Saya meletakkan sesuatu pada tempatnya"],
-            ["Saya suka menjadi pusat perhatian", "Saya seorang yang sangat tenang"],
-            ["Saya suka merasa menjadi bagian dari kelompok", "Saya melakukan apa yang diharapkan dari saya"],
-            ["Saya suka membuat kawan karib", "Saya suka melakukan sesuatu sampai selesai"],
-            ["Saya suka mencoba hal-hal yang baru dan berbeda", "Saya suka melakukan yang terbaik dalam setiap hal"],
-            ["Saya suka mempertahankan pendapat saya", "Saya suka membimbing orang lain"],
-            ["Saya suka diperintah oleh orang lain", "Saya suka melakukan hal-hal yang lucu"],
-            ["Saya suka mengikuti petunjuk-petunjuk dengan teliti", "Saya suka berteman dengan kelompok"],
-            ["Saya mencoba sekuat tenaga", "Saya tidak cepat merasa letih"],
-            ["Saya seorang pemimpin yang baik", "Saya seorang yang ramah tamah"],
-            ["Saya membuat orang lain melakukan apa yang saya inginkan", "Saya selalu mengerjakan pekerjaan dengan teliti"],
-            ["Saya suka menjadi pusat perhatian", "Saya seorang yang tertib. Meletakkan sesuatu pada tempatnya"],
-            ["Saya suka merasa menjadi bagian dari kelompok", "Saya seorang yang sangat tenang"],
-            ["Saya suka membuat kawan karib", "Saya melakukan apa yang diharapkan dari saya"],
-            ["Saya suka mencoba hal-hal yang baru dan berbeda", "Saya suka melakukan sesuatu sampai selesai"],
-            ["Saya suka mempertahankan pendapat saya", "Saya suka melakukan yang terbaik dalam setiap hal"],
-            ["Saya suka diperintah oleh orang lain", "Saya suka membimbing orang lain"],
-            ["Saya suka mengikuti petunjuk-petunjuk dengan teliti", "Saya suka melakukan hal-hal yang lucu"],
-            ["Saya mencoba sekuat tenaga", "Saya seorang yang cepat mengambil keputusan"],
-            ["Saya seorang pemimpin yang baik", "Saya tidak cepat merasa letih"],
-            ["Saya membuat orang lain melakukan apa yang saya inginkan", "Saya seorang yang ramah tamah"],
-            ["Saya suka menjadi pusat perhatian", "Saya selalu mengerjakan pekerjaan dengan teliti"],
-            ["Saya suka merasa menjadi bagian dari kelompok", "Saya seorang yang tertib. Meletakkan sesuatu pada tempatnya"],
-            ["Saya suka membuat kawan karib", "Saya seorang yang sangat tenang"],
-            ["Saya suka mencoba hal-hal yang baru dan berbeda", "Saya melakukan apa yang diharapkan dari saya"],
-            ["Saya suka mempertahankan pendapat saya", "Saya suka melakukan sesuatu sampai selesai"],
-            ["Saya suka diperintah oleh orang lain", "Saya suka melakukan yang terbaik dalam setiap hal"],
-            ["Saya suka mengikuti petunjuk-petunjuk dengan teliti", "Saya suka membimbing orang lain"],
-            ["Saya mencoba sekuat tenaga", "Saya seorang yang bersemangat"],
-            ["Saya seorang pemimpin yang baik", "Saya seorang yang cepat mengambil keputusan"],
-            ["Saya membuat orang lain melakukan apa yang saya inginkan", "Saya tidak cepat merasa letih"],
-            ["Saya suka menjadi pusat perhatian", "Saya seorang yang ramah tamah"],
-            ["Saya suka merasa menjadi bagian dari kelompok", "Saya selalu mengerjakan pekerjaan dengan teliti"],
-            ["Saya suka membuat kawan karib", "Saya seorang yang tertib. Meletakkan sesuatu pada tempatnya"],
-            ["Saya suka mencoba hal-hal yang baru dan berbeda", "Saya seorang yang sangat tenang"],
-            ["Saya suka mempertahankan pendapat saya", "Saya melakukan apa yang diharapkan dari saya"],
-            ["Saya suka diperintah oleh orang lain", "Saya suka melakukan sesuatu sampai selesai"],
-            ["Saya suka mengikuti petunjuk-petunjuk dengan teliti", "Saya suka melakukan yang terbaik dalam setiap hal"],
-            ["Saya mencoba sekuat tenaga", "Saya seorang yang banyak gerak"],
-            ["Saya seorang pemimpin yang baik", "Saya seorang yang bersemangat"],
-            ["Saya membuat orang lain melakukan apa yang saya inginkan", "Saya seorang yang cepat mengambil keputusan"],
-            ["Saya suka menjadi pusat perhatian", "Saya tidak cepat merasa letih"],
-            ["Saya suka merasa menjadi bagian dari kelompok", "Saya seorang yang ramah tamah"],
-            ["Saya suka membuat kawan karib", "Saya selalu mengerjakan pekerjaan dengan teliti"],
-            ["Saya suka mencoba hal-hal yang baru dan berbeda", "Saya seorang yang tertib. Meletakkan sesuatu pada tempatnya"],
-            ["Saya suka mempertahankan pendapat saya", "Saya seorang yang sangat tenang"],
-            ["Saya suka diperintah oleh orang lain", "Saya melakukan apa yang diharapkan dari saya"],
-            ["Saya suka mengikuti petunjuk-petunjuk dengan teliti", "Saya suka melakukan sesuatu sampai selesai"],
-            ["Saya mencoba sekuat tenaga", "Saya seorang yang tidak cepat marah"],
-            ["Saya seorang pemimpin yang baik", "Saya seorang yang banyak gerak"],
-            ["Saya membuat orang lain melakukan apa yang saya inginkan", "Saya seorang yang bersemangat"],
-            ["Saya suka menjadi pusat perhatian", "Saya seorang yang cepat mengambil keputusan"],
-            ["Saya suka merasa menjadi bagian dari kelompok", "Saya tidak cepat merasa letih"],
-            ["Saya suka membuat kawan karib", "Saya seorang yang ramah tamah"],
-            ["Saya suka mencoba hal-hal yang baru dan berbeda", "Saya selalu mengerjakan pekerjaan dengan teliti"],
-            ["Saya suka mempertahankan pendapat saya", "Saya seorang yang tertib. Meletakkan sesuatu pada tempatnya"],
-            ["Saya suka diperintah oleh orang lain", "Saya seorang yang sangat tenang"],
-            ["Saya suka mengikuti petunjuk-petunjuk dengan teliti", "Saya melakukan apa yang diharapkan dari saya"],
-            ["Saya mencoba sekuat tenaga", "Saya seorang yang sungguh-sungguh"],
-            ["Saya seorang pemimpin yang baik", "Saya seorang yang tidak cepat marah"],
-            ["Saya membuat orang lain melakukan apa yang saya inginkan", "Saya seorang yang banyak gerak"],
-            ["Saya suka menjadi pusat perhatian", "Saya seorang yang bersemangat"],
-            ["Saya suka merasa menjadi bagian dari kelompok", "Saya seorang yang cepat mengambil keputusan"],
-            ["Saya suka membuat kawan karib", "Saya tidak cepat merasa letih"],
-            ["Saya suka mencoba hal-hal yang baru dan berbeda", "Saya seorang yang ramah tamah"],
-            ["Saya suka mempertahankan pendapat saya", "Saya selalu mengerjakan pekerjaan dengan teliti"],
-            ["Saya suka diperintah oleh orang lain", "Saya seorang yang tertib. Meletakkan sesuatu pada tempatnya"],
-            ["Saya mengikuti petunjuk-petunjuk dengan teliti", "Saya seorang yang sangat tenang"]
+            ["Saya suka bekerja lebih baik dari yang lain", "Saya suka menekuni pekerjaan yang saya lakukan sampai selesai"],
+            ["Saya suka memberi petunjuk kepada orang bagaimana melakukan sesuatu", "Saya ingin melakukan sesuatu sebaik mungkin"],
+            ["Saya suka melakukan hal-hal yang lucu", "Saya senang memberitahukan orang apa yang harus dikerjakannya"],
+            ["Saya bergabung dalam kelompok", "Saya senang diperhatikan oleh kelompok"],
+            ["Saya suka membina satu hubungan persahabatan antar pribadi", "Saya suka berteman dengan suatu kelompok"],
+            ["Saya cepat berubah jika saya merasa hal itu diperlukan", "Saya berusaha membina hubungan yang akrab dengan teman saya"],
+            ["Saya suka membalas jika saya disakiti", "Saya suka melakukan hal-hal yang baru dan berbeda"],
+            ["Saya ingin atasan menyukai saya", "Saya suka memberitahu orang jika mereka salah"],
+            ["Saya suka mengikuti petunjuk-petunjuk yang diberikan kepada saya", "Saya suka mendukung pendapat atasan saya"],
+            ["Saya berusaha sangat keras", "Saya seorang yang teratur, saya menaruh semua barang pada tempatnya"],
+            ["Saya dapat membuat orang mau bekerja keras", "Saya tidak mudah marah"],
+            ["Saya suka memberitahu kelompok apa yang harus dikerjakan", "Saya selalu menekuni suatu pekerjaan sampai selesai"],
+            ["Saya ingin tampil menarik dan menakjubkan", "Saya ingin menjadi orang yang sangat berhasil"],
+            ["Saya ingin sesuai dan diterima dalam kelompok", "Saya suka membantu orang dalam mengambil sikap"],
+            ["Saya cemas bila seseorang tidak menyukai saya", "Saya suka orang memperhatikan saya"],
+            ["Saya suka mencoba hal-hal baru", "Saya lebih suka bekerja bersama orang lain daripada sendiri"],
+            ["Saya kadang-kadang menyalahkan orang lain jika terjadi kesalahan", "Saya merasa terganggu jika ada yang tidak menyukai saya"],
+            ["Saya suka mendukung pendapat atasan saya", "Saya suka mencoba pekerjaan-pekerjaan yang baru dan berbeda"],
+            ["Saya menyukai petunjuk terperinci dalam menyelesaikan pekerjaan", "Saya suka memberitahu bila orang membuat saya kesal"],
+            ["Saya selalu berusaha keras", "Saya suka melaksanakan setiap langkah dengan hati-hati"],
+            ["Saya seorang pemimpin yang baik", "Saya dapat mengorganisir suatu pekerjaan dengan baik"],
+            ["Saya mudah tersinggung", "Saya lambat dalam membuat keputusan"],
+            ["Dalam satu kelompok saya lebih suka diam", "Saya suka mengerjakan beberapa pekerjaan sekaligus"],
+            ["Saya sangat suka bila saya diundang", "Saya ingin lebih baik dari yang lain dalam mengerjakan sesuatu"],
+            ["Saya suka membina hubungan yang akrab dengan teman-teman saya", "Saya suka menasehati orang lain"],
+            ["Saya suka melakukan hal-hal yang baru dan berbeda", "Saya suka menceritakan bagaimana saya berhasil melakukan sesuatu"],
+            ["Bila saya betul, saya suka mempertahankannya", "Saya ingin diterima dan diakui dalam suatu kelompok"],
+            ["Saya berusaha untuk tidak menjadi seorang yang berbeda", "Saya berusaha untuk dekat sekali dengan orang"],
+            ["Saya senang diberitahu bagaimana melakukan suatu pekerjaan", "Saya mudah bosan"],
+            ["Saya bekerja keras", "Saya banyak berpikir dan merencana"],
+            ["Saya memimpin kelompok", "Detail (hal-hal kecil) menarik bagi saya"],
+            ["Saya mengambil keputusan secara mudah dan cepat", "Saya menyimpan barang-barang saya secara rapih dan teratur"],
+            ["Biasanya saya bekerja dengan tergesa-gesa", "Saya jarang marah atau sedih"],
+            ["Saya ingin menjadi bagian dari kelompok", "Saya hanya ingin melakukan satu pekerjaan pada satu saat"],
+            ["Saya berusaha membina persahabatan yang akrab", "Saya berusaha keras menjadi yang terbaik"],
+            ["Saya suka mode terbaru untuk pakaian atau mobil", "Saya suka bertanggung jawab untuk kepentingan orang lain"],
+            ["Saya menyukai perdebatan", "Saya suka mendapatkan perhatian"],
+            ["Saya suka mendukung orang-orang yang menjadi atasan saya", "Saya tertarik menjadi bagian dari kelompok"],
+            ["Saya suka mengikuti peraturan dengan hati-hati", "Saya suka orang mengenal saya dengan baik"],
+            ["Saya selalu berusaha keras", "Saya seorang yang bersahabat"],
+            ["Orang menilai saya seorang pemimpin yang baik", "Saya berpikir panjang dan berhati-hati"],
+            ["Saya sering mengambil resiko / coba-coba", "Saya senang mengurus hal-hal kecil / detail"],
+            ["Orang berpendapat bahwa saya bekerja cepat", "Saya berpendapat bahwa saya rapih dan teratur"],
+            ["Saya senang mengikuti pertandingan dan berolah raga", "Saya mempunyai pribadi yang menyenangkan"],
+            ["Saya senang jika orang dekat dan bersahabat dengan saya", "Saya selalu berusaha menyelesaikan sesuatu yang telah saya mulai"],
+            ["Saya senang bereksperimen dan mencoba hal-hal baru", "Saya suka melaksanakan suatu pekerjaan sulit dengan baik"],
+            ["Saya suka diperlakukan secara adil", "Saya suka memberitahu orang lain bagaimana melaksanakan sesuatu"],
+            ["Saya suka melakukan apa yang diharapkan dari saya", "Saya suka memperoleh perhatian"],
+            ["Saya suka petunjuk terperinci dalam melaksanakan suatu pekerjaan", "Saya suka berada diantara orang-orang banyak"],
+            ["Saya selalu berusaha menyelesaikan pekerjaan secara sempurna", "Orang mengatakan bahwa saya tidak mengenal lelah"],
+            ["Saya tipe pemimpin", "Saya mudah berteman"],
+            ["Saya selalu berspekulasi", "Saya banyak sekali berpikir"],
+            ["Saya bekerja dengan kecepatan yang teratur dan tetap", "Saya senang bekerja dengan hal-hal kecil / terperinci"],
+            ["Saya bersemangat untuk mengikuti berbagai pertandingan dan berolah raga", "Saya suka mengatur dan menyimpan barang-barang secara rapih dan teratur"],
+            ["Saya dapat bergaul secara baik dengan semua orang", "Saya adalah seorang yang mempunyai pembawaan tenang"],
+            ["Saya ingin bertemu dengan orang-orang baru dan melakukan hal baru", "Saya selalu ingin menyelesaikan pekerjaan yang telah saya mulai"],
+            ["Saya biasanya mempertahankan pendapat yang saya yakini", "Saya biasanya suka bekerja keras"],
+            ["Saya suka saran-saran dari orang-orang yang saya kagumi", "Saya senang diserahi tanggung jawab atas sekelompok orang"],
+            ["Saya biarkan diri saya banyak dipengaruhi oleh orang lain", "Saya suka jika mendapat banyak perhatian"],
+            ["Saya berusaha bekerja keras", "Saya mengerjakan sesuatu dengan cepat"],
+            ["Apabila saya bicara, kelompok mendengarkan", "Saya terampil menggunakan perkakas (alat-alat)"],
+            ["Saya lambat dalam membina hubungan", "Saya lambat dalam membuat keputusan"],
+            ["Saya biasanya makan secara cepat", "Saya suka membaca"],
+            ["Saya suka pekerjaan dimana saya banyak bergerak", "Saya suka pekerjaan yang harus dilakukan dengan hati-hati"],
+            ["Saya mencari teman sebanyak mungkin", "Apa yang telah saya simpan, akan mudah saya temukan lagi"],
+            ["Saya merencanakan jauh-jauh sebelumnya", "Saya selalu menyenangkan"],
+            ["Saya mempertahankan dengan bangga nama baik saya", "Saya terus menekuni suatu masalah sampai selesai"],
+            ["Saya suka mendukung orang-orang yang saya kagumi", "Saya ingin sukses"],
+            ["Saya suka orang lain yang memutuskan untuk kelompok", "Saya suka membuat keputusan untuk kelompok"],
+            ["Saya selalu berusaha bekerja keras", "Saya mengambil keputusan secara cepat dan mudah"],
+            ["Kelompok biasanya melakukan apa yang saya inginkan", "Saya biasa terburu-buru"],
+            ["Saya sering merasa lelah", "Saya lamban dalam menentukan sikap"],
+            ["Saya bekerja cepat", "Saya mudah berteman"],
+            ["Saya biasanya mempunyai semangat dan tenaga", "Saya banyak menghabiskan waktu dengan berpikir"],
+            ["Saya sangat ramah terhadap orang", "Saya suka pekerjaan yang memerlukan ketelitian"],
+            ["Saya banyak berpikir dan merencana", "Saya menyimpan segala sesuatu pada tempatnya"],
+            ["Saya suka pekerjaan yang harus memperhatikan hal-hal kecil (detail)", "Saya tidak mudah marah"],
+            ["Saya suka mengikuti orang yang saya kagumi", "Saya selalu menyelesaikan pekerjaan yang telah saya mulai"],
+            ["Saya suka petunjuk-petunjuk yang jelas", "Saya selalu bekerja keras"],
+            ["Saya mengejar apa yang saya inginkan", "Saya seorang pemimpin yang baik"],
+            ["Saya dapat membuat orang lain bekerja sesuai dengan yang saya inginkan", "Saya seorang yang tergolong santai tapi beruntung"],
+            ["Saya mengambil keputusan secara mudah dan amat cepat", "Saya bicara dengan cepat"],
+            ["Saya biasanya bekerja cepat", "Saya seorang pemimpin yang baik"],
+            ["Saya tidak suka bertemu orang", "Saya cepat merasa lelah"],
+            ["Saya mempunyai banyak sekali teman", "Saya banyak menghabiskan waktu dengan berpikir"],
+            ["Saya suka bekerja dengan teori", "Saya suka bekerja dengan hal-hal yang terperinci"],
+            ["Saya menikmati pekerjaan yang melibatkan hal-hal kecil (detail)", "Saya suka mengorganisir pekerjaan saya"],
+            ["Saya menaruh barang pada tempatnya", "Saya selalu menyenangkan"],
+            ["Saya suka diberitahu tentang apa yang saya perlu lakukan", "Saya harus menyelesaikan apa yang saya mulai"]
         ];
 
-        // MAPPING LOGIKA SKOR (Berdasarkan Sistem Diagonal Lembar Jawaban)
-        // Kunci di bawah memetakan No Soal & Pilihan (A/B) ke Huruf Skor
-        const scoringLogic = (no, pilihan, currentScores) => {
-            // Logika disederhanakan: Horizontal (A) vs Diagonal (B)
-            // Sesuai pola kotak pada lembar PAPI
-            const mappingA = [
-                null, 'G','L','I','T','V','S','R','D','C','E','G','L','I','T','V','S','R','D','C','E',
-                'G','L','I','T','V','S','R','D','C','E','G','L','I','T','V','S','R','D','C','E',
-                'G','L','I','T','V','S','R','D','C','E','G','L','I','T','V','S','R','D','C','E',
-                'G','L','I','T','V','S','R','D','C','E','G','L','I','T','V','S','R','D','C','E',
-                'G','L','I','T','V','S','R','D','C','E'
-            ];
-            const mappingB = [
-                null, 'N','A','P','X','B','O','Z','K','F','W','N','A','P','X','B','O','Z','K','F','W',
-                'N','A','P','X','B','O','Z','K','F','W','N','A','P','X','B','O','Z','K','F','W',
-                'N','A','P','X','B','O','Z','K','F','W','N','A','P','X','B','O','Z','K','F','W',
-                'N','A','P','X','B','O','Z','K','F','W','N','A','P','X','B','O','Z','K','F','W',
-                'N','A','P','X','B','O','Z','K','F','W'
-            ];
-
-            let key = (pilihan === 'A') ? mappingA[no] : mappingB[no];
-            if(key) currentScores[key]++;
+        // LOGIKA SKORING (Standard PAPI Diagonal)
+        const logic = {
+            A: {
+                G: [1, 11, 21, 31, 41, 51, 61, 71, 81],
+                L: [2, 12, 22, 32, 42, 52, 62, 72, 82],
+                I: [3, 13, 23, 33, 43, 53, 63, 73, 83],
+                T: [4, 14, 24, 34, 44, 54, 64, 74, 84],
+                V: [5, 15, 25, 35, 45, 55, 65, 75, 85],
+                S: [6, 16, 26, 36, 46, 56, 66, 76, 86],
+                R: [7, 17, 27, 37, 47, 57, 67, 77, 87],
+                D: [8, 18, 28, 38, 48, 58, 68, 78, 88],
+                C: [9, 19, 29, 39, 49, 59, 69, 79, 89],
+                E: [10, 20, 30, 40, 50, 60, 70, 80, 90]
+            },
+            B: {
+                N: [1, 11, 21, 31, 41, 51, 61, 71, 81],
+                A: [2, 12, 22, 32, 42, 52, 62, 72, 82],
+                P: [3, 13, 23, 33, 43, 53, 63, 73, 83],
+                X: [4, 14, 24, 34, 44, 54, 64, 74, 84],
+                B: [5, 15, 25, 35, 45, 55, 65, 75, 85],
+                O: [6, 16, 26, 36, 46, 56, 66, 76, 86],
+                Z: [7, 17, 27, 37, 47, 57, 67, 77, 87],
+                K: [8, 18, 28, 38, 48, 58, 68, 78, 88],
+                F: [9, 19, 29, 39, 49, 59, 69, 79, 89],
+                W: [10, 20, 30, 40, 50, 60, 70, 80, 90]
+            }
         };
 
-        // LOAD SOAL KE HTML
-        const container = document.getElementById('soal-container');
-        dataSoal.forEach((soal, index) => {
-            const num = index + 1;
-            const div = document.createElement('div');
-            div.className = "p-4 border border-gray-100 rounded-lg hover:bg-blue-50 transition";
-            div.innerHTML = `
-                <p class="font-bold text-gray-700 mb-3 text-lg">${num}.</p>
-                <div class="grid grid-cols-1 gap-2">
-                    <label class="flex items-center p-3 border rounded cursor-pointer bg-white hover:border-blue-500">
-                        <input type="radio" name="q${num}" value="A" class="w-4 h-4 text-blue-600 focus:ring-blue-500" required>
-                        <span class="ml-3 text-gray-700 font-medium">A. ${soal[0]}</span>
-                    </label>
-                    <label class="flex items-center p-3 border rounded cursor-pointer bg-white hover:border-blue-500">
-                        <input type="radio" name="q${num}" value="B" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
-                        <span class="ml-3 text-gray-700 font-medium">B. ${soal[1]}</span>
-                    </label>
+        // Render Soal ke HTML
+        const formContainer = document.getElementById('quiz-form');
+        soalPapi.forEach((pair, i) => {
+            const no = i + 1;
+            const html = `
+                <div class="p-4 border-l-4 border-slate-300 bg-slate-50 rounded-r-lg shadow-sm">
+                    <p class="font-bold text-slate-500 mb-2 italic">Soal No. ${no}</p>
+                    <div class="flex flex-col gap-3">
+                        <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white rounded transition">
+                            <input type="radio" name="q${no}" value="A" class="w-4 h-4 text-indigo-600">
+                            <span>A. ${pair[0]}</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white rounded transition">
+                            <input type="radio" name="q${no}" value="B" class="w-4 h-4 text-indigo-600">
+                            <span>B. ${pair[1]}</span>
+                        </label>
+                    </div>
                 </div>
             `;
-            container.appendChild(div);
+            formContainer.innerHTML += html;
         });
 
-        function prosesHasil() {
-            let scores = { G:0, L:0, I:0, T:0, V:0, S:0, R:0, D:0, C:0, E:0, N:0, A:0, P:0, X:0, B:0, O:0, Z:0, K:0, F:0, W:0 };
-            
-            // Validasi kelengkapan
+        function kalkulasiHasil() {
+            // Validasi: Apakah semua sudah diisi?
             for(let i=1; i<=90; i++) {
-                const checked = document.querySelector(`input[name="q${i}"]:checked`);
-                if(!checked) {
-                    alert("Harap selesaikan soal nomor " + i);
-                    checked.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if(!document.querySelector(`input[name="q${i}"]:checked`)) {
+                    alert('Mohon lengkapi soal nomor ' + i);
                     return;
                 }
-                scoringLogic(i, checked.value, scores);
             }
 
-            // Tampilkan Hasil
-            document.getElementById('hasil-section').classList.remove('hidden');
-            renderChart(scores);
-            renderSummary(scores);
-            document.getElementById('hasil-section').scrollIntoView({ behavior: 'smooth' });
-        }
+            let finalScores = {G:0, L:0, I:0, T:0, V:0, S:0, R:0, D:0, C:0, E:0, N:0, A:0, P:0, X:0, B:0, O:0, Z:0, K:0, F:0, W:0};
 
-        function renderSummary(scores) {
-            const container = document.getElementById('ringkasan-skor');
-            container.innerHTML = "";
-            for (const [key, val] of Object.entries(scores)) {
-                container.innerHTML += `
-                    <div class="bg-white border p-3 rounded text-center shadow-sm">
-                        <div class="text-xs text-gray-400 font-bold">${key}</div>
-                        <div class="text-xl font-bold text-blue-600">${val}</div>
-                    </div>
-                `;
+            // Hitung A
+            for (let char in logic.A) {
+                logic.A[char].forEach(no => {
+                    if (document.querySelector(`input[name="q${no}"]:checked`).value === 'A') finalScores[char]++;
+                });
             }
+            // Hitung B
+            for (let char in logic.B) {
+                logic.B[char].forEach(no => {
+                    if (document.querySelector(`input[name="q${no}"]:checked`).value === 'B') finalScores[char]++;
+                });
+            }
+
+            tampilkanVisual(finalScores);
         }
 
-        function renderChart(scores) {
+        function tampilkanVisual(scores) {
+            document.getElementById('hasil-container').classList.remove('hidden');
+            
+            // Render Skor Box
+            const box = document.getElementById('skor-box');
+            box.innerHTML = '';
+            for(let key in scores) {
+                box.innerHTML += `<div class="p-2 border rounded bg-white shadow-sm"><div class="text-[10px] font-bold text-slate-400">${key}</div><div class="text-xl font-black text-indigo-600">${scores[key]}</div></div>`;
+            }
+
+            // Radar Chart
             const ctx = document.getElementById('papiChart').getContext('2d');
-            const labels = Object.keys(scores);
-            const values = Object.values(scores);
-
-            if(window.myRadar) window.myRadar.destroy();
-
-            window.myRadar = new Chart(ctx, {
+            if(window.papiChartInstance) window.papiChartInstance.destroy();
+            
+            window.papiChartInstance = new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: labels,
+                    labels: Object.keys(scores),
                     datasets: [{
-                        label: 'Profil PAPI Kostick',
-                        data: values,
-                        fill: true,
-                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
-                        borderColor: 'rgb(37, 99, 235)',
-                        pointBackgroundColor: 'rgb(220, 38, 38)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgb(255, 99, 132)'
+                        label: 'Skor Peserta',
+                        data: Object.values(scores),
+                        backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                        borderColor: 'rgb(79, 70, 229)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgb(220, 38, 38)'
                     }]
                 },
                 options: {
                     scales: {
-                        r: {
-                            angleLines: { display: true },
-                            suggestedMin: 0,
-                            suggestedMax: 9,
-                            ticks: { stepSize: 1 }
-                        }
+                        r: { min: 0, max: 9, ticks: { stepSize: 1 } }
                     }
                 }
             });
+
+            document.getElementById('hasil-container').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
