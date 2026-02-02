@@ -3,323 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Lengkap MBTI DJBC</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>Tes Kepribadian MBTI - Lengkap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root { --bg: #f8fafc; --primary: #1e3a8a; --accent: #b45309; --text: #1e293b; --white: #ffffff; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 10px; }
-        .container { max-width: 1000px; margin: 0 auto; background: var(--white); padding: 50px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        
-        /* Header Laporan */
-        .report-header { text-align: center; border-bottom: 4px solid var(--primary); padding-bottom: 20px; margin-bottom: 30px; }
-        .report-header h1 { margin: 0; color: var(--primary); font-size: 2.2rem; text-transform: uppercase; }
-        
-        .identity-box { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 30px; padding: 15px; background: #f1f5f9; border-radius: 8px; font-size: 0.95rem; }
-        
-        /* Layout Soal */
-        .mbti-row { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 15px; margin-bottom: 15px; }
-        .mbti-option { background: #fff; padding: 18px; border-radius: 10px; cursor: pointer; border: 2px solid #e2e8f0; font-size: 0.9rem; text-align: center; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
-        .mbti-option:hover { border-color: var(--primary); background: #f0f7ff; }
-        .mbti-option.selected { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
-        .vs { align-self: center; text-align: center; font-weight: 800; color: #cbd5e1; }
-
-        /* Area Hasil (Panjang & Detail) */
-        #resultArea { display: none; }
-        .type-banner { background: var(--primary); color: white; padding: 40px; text-align: center; border-radius: 12px; margin-bottom: 40px; }
-        .type-code { font-size: 5rem; font-weight: 800; letter-spacing: 15px; margin: 0; }
-        .type-name { font-size: 1.5rem; font-weight: 600; opacity: 0.9; text-transform: uppercase; }
-
-        .section-title { border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-top: 40px; color: var(--primary); font-weight: 800; font-size: 1.2rem; text-transform: uppercase; display: flex; align-items: center; }
-        .section-title::before { content: ""; width: 8px; height: 24px; background: var(--accent); margin-right: 12px; border-radius: 2px; }
-        
-        .content-block { line-height: 1.8; color: #334155; font-size: 1.05rem; white-space: pre-line; padding: 15px 0; }
-        .list-item { margin-bottom: 10px; display: flex; align-items: flex-start; }
-        .list-item::before { content: "•"; color: var(--accent); font-weight: bold; margin-right: 10px; }
-
-        .btn { width: 100%; padding: 20px; border-radius: 12px; font-weight: 800; cursor: pointer; border: none; font-size: 1.1rem; margin-top: 20px; transition: 0.3s; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-print { background: #059669; color: white; }
-        
-        @media print { .no-print { display: none; } .container { box-shadow: none; padding: 0; } }
+        @media print {
+            .no-print { display: none; }
+            body { background: white; }
+            .print-border { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        }
+        .option-card:hover { border-color: #3b82f6; background-color: #f0f7ff; }
+        .selected { border-color: #3b82f6; background-color: #dbeafe; }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen font-sans">
 
-<div class="container" id="mainContainer">
-    <div id="quizSection">
-        <div class="report-header">
-            <h1>Tes Kepribadian MBTI</h1>
-            <p style="font-weight: 700; color: var(--accent);">DJBC - LEMBAR KERJA DIGITAL 2026</p>
+    <nav class="bg-blue-600 text-white p-4 shadow-md no-print">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">MBTI Assessment Tool</h1>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div id="intro" class="bg-white p-8 rounded-xl shadow-lg text-center">
+            <h2 class="text-3xl font-bold mb-4 text-gray-800">Tes Kepribadian MBTI</h2>
+            <p class="text-gray-600 mb-6 text-lg">Temukan potensi diri Anda melalui 60 pernyataan berikut. Pilih salah satu yang paling dominan dan sesuai dengan diri Anda.</p>
+            <button onclick="startTest()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition">Mulai Tes Sekarang</button>
         </div>
 
-        <div class="identity-box">
-            <div class="form-group"><label>Nama:</label> <input type="text" id="userName" style="width: 80%;"></div>
-            <div class="form-group"><label>NIP:</label> <input type="text" id="userNIP" style="width: 80%;"></div>
-        </div>
-
-        <div id="questionGrid"></div>
-        <button class="btn btn-primary" onclick="generateResult()">PROSES SKORING & DESKRIPSI LENGKAP</button>
-    </div>
-
-    <div id="resultArea">
-        <div id="printableReport">
-            <div class="type-banner">
-                <p style="margin: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px;">Tipe Kepribadian Anda Adalah</p>
-                <h1 class="type-code" id="resType"></h1>
-                <div class="type-name" id="resTitle"></div>
+        <div id="quiz" class="hidden space-y-6">
+            <div class="flex justify-between items-center mb-4">
+                <span id="progress-text" class="text-blue-600 font-medium">Soal 1 dari 60</span>
+                <div class="w-2/3 bg-gray-200 rounded-full h-2">
+                    <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all" style="width: 0%"></div>
+                </div>
             </div>
-
-            <div class="identity-box">
-                <div><strong>Nama:</strong> <span id="outName"></span></div>
-                <div><strong>NIP:</strong> <span id="outNIP"></span></div>
-            </div>
-
-            <div class="section-title">Uraian Kepribadian</div>
-            <div class="content-block" id="resDesc"></div>
-
-            <div class="section-title">Saran Pengembangan</div>
-            <div class="content-block" id="resDev"></div>
-
-            <div class="section-title">Profesi yang Sesuai</div>
-            <div class="content-block" id="resJobs"></div>
-
-            <div class="section-title">Partner Alami</div>
-            <div class="content-block" id="resPartner"></div>
             
-            <p style="margin-top: 50px; font-style: italic; font-size: 0.8rem; color: #94a3b8; text-align: center;">
-                Laporan ini dibuat otomatis oleh Sistem Assessment Mandiri DJBC 2026 berdasarkan norma alat ukur MBTI.
-            </p>
+            <div id="question-container" class="bg-white p-8 rounded-xl shadow-lg border-l-8 border-blue-500">
+                <p id="question-prompt" class="text-gray-500 mb-2 italic">Manakah yang lebih sesuai dengan Anda?</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                    <button id="btnA" onclick="choose('A')" class="option-card border-2 border-gray-200 p-6 rounded-xl text-left transition duration-200 text-gray-700 font-medium"></button>
+                    <button id="btnB" onclick="choose('B')" class="option-card border-2 border-gray-200 p-6 rounded-xl text-left transition duration-200 text-gray-700 font-medium"></button>
+                </div>
+            </div>
+            
+            <div class="flex justify-between no-print">
+                <button onclick="prevQuestion()" id="prevBtn" class="invisible bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300">Kembali</button>
+            </div>
         </div>
 
-        <div class="no-print">
-            <button class="btn btn-print" onclick="window.print()">CETAK / SIMPAN KE PDF</button>
-            <button class="btn" style="background: #64748b; color: white;" onclick="location.reload()">ULANGI TES</button>
+        <div id="result" class="hidden bg-white p-10 rounded-xl shadow-xl print-border">
+            <div class="text-center mb-8">
+                <h2 class="text-gray-500 uppercase tracking-widest text-sm font-bold">Hasil Analisis Kepribadian</h2>
+                <div id="type-code" class="text-6xl font-black text-blue-600 my-2">ISTJ</div>
+                <div id="type-name" class="text-2xl font-bold text-gray-800">The Inspector</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-b py-8 my-8">
+                <div>
+                    <h3 class="font-bold text-blue-800 mb-3 flex items-center">
+                        <span class="mr-2">📝</span> Uraian Kepribadian
+                    </h3>
+                    <p id="res-desc" class="text-gray-700 leading-relaxed whitespace-pre-line"></p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-green-800 mb-3 flex items-center">
+                        <span class="mr-2">💡</span> Saran Pengembangan
+                    </h3>
+                    <p id="res-saran" class="text-gray-700 leading-relaxed whitespace-pre-line"></p>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-blue-900 mb-2 italic">Saran Profesi:</h3>
+                    <p id="res-profesi" class="text-blue-800"></p>
+                </div>
+                <div class="bg-pink-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-pink-900 mb-2 italic">Pasangan/Partner Alami:</h3>
+                    <p id="res-pasangan" class="text-pink-800"></p>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center no-print flex justify-center gap-4">
+                <button onclick="window.print()" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-bold shadow-lg">Cetak Hasil (PDF/Print)</button>
+                <button onclick="location.reload()" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-bold">Tes Ulang</button>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    // Database Deskripsi Diambil Langsung dari Isi Lampiran Excel Anda
-    const mbtiLib = {
-        "ISTJ": {
-            title: "ISTJ (Bertanggungjawab)",
-            desc: "Serius, tenang, stabil & damai.\nSenang pada fakta, logis, obyektif, praktis & realistis.\nTask oriented, tekun, teratur, menepati janji, dapat diandalkan & bertanggung jawab.\nPendengar yang baik, setia, hanya mau berbagi dengan orang dekat.\nMemegang aturan, standar & prosedur dengan teguh.",
-            dev: "Belajarlah memahami perasaan & kebutuhan orang lain.\nKurangi keinginan untuk mengontrol orang lain atau memerintah mereka untuk menegakkan aturan.\nLihatlah lebih banyak sisi positif pada orang lain atau hal lainnya.\nTerbukalah terhadap perubahan.",
-            jobs: "Bidang Manajemen, Polisi, Intelijen, Hakim, Pengacara, Dokter, Akuntan, Programmer, System Analys, Pemimpin Militer.",
-            partner: "ESFP atau ESTP"
-        },
-        "ISFJ": {
-            title: "ISFJ (Setia)",
-            desc: "Penuh pertimbangan, hati-hati, teliti dan akurat.\nSerius, tenang, stabil namun sensitif.\nRamah, perhatian pada perasaan & kebutuhan orang lain, setia, kooperatif, pendengar yang baik.\nPunya kemampuan mengorganisasi, detail, teliti, sangat bertanggungjawab & bisa diandalkan.",
-            dev: "Lihat lebih dalam, lebih antusias, & lebih semangat.\nBelajarlah mengatakan ”tidak”. Jangan menyenangkan semua orang atau Anda dianggap plin plan.\nJangan terjebak zona nyaman dan rutinitas. Cobalah hal baru.",
-            jobs: "Architect, Interior Designer, Perawat, Administratif, Designer, Child Care, Konselor, Back Office Manager, Penjaga Toko / Perpustakaan.",
-            partner: "ESFP atau ESTP"
-        },
-        "INFJ": {
-            title: "INFJ (Visioner)",
-            desc: "Perhatian, empati, sensitif & berkomitmen terhadap hubungan.\nSukses karena ketekunan, orisinalitas dan keinginan kuat untuk melakukan apa saja yang diperlukan termasuk memberikan yang terbaik bagi orang lain.\nIdealistis, perfeksionis, teliti dan setia.\nVisioner, mendorong orang lain untuk maju, kreatif.",
-            dev: "Belajarlah menghadapi kritik dari orang lain.\nBerbagilah sedikit rahasia dengan orang terdekat.\nJangan terlalu perfeksionis. Jangan cepat merasa bersalah jika rencana tidak berjalan mulus.",
-            jobs: "Pengajar, Psikolog, Konselor, Pekerja Sosial, Fotografer, Seniman, Penulis, Praktisi Kesehatan.",
-            partner: "ENFP atau ENTP"
-        },
-        "INTJ": {
-            title: "INTJ (Independen)",
-            desc: "Visioner, punya perencanaan strategis yang kuat.\nSangat mandiri, percaya diri dan memiliki pikiran yang kuat untuk mencapai tujuan.\nKritis, skeptis, analitis dan logis.\nPunya kemampuan mengorganisir pekerjaan dan menjalankan tugas sampai selesai.",
-            dev: "Belajarlah mengungkapkan emosi & perasaan Anda.\nCobalah untuk lebih terbuka menerima ide orang lain.\nJangan terlalu sombong dengan kemampuan intelektual Anda.",
-            jobs: "Peneliti, Ilmuwan, Engineer, Teknokrat, Pengajar Universitas, Strategist, Ahli Perencana, Investment Banker.",
-            partner: "ENFP atau ENTP"
-        },
-        "ISTP": {
-            title: "ISTP (Pragmatis)",
-            desc: "Tenang, percaya diri, namun bisa berubah menjadi sangat aktif.\nPragmatis, fokus pada saat ini.\nSangat baik dalam menganalisis masalah teknis dan menyelesaikannya secara efisien.\nMampu mengamati detail dan bertindak cepat saat krisis.",
-            dev: "Belajarlah untuk berbagi pikiran dengan orang lain.\nBerusahalah untuk konsisten dan menyelesaikan apa yang telah dimulai.\nKenali dampak perilaku Anda pada perasaan orang lain.",
-            jobs: "Mekanik, Teknisi, Pilot, Polisi, Programmer, Atlet, Ahli Forensik, Ahli Komputer.",
-            partner: "ESTJ atau ENTJ"
-        },
-        "ISFP": {
-            title: "ISFP (Artistik)",
-            desc: "Lembut, sensitif, ramah dan rendah hati.\nSangat menghindari konflik dan tidak memaksakan pendapat pada orang lain.\nSangat menghargai keindahan dan seni.\nMemiliki dedikasi tinggi pada orang-orang yang dianggap penting dalam hidupnya.",
-            dev: "Belajarlah untuk lebih asertif (tegas).\nJangan terlalu mudah merasa rendah diri.\nCobalah untuk lebih berorientasi pada perencanaan masa depan.",
-            jobs: "Seniman, Musisi, Desainer, Guru, Perawat, Dokter Hewan, Pekerja Sosial, Botanis.",
-            partner: "ESTJ atau ENTJ"
-        },
-        "INFP": {
-            title: "INFP (Idealis)",
-            desc: "Sangat idealis, setia pada nilai pribadi dan orang yang penting bagi mereka.\nSangat ingin memahami orang lain dan membantu orang mengembangkan potensi mereka.\nAdaptabel dan fleksibel kecuali jika nilai mereka terancam.",
-            dev: "Belajarlah untuk lebih praktis dan realistis.\nJangan terlalu menyalahkan diri sendiri jika gagal.\nBeranilah untuk mengungkapkan apa yang Anda rasakan secara terbuka.",
-            jobs: "Penulis, Sastrawan, Psikolog, Konselor, Aktor, Aktivis, Pengajar, Musisi, Seniman.",
-            partner: "ENFJ atau ENTJ"
-        },
-        "INTP": {
-            title: "INTP (Analitis)",
-            desc: "Menghargai teori dan ilmu pengetahuan di atas segalanya.\nLogis, analitis, dan sangat kritis terhadap gagasan yang tidak konsisten secara logika.\nSangat fokus dan mendalam dalam bidang yang menarik minat mereka.\nLebih tertarik pada ide daripada interaksi sosial.",
-            dev: "Belajarlah berinteraksi secara sosial dengan lebih hangat.\nJangan terlalu terjebak dalam pemikiran teoritis tanpa tindakan nyata.\nSadarilah bahwa tidak semua orang bisa mengikuti kecepatan berpikir Anda.",
-            jobs: "Fisikawan, Matematikawan, Astronom, Strategist, Analis Sistem, Programmer, Penulis Teknik.",
-            partner: "ENTJ atau ESTJ"
-        },
-        "ESTP": {
-            title: "ESTP (Aktif)",
-            desc: "Spontan, aktif, dan menyukai tantangan fisik.\nFokus pada hasil instan. Bosan dengan teori dan penjelasan panjang.\nSangat baik dalam menangani situasi krisis dan darurat.\nPandai bergaul dan sangat persuasif.",
-            dev: "Belajarlah untuk melihat dampak jangka panjang.\nKurangi perilaku impulsif dan berisiko tinggi.\nBerusahalah untuk lebih peka terhadap perasaan orang lain.",
-            jobs: "Wirausaha, Marketing, Sales, Polisi, Detektif, Atlet, Pilot, Pialang Saham.",
-            partner: "ISFJ atau ISTJ"
-        },
-        "ESFP": {
-            title: "ESFP (Ceria)",
-            desc: "Mencintai kehidupan, orang lain, dan kenyamanan materi.\nRamah, kooperatif, dan sangat praktis.\nMenyukai kegiatan kelompok dan menjadi pusat perhatian.\nBelajar paling baik melalui praktek langsung.",
-            dev: "Belajarlah untuk lebih teratur dan disiplin.\nJangan terlalu menghindari konflik yang perlu diselesaikan.\nFokuslah pada tugas-tugas yang membutuhkan ketekunan jangka panjang.",
-            jobs: "Aktor, Public Relations, Fotografer, Designer, Guru TK, Perawat, Pramugari.",
-            partner: "ISFJ atau ISTJ"
-        },
-        "ENFP": {
-            title: "ENFP (Antusias)",
-            desc: "Sangat antusias, imajinatif, dan hangat.\nMelihat hidup penuh dengan kemungkinan dan peluang.\nSangat membutuhkan apresiasi dan dukungan dari orang lain.\nSpontan dan fleksibel dalam menjalankan rencana.",
-            dev: "Belajarlah untuk fokus pada satu hal hingga selesai.\nJangan terlalu cepat berjanji sebelum mempertimbangkan kapasitas Anda.\nKelolalah waktu dan prioritas Anda dengan lebih baik.",
-            jobs: "Konsultan, Politikus, Wartawan, Guru, Aktor, Psikolog, Penulis, Public Relation.",
-            partner: "INTJ atau INFJ"
-        },
-        "ENTP": {
-            title: "ENTP (Inovatif)",
-            desc: "Cepat, cerdas, dan sangat baik dalam memecahkan masalah yang menantang.\nSangat suka mendebat gagasan untuk menguji kebenarannya.\nBosan dengan rutinitas dan selalu mencari cara baru dalam melakukan sesuatu.",
-            dev: "Belajarlah untuk menghargai perasaan orang lain dalam berdiskusi.\nSelesaikanlah apa yang sudah Anda mulai sebelum pindah ke ide baru.\nKurangi kecenderungan untuk terlalu banyak bicara daripada mendengarkan.",
-            jobs: "Pengacara, Inovator, Konsultan, Direktur, Pengusaha, Analis Investasi.",
-            partner: "INTJ atau INFJ"
-        },
-        "ESTJ": {
-            title: "ESTJ (Pengatur)",
-            desc: "Praktis, realistis, dan berorientasi pada fakta.\nTegas dan sangat cepat dalam mengambil keputusan organisasi.\nSangat menghargai tradisi, aturan, dan standar efisiensi.\nSuka mengatur orang lain untuk mencapai tujuan.",
-            dev: "Belajarlah untuk lebih fleksibel dan toleran terhadap perbedaan.\nJangan terlalu kaku pada aturan hingga mengorbankan harmoni tim.\nBerikanlah apresiasi yang tulus pada kerja keras orang lain.",
-            jobs: "Manajer, Auditor, Polisi, Hakim, Pejabat Militer, Koordinator Proyek.",
-            partner: "ISTP atau ISFP"
-        },
-        "ESFJ": {
-            title: "ESFJ (Harmonis)",
-            desc: "Hangat, teliti, dan suka bekerja sama.\nSangat mementingkan harmoni dalam lingkungan kerja maupun rumah.\nSangat setia dan selalu berusaha memenuhi kebutuhan orang lain.\nMenginginkan apresiasi atas apa yang telah dilakukan bagi orang lain.",
-            dev: "Belajarlah untuk menerima kritik secara obyektif.\nJangan terlalu merasa bersalah jika tidak bisa memuaskan semua orang.\nBerikanlah waktu untuk diri sendiri tanpa merasa egois.",
-            jobs: "Guru, Perawat, Konselor, HRD, Pekerja Sosial, Admin Medis, Customer Service.",
-            partner: "ISFP atau ISTP"
-        },
-        "ENFJ": {
-            title: "ENFJ (Pemimpin)",
-            desc: "Sangat berempati, hangat, dan bertanggung jawab.\nSangat peka terhadap kebutuhan dan motivasi orang lain.\nMemiliki kemampuan kepemimpinan yang menginspirasi tim.\nResponsif terhadap pujian dan kritik.",
-            dev: "Jangan terlalu mengabaikan kebutuhan diri sendiri.\nBelajarlah untuk menerima kenyataan bahwa tidak semua orang bisa berubah.\nJangan terlalu mengontrol perkembangan orang lain.",
-            jobs: "Guru, HRD, Manajer, Pelatih, Konselor, Diplomat, Koordinator Acara.",
-            partner: "INFP atau ISFP"
-        },
-        "ENTJ": {
-            title: "ENTJ (Dominan)",
-            desc: "Tegas dan sangat cepat mengambil alih kepemimpinan.\nSangat tidak toleran terhadap ketidakefisienan dan ketidakmampuan.\nSangat perfeksionis dan kompetitif.\nTangguh, disiplin, dan sangat menghargai komitmen.",
-            dev: "Belajarlah untuk lebih sabar dan relaks.\nJangan terlalu arogan atau menganggap remeh orang lain.\nBelajarlah mengelola emosi Anda agar tidak mudah marah.",
-            jobs: "CEO, Eksekutif, Pengacara, Konsultan Bisnis, Politikus, Pemimpin Militer.",
-            partner: "INTP atau ISTP"
+    <script>
+        // Data Questions from PDF
+        const questions = [
+            { id: 1, a: "Terencana, dan memiliki deadline jelas.", b: "Spontan, fleksibel, tidak diikat waktu." },
+            { id: 2, a: "Berpikir secara matang sebelum bertindak.", b: "Memiliki keberanian bertindak tanpa harus terlalu lama berpikir." },
+            { id: 3, a: "Merasa tenang bila semuanya sudah diputuskan.", b: "Merasa nyaman bila situasi tetap terbuka terhadap pilihan-pilihan lain." },
+            { id: 4, a: "Menghargai seseorang karena skill dan faktor teknis.", b: "Melibatkan perasaan itu tidak profesional." }, // Note: Adjusted mapping
+            { id: 5, a: "Membangun idenya justru pada saat berbicara.", b: "Membangun ide dengan matang baru membicarakannya." },
+            { id: 6, a: "Bergerak dari gambaran umum (big picture) baru kemudian menuju detail.", b: "Bergerak dari detail kepada gambaran besar sebagai kesimpulan akhir." },
+            { id: 7, a: "Memilih berkomunikasi pada sekelompok orang.", b: "Mencari kesempatan untuk berkomunikasi secara perorangan." },
+            { id: 8, a: "Menggunakan pengalaman sebagai pedoman.", b: "Menggunakan imajinasi dan perenungan sebagai pedoman." },
+            { id: 9, a: "Bersemangat saat menolong orang keluar dari kesalahan dan meluruskan.", b: "Bersemangat saat mengkritik dan menemukan kesalahan." },
+            { id: 10, a: "Lebih memilih berkomunikasi dengan menulis.", b: "Lebih memilih berkomunikasi dengan berbicara." },
+            { id: 11, a: "Menemukan dan mengembangkan ide dengan merenungkan.", b: "Menemukan dan mengembangkan ide dengan mendiskusikan." },
+            { id: 12, a: "Ketidakpastian itu menegangkan, seru, dan membuat lebih fun.", b: "Ketidakpastian membuat bingung dan meresahkan." },
+            { id: 13, a: "SOP sangat membantu.", b: "SOP sangat membosankan." },
+            { id: 14, a: "Menganalisa.", b: "Berempati." },
+            { id: 15, a: "Berorientasi pada dunia internal (memori, pemikiran, ide)", b: "Berorientasi pada dunia eksternal (kegiatan, orang, aktifitas)." },
+            { id: 16, a: "Prosedural dan tradisional.", b: "Bebas dan dinamis." },
+            { id: 17, a: "Mementingkan sebab akibat.", b: "Mementingkan nilai-nilai personal." },
+            { id: 18, a: "Memilih ide inspiratif lebih penting daripada fakta.", b: "Memilih fakta lebih penting daripada ide inspiratif." },
+            { id: 19, a: "Situasi last minute sangat menyiksa, membuat stress, dan merupakan kesalahan.", b: "Situasi last minute membuat bersemangat dan memunculkan potensi." },
+            { id: 20, a: "Fokus pada beberapa ketertarikan / hobi tertentu namun mendalam.", b: "Fokus pada banyak ketertarikan / hobi secara meluas dan general." },
+            { id: 21, a: "Perubahan adalah semangat hidup.", b: "Perubahan adalah musuh." },
+            { id: 22, a: "Bertindak dengan semangat tanpa menggunakan timeframe.", b: "Bertindak step by step dengan timeframe yang jelas." },
+            { id: 23, a: "Standar harus ditegakkan di atas segalanya.", b: "Perasaan manusia lebih penting dari sekedar standar." },
+            { id: 24, a: "Daftar dan checklist adalah panduan penting.", b: "Daftar dan checklist adalah tugas dan beban." },
+            { id: 25, a: "Kontinuitas dan stabilitas lebih diutamakan.", b: "Perubahan dan variasi lebih diutamakan." },
+            { id: 26, a: "Pendirian masih bisa berubah tergantung situasi nantinya.", b: "Berpegang teguh pada pendirian." },
+            { id: 27, a: "Dalam menarik kesimpulan lama dan hati-hati.", b: "Dalam menarik kesimpulan cepat sesuai naluri." },
+            { id: 28, a: "Sosial dan ekspresif.", b: "Tetutup dan mandiri." },
+            { id: 29, a: "Pertemuan dengan orang lain dan aktivitas sosial adalah melahkan.", b: "Bertemu orang dan aktivitas sosial membuat bersemangat." },
+            { id: 30, a: "Sering dianggap keras kepala.", b: "Sering dianggap terlalu memihak." },
+            { id: 31, a: "Beraktivitas sendirian di rumah adalah menyenangkan.", b: "Beraktivitas sendirian di rumah adalah membosankan." },
+            { id: 32, a: "Diyakinkan dengan penjelasan yang menyentuh perasaan.", b: "Diyakinkan dengan penjelasan yang masuk akal." },
+            { id: 33, a: "Hidup harusnya mengalir sesuai kondisi.", b: "Hidup harus sudah diatur dari awal." },
+            { id: 34, a: "Mengklarifikasi ide dan teori sebelum dipraktekkan.", b: "Memahami ide dan teori saat mempraktekannya secara langsung." },
+            { id: 35, a: "Berinisiatif tinggi hampir dalam berbagai hal.", b: "Berinisiataif bila situasi memaksa." },
+            { id: 36, a: "Berfokus pada masa kini (apa yang bisa diperbaiki sekarang).", b: "Berfokus pada masa depan." },
+            { id: 37, a: "Menuntut perlakuan yang adil dan sama pada semua orang.", b: "Menuntut perlakukan khusus sesuai karakteristik masing-masing orang." },
+            { id: 38, a: "Lebih memilih tempat yang tenang dan pribadi.", b: "Lebih memilih tempat yang ramai dan banyak interaksi." },
+            { id: 39, a: "Yang penting situasi harmonis terjaga.", b: "Yang penting tujuan tercapai." },
+            { id: 40, a: "Kepuasan adalah ketika mampu beradaptasi dengan momentum yang terjadi.", b: "Kepuasan adalah ketika mampu menjalankan semua sesuai rencana." },
+            { id: 41, a: "Secara konsisten mengamati dan mengingat detail.", b: "Mengamati dan mengingat detail hanya bila berhubungan dengan pola." },
+            { id: 42, a: "Mempertanyakan.", b: "Mengakomodasi." },
+            { id: 43, a: "Praktis.", b: "Konseptual." },
+            { id: 44, a: "Membiarkan orang lain bertindak bebas asalkan tujuan tercapai.", b: "Mengatur orang lain dengan tata tertib agar tujuan tercapai." },
+            { id: 45, a: "Menyimpan semangat dalam hati.", b: "Mengekspresikan semangat." },
+            { id: 46, a: "Menggunakan keterampilan yang sudah dikuasai.", b: "Menyukai tantangan untuk menguasai keterampilan baru." },
+            { id: 47, a: "Aturan, jadwal dan target akan sangat membantu.", b: "Aturan, jadwal dan target sangat mengikat dan membebani." },
+            { id: 48, a: "Obyektif.", b: "Subyektif." },
+            { id: 49, a: "Diyakinkan dengan penjelasan yang menyentuh perasaan.", b: "Diyakinkan dengan penjelasan yang masuk akal." },
+            { id: 50, a: "Memperhatikan hal-hal baru dan siap merubah target.", b: "Fokus pada target dan mengabaikan hal-hal baru." },
+            { id: 51, a: "Memilih cara yang sudah ada dan sudah terbukti.", b: "Memilih cara yang unik dan belum dipraktekkan orang lain." },
+            { id: 52, a: "Komunikasi langsung (tatap muka) lebih disukai.", b: "Komunikasi tidak langsung (telepon, email) lebih disukai." },
+            { id: 53, a: "Berbicara mengenai masalah hari ini dan langkah praktisnya.", b: "Berbicara mengenai visi masa depan dan konsep-konsepnya." },
+            { id: 54, a: "Bertindak sesuai dengan apa yang sudah direncanakan.", b: "Bertindak sesuai situasi dan kondisi yang terjadi saat itu." },
+            { id: 55, a: "Berorientasi tugas-tugas dan job description.", b: "Berorientasi pada manusia dan hubungan." },
+            { id: 56, a: "Tidak menyukai hal-hal yang bersifat mendadak.", b: "Perubahan mendadak tidak menjadi masalah." },
+            { id: 57, a: "Mengambil keputusan berdasarkan logika dan aturan main.", b: "Mengambil keputusan berdasarkan perasaan pribadi." },
+            { id: 58, a: "Mengemukakan tujuan dan sasaran lebih dahulu.", b: "Mengemukakan kesepakatan lebih dahulu." },
+            { id: 59, a: "Berorientasi pada proses.", b: "Berorientasi pada hasil." },
+            { id: 60, a: "Spontan, easy going, fleksibel.", b: "Berhati-hati, penuh pertimbangan, kaku." }
+        ];
+
+        // Scoring Mapping from Image Logic
+        const mapping = {
+            "60B":"I","60A":"E","52B":"I","52A":"E","45A":"I","45B":"E","38A":"I","38B":"E","35B":"I","35A":"E","31A":"I","31B":"E","29A":"I","29B":"E","28B":"I","28A":"E","20A":"I","20B":"E","15A":"I","15B":"E","11A":"I","11B":"E","10A":"I","10B":"E","7B":"I","7A":"E","5B":"I","5A":"E","2A":"I","2B":"E",
+            "53A":"S","53B":"N","51A":"S","51B":"N","46A":"S","46B":"N","43A":"S","43B":"N","41A":"S","41B":"N","36A":"S","36B":"N","34A":"S","34B":"N","27A":"S","27B":"N","25A":"S","25B":"N","22B":"S","22A":"N","18B":"S","18A":"N","16A":"S","16B":"N","13A":"S","13B":"N","8A":"S","8B":"N","6B":"S","6A":"N",
+            "58A":"T","58B":"F","57A":"T","57B":"F","55A":"T","55B":"F","49B":"T","49A":"F","48A":"T","48B":"F","42A":"T","42B":"F","39B":"T","39A":"F","37A":"T","37B":"F","23A":"T","32A":"F","32B":"T","30B":"F","30A":"T","23B":"F","17A":"T","17B":"F","9B":"T","14B":"F","4A":"T","9A":"F","14A":"T","4B":"F",
+            "59B":"J","59A":"P","56A":"J","56B":"P","54A":"J","54B":"P","50B":"J","50A":"P","47A":"J","47B":"P","44B":"J","44A":"P","40B":"J","40A":"P","33B":"J","33A":"P","26B":"J","26A":"P","24A":"J","24B":"P","21B":"J","21A":"P","19A":"J","19B":"P","12B":"J","12A":"P","3A":"J","3B":"P","1B":"J","1A":"P"
+        };
+
+        // Descriptions from CSV (Object literal)
+        const descriptions = {
+            "ISTJ": { nama: "ISTJ (Bertanggungjawab)", deskripsi: "Serius, tenang, stabil & damai.\nSenang pada fakta, logis, obyektif, praktis & realistis.\nTask oriented, tekun, teratur, menepati janji, dapat diandalkan & bertanggung jawab.\nPendengar yang baik, setia, hanya mau berbagi dengan orang dekat.\nMemegang aturan, standar & prosedur dengan teguh.", saran: "Belajarlah memahami perasaan & kebutuhan orang lain.\nKurangi keinginan untuk mengontrol orang lain atau memerintah mereka untuk menegakkan aturan.\nLihatlah lebih banyak sisi positif pada orang lain atau hal lainnya.\nTerbukalah terhadap perubahan.", profesi: "Bidang Manajemen, Polisi, Intelijen, Hakim, Pengacara, Dokter, Akuntan (Staf Keuangan), Programmer atau yang berhubungan dengan IT, System Analys, Pemimpin Militer", pasangan: "ESFP atau ESTP" },
+            "ISFJ": { nama: "ISFJ (Setia)", deskripsi: "Penuh pertimbangan, hati-hati, teliti dan akurat.\nSerius, tenang, stabil namun sensitif.\nRamah, perhatian pada perasaan & kebutuhan orang lain, setia, kooperatif, pendengar yang baik.\nPunya kemampuan mengorganisasi, detail, teliti, sangat bertanggungjawab & bisa diandalkan.", saran: "Lihat lebih dalam, lebih antusias, & lebih semangat.\nBelajarlah mengatakan ”tidak”. Jangan menyenangkan semua orang atau Anda dianggap plin plan.\nJangan terjebak zona nyaman dan rutinitas. Cobalah hal baru.", profesi: "Architect, Interior Designer, Perawat, Administratif, Designer, Child Care, Konselor, Back Office Manager", pasangan: "ESFP atau ESTP" },
+            "ISTP": { nama: "ISTP (Pragmatis)", deskripsi: "Tenang, pendiam, cenderung kaku, dingin, hati-hati, penuh pertimbangan.\nLogis, rasional, kritis, obyektif, mampu mengesampingkan perasaan.\nMampu menghadapi perubahan mendadak dengan cepat dan tenang.", saran: "Belajarlah untuk mengenali perasaan Anda dan mengekspresikannya.\nJadilah orang yang lebih terbuka, keluar dari zona nyaman, eksplorasi ide baru.", profesi: "Polisi, Ahli Forensik, Programmer, Ahli Komputer, System Analyst, Teknisi, Insinyur, Mekanik, Pilot, Atlit, Entrepreneur", pasangan: "ESTJ atau ENTJ" },
+            "ISFP": { nama: "ISFP (Artistik)", deskripsi: "Berpikiran simpel & praktis, fleksibel, sensitif, ramah, tidak menonjolkan diri, rendah hati.\nMenghindari konflik, tidak memaksakan pendapat.\nSeringkali santai menyelesaikan sesuatu, karena sangat menikmati apa yang terjadi saat ini.", saran: "Jangan takut pada penolakan dan konflik. Anda tidak perlu menyenangkan semua orang.\nAsah dan kembangkan sisi kreatifitas dan seni.", profesi: "Seniman, Designer, Pekerja Sosial, Konselor, Psikolog, Guru, Aktor", pasangan: "ESFJ atau ENFJ" },
+            "INFJ": { nama: "INFJ (Reflektif)", deskripsi: "Perhatian, empati, sensitif & berkomitmen terhadap sebuah hubungan.\nIdealis, perfeksionis, memegang teguh prinsip.\nVisioner, penuh ide, kreatif, suka merenung dan inspiring.", saran: "Seimbangkan cara pandang Anda. Jangan hanya melihat sisi negatif.\nBersabarlah, jangan mudah marah dan menyalahkan orang lain.", profesi: "Pengajar, Psikolog, Dokter, Konselor, Pekerja Sosial, Fotografer, Seniman", pasangan: "ESFP atau ESTP" },
+            "INTJ": { nama: "INTJ (Independen)", deskripsi: "Visioner, punya perencanaan praktis.\nMandiri dan percaya diri.\nPunya kemampuan analisa yang bagus serta menyederhanakan sesuatu yang rumit menjadi praktis.", saran: "Belajarlah mengungkapkan emosi & perasaan Anda.\nHindari perdebatan tidak penting.\nBelajarlah untuk berempati dan peka.", profesi: "Peneliti, Ilmuwan, Insinyur, Pengajar, Dokter, R&D, Business Analyst, System Analyst, Pengacara", pasangan: "ENFP atau ENTP" },
+            "INFP": { nama: "INFP (Idealis)", deskripsi: "Sangat perhatian dan peka dengan perasaan orang lain.\nPeduli pada banyak hal. Cenderung idealis dan perfeksionis.\nBerpikir win-win solution.", saran: "Belajarlah menghadapi kritik.\nBelajarlah untuk bersikap tegas. Jangan selalu menyenangkan orang.", profesi: "Penulis, Sastrawan, Konselor, Psikolog, Pengajar, Seniman, Rohaniawan", pasangan: "ENFJ atau ESFJ" },
+            "INTP": { nama: "INTP (Konseptual)", deskripsi: "Sangat menghargai intelektualitas dan pengetahuan. Menikmati hal-hal teoritis.\nDiam dan menahan diri. Lebih suka bekerja sendiri.\nCenderung kritis, skeptis.", saran: "Belajarlah membangun hubungan dengan orang lain.\nRelaks. Jangan terlalu banyak berfikir. Nikmati hidup.", profesi: "Ilmuwan, Fotografer, Programmer, Ahli komputer, System Analyst, Penulis Buku Teknis, Jaksa", pasangan: "ENTJ atau ESTJ" },
+            "ESTP": { nama: "ESTP (Spontan)", deskripsi: "Spontan, Aktif, Enerjik, Cekatan, Cepat, Sigap.\nKomunikator, asertif, to the point, berkarisma.\nBaik dalam pemecahan masalah langsung di tempat.", saran: "Belajarlah memahami perasaan orang lain.\nBelajarlah untuk sabar, menikmati proses.", profesi: "Marketing, Sales, Polisi, Entrepreneur, Pialang Saham, Technical Support", pasangan: "ISFJ atau ISTJ" },
+            "ESFP": { nama: "ESFP (Murah Hati)", deskripsi: "Outgoing, easygoing, mudah berteman, bersahabat, sangat sosial.\nOptimis, ceria, antusias, fun.\nPunya interpersonal skill yang baik, murah hati.", saran: "Jangan terburu-buru dalam mengambil keputusan.\nBelajarlah menghadapi kritik dan konflik. Jangan lari.", profesi: "Entertainer, Seniman, Marketing, Konselor, Designer, Tour Guide", pasangan: "ISTJ atau ISFJ" },
+            "ENFP": { nama: "ENFP (Optimis)", deskripsi: "Ramah, hangat, enerjik, optimis, antusias.\nImaginatif, penuh ide, kreatif, inovatif.\nPandai berkomunikasi, senang bersosialisasi.", saran: "Belajarlah untuk fokus, disiplin, tegas dan konsisten.\nPikirkan kebutuhan diri sendiri.", profesi: "Konselor, Psikolog, Entertainer, Pengajar, Motivator, Presenter, Reporter", pasangan: "INTJ atau INFJ" },
+            "ENTP": { nama: "ENTP (Inovatif – Kreatif)", deskripsi: "Gesit, kreatif, inovatif, cerdik, logis.\nBanyak bicara dan punya kemampuan debat yang baik.\nFleksibel.", saran: "Cobalah untuk win-win solution. Jangan ingin menang sendiri.\nBelajarlah untuk disiplin dan konsisten.", profesi: "Pengacara, Psikolog, Konsultan, Ilmuwan, Aktor, Marketing, Programmer", pasangan: "INFJ atau INTJ" },
+            "ESTJ": { nama: "ESTJ (Konservatif – Disiplin)", deskripsi: "Praktis, realistis, berpegang pada fakta.\nSangat sistematis, procedural dan terencana.\nDisiplin, on time dan pekerja keras.", saran: "Kurangi keinginan untuk mengontrol orang lain.\nBelajarlah untuk mengontrol emosi dan amarah Anda.", profesi: "Militer, Manajer, Polisi, Hakim, Pengacara, Guru, Sales, Auditor", pasangan: "ISTP atau INTP" },
+            "ESFJ": { nama: "ESFJ (Harmonis)", deskripsi: "Hangat, banyak bicara, populer, suportif.\nMembutuhkan keseimbangan dan baik dalam menciptakan harmoni.\nSelalu melakukan sesuatu yang manis bagi orang lain.", saran: "Jangan mengorbankan diri hanya untuk menyenangkan orang lain.\nBelajarlah untuk lebih tegas.", profesi: "Perencana Keuangan, Perawat, Guru, Konselor, Administratif", pasangan: "ISFP atau INFP" },
+            "ENFJ": { nama: "ENFJ (Meyakinkan)", deskripsi: "Kreatif, imajinatif, peka, sensitive, loyal.\nPandai bergaul, meyakinkan, ramah, fun, populer, simpatik.\nMenyukai variasi dan tantangan baru.", saran: "Jangan mengorbankan diri hanya untuk menyenangkan orang lain.\nBelajarlah untuk tegas dan mengambil keputusan.", profesi: "Konsultan, Psikolog, Konselor, Pengajar, Marketing, HRD, Event Coordinator", pasangan: "INFP atau ISFP" },
+            "ENTJ": { nama: "ENTJ (Pemimpin Alami)", deskripsi: "Tegas, asertif, to the point, jujur, obyektif.\nDominan, kuat kemauannya, perfeksionis dan kompetitif.\nBerbakat pemimpin.", saran: "Belajarlah untuk relaks. Tidak perlu selalu kompetitif.\nBelajarlah mengelola emosi Anda. Jangan mudah marah.", profesi: "Entrepreneur, Pengacara, Hakim, Konsultan, Pemimpin Organisasi, Business analyst", pasangan: "INTP atau ISTP" }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function startTest() {
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            showQuestion();
         }
-    };
 
-    // Mapping Skoring Identik dengan Excel
-    const questions = [
-        { id: 60, L: "Lebih memilih berkomunikasi dengan menulis", R: "Lebih memilih berkomunikasi dengan berbicara", catL: "I", catR: "E" },
-        { id: 52, L: "Ide dengan merenungkan", R: "Ide dengan mendiskusikan", catL: "I", catR: "E" },
-        { id: 45, L: "Berorientasi pada dunia internal", R: "Berorientasi pada dunia eksternal", catL: "I", catR: "E" },
-        { id: 38, L: "Hobi mendalam", R: "Hobi meluas", catL: "I", catR: "E" },
-        { id: 35, L: "Tetutup dan mandiri", R: "Sosial dan ekspresif", catL: "I", catR: "E" },
-        { id: 31, L: "Aktivitas sosial melelahkan", R: "Aktivitas sosial bersemangat", catL: "I", catR: "E" },
-        { id: 29, L: "Sendirian di rumah menyenangkan", R: "Sendirian di rumah membosankan", catL: "I", catR: "E" },
-        { id: 28, L: "Inisiatif bila dipaksa", R: "Inisiatif tinggi", catL: "I", catR: "E" },
-        { id: 20, L: "Tempat tenang", R: "Tempat ramai", catL: "I", catR: "E" },
-        { id: 15, L: "Berpikir matang dulu", R: "Berani bertindak spontan", catL: "I", catR: "E" },
-        { id: 11, L: "Semangat dalam hati", R: "Mengekspresikan semangat", catL: "I", catR: "E" },
-        { id: 10, L: "Komunikasi perorangan", R: "Komunikasi kelompok", catL: "I", catR: "E" },
-        { id: 7, L: "Komunikasi tidak langsung", R: "Komunikasi tatap muka", catL: "I", catR: "E" },
-        { id: 5, L: "Ide matang baru bicara", R: "Ide muncul saat bicara", catL: "I", catR: "E" },
-        { id: 2, L: "Berhati-hati", R: "Spontan", catL: "I", catR: "E" },
-        { id: 53, L: "Detail ke gambaran besar", R: "Gambaran besar ke detail", catL: "S", catR: "N" },
-        { id: 51, L: "Langkah praktis hari ini", R: "Visi masa depan", catL: "S", catR: "N" },
-        { id: 46, L: "Pengalaman pedoman", R: "Imajinasi pedoman", catL: "S", catR: "N" },
-        { id: 43, L: "SOP membantu", R: "SOP membosankan", catL: "S", catR: "N" },
-        { id: 41, L: "Prosedural", R: "Bebas dinamis", catL: "S", catR: "N" },
-        { id: 36, L: "Fakta penting", R: "Ide inspiratif penting", catL: "S", catR: "N" },
-        { id: 34, L: "Stabilitas", R: "Perubahan", catL: "S", catR: "N" },
-        { id: 27, L: "Step by step", R: "Tanpa timeframe", catL: "S", catR: "N" },
-        { id: 25, L: "Kesimpulan hati-hati", R: "Kesimpulan cepat/naluri", catL: "S", catR: "N" },
-        { id: 22, L: "Klarifikasi dulu", R: "Pahami saat praktek", catL: "S", catR: "N" },
-        { id: 18, L: "Masa kini", R: "Masa depan", catL: "S", catR: "N" },
-        { id: 16, L: "Amati detail", R: "Ingat pola", catL: "S", catR: "N" },
-        { id: 13, L: "Praktis", R: "Konseptual", catL: "S", catR: "N" },
-        { id: 8, L: "Skill lama", R: "Tantangan baru", catL: "S", catR: "N" },
-        { id: 6, L: "Cara terbukti", R: "Cara unik", catL: "S", catR: "N" },
-        { id: 58, L: "Obyektif", R: "Subyektif", catL: "T", catR: "F" },
-        { id: 57, L: "Logika masuk akal", R: "Sentuh perasaan", catL: "T", catR: "F" },
-        { id: 55, L: "Berorientasi tugas", R: "Berorientasi manusia", catL: "T", catR: "F" },
-        { id: 49, L: "Aturan main", R: "Perasaan pribadi", catL: "T", catR: "F" },
-        { id: 48, L: "Tujuan sasaran", R: "Kesepakatan bersama", catL: "T", catR: "F" },
-        { id: 42, L: "Skill teknis", R: "Sifat perilaku", catL: "T", catR: "F" },
-        { id: 39, L: "Perasaan tidak profesional", R: "Kaku itu kejam", catL: "T", catR: "F" },
-        { id: 37, L: "Tujuan tercapai", R: "Situasi harmonis", catL: "T", catR: "F" },
-        { id: 23, L: "Mempertanyakan", R: "Mengakomodasi", catL: "T", catR: "F" },
-        { id: 32, L: "Kritik kesalahan", R: "Menolong sesama", catL: "T", catR: "F" },
-        { id: 30, L: "Standar segalanya", R: "Perasaan penting", catL: "T", catR: "F" },
-        { id: 17, L: "Perlakuan adil", R: "Perlakuan khusus", catL: "T", catR: "F" },
-        { id: 9, L: "Sebab akibat", R: "Nilai personal", catL: "T", catR: "F" },
-        { id: 4, L: "Keras kepala", R: "Terlalu memihak", catL: "T", catR: "F" },
-        { id: 14, L: "Menganalisa", R: "Berempati", catL: "T", catR: "F" },
-        { id: 59, L: "Terencana", R: "Spontan", catL: "J", catR: "P" },
-        { id: 56, L: "Tidak suka mendadak", R: "Perubahan OK", catL: "J", catR: "P" },
-        { id: 54, L: "Jadwal membantu", R: "Jadwal mengikat", catL: "J", catR: "P" },
-        { id: 50, L: "Orientasi hasil", R: "Orientasi proses", catL: "J", catR: "P" },
-        { id: 47, L: "Fokus target", R: "Siap menyesuaikan", catL: "J", catR: "P" },
-        { id: 44, L: "Sudah diputuskan", R: "Tetap terbuka", catL: "J", catR: "P" },
-        { id: 40, L: "Pasti", R: "Tidak pasti", catL: "J", catR: "P" },
-        { id: 33, L: "Last minute stress", R: "Last minute fun", catL: "J", catR: "P" },
-        { id: 26, L: "Perubahan musuh", R: "Perubahan hidup", catL: "J", catR: "P" },
-        { id: 24, L: "Direncanakan", R: "Sesuai situasi", catL: "J", catR: "P" },
-        { id: 21, L: "Diatur dari awal", R: "Mengalir", catL: "J", catR: "P" },
-        { id: 19, L: "Checklist panduan", R: "Checklist beban", catL: "J", catR: "P" },
-        { id: 12, L: "Puas rencana jalan", R: "Puas adaptasi", catL: "J", catR: "P" },
-        { id: 3, L: "Tata tertib", R: "Bebas", catL: "J", catR: "P" },
-        { id: 1, L: "Teguh pendirian", R: "Bisa berubah", catL: "J", catR: "P" }
-    ];
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('progress-text').innerText = `Soal ${currentQuestion + 1} dari 60`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / 60) * 100}%`;
+            document.getElementById('btnA').innerText = q.a;
+            document.getElementById('btnB').innerText = q.b;
+            document.getElementById('prevBtn').style.visibility = currentQuestion > 0 ? 'visible' : 'hidden';
+        }
 
-    const responses = {};
-    const grid = document.getElementById('questionGrid');
-    questions.forEach(q => {
-        grid.innerHTML += `<div class="mbti-row">
-            <div class="mbti-option" id="q${q.id}L" onclick="saveResp(${q.id}, 'L', '${q.catL}')">${q.L}</div>
-            <div class="vs">VS</div>
-            <div class="mbti-option" id="q${q.id}R" onclick="saveResp(${q.id}, 'R', '${q.catR}')">${q.R}</div>
-        </div>`;
-    });
+        function choose(choice) {
+            answers[currentQuestion] = choice;
+            if (currentQuestion < 59) {
+                currentQuestion++;
+                showQuestion();
+            } else {
+                calculateResult();
+            }
+        }
 
-    function saveResp(id, side, val) {
-        document.getElementById(`q${id}L`).classList.remove('selected');
-        document.getElementById(`q${id}R`).classList.remove('selected');
-        document.getElementById(`q${id}${side}`).classList.add('selected');
-        responses[id] = val;
-    }
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
 
-    function generateResult() {
-        if (Object.keys(responses).length < 60) { alert("Harap jawab semua 60 pertanyaan."); return; }
-        
-        const s = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
-        Object.values(responses).forEach(v => s[v]++);
+        function calculateResult() {
+            let scores = { I:0, E:0, S:0, N:0, T:0, F:0, J:0, P:0 };
 
-        const type = (s.E >= s.I ? "E" : "I") + (s.S >= s.N ? "S" : "N") + (s.T >= s.F ? "T" : "F") + (s.J >= s.P ? "J" : "P");
-        const data = mbtiLib[type];
+            questions.forEach((q, index) => {
+                let choice = answers[index];
+                let code = q.id + choice;
+                let dimension = mapping[code];
+                if (dimension) scores[dimension]++;
+            });
 
-        document.getElementById('quizSection').style.display = 'none';
-        document.getElementById('resultArea').style.display = 'block';
-        
-        document.getElementById('resType').innerText = type;
-        document.getElementById('resTitle').innerText = data.title;
-        document.getElementById('resDesc').innerText = data.desc;
-        document.getElementById('resDev').innerText = data.dev;
-        document.getElementById('resJobs').innerText = data.jobs;
-        document.getElementById('resPartner').innerText = data.partner;
-        
-        document.getElementById('outName').innerText = document.getElementById('userName').value;
-        document.getElementById('outNIP').innerText = document.getElementById('userNIP').value;
-        window.scrollTo(0,0);
-    }
-</script>
+            let type = "";
+            type += scores.I >= scores.E ? "I" : "E";
+            type += scores.S >= scores.N ? "S" : "N";
+            type += scores.T >= scores.F ? "T" : "F";
+            type += scores.J >= scores.P ? "J" : "P";
+
+            displayResult(type);
+        }
+
+        function displayResult(type) {
+            const data = descriptions[type];
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+
+            document.getElementById('type-code').innerText = type;
+            document.getElementById('type-name').innerText = data.nama;
+            document.getElementById('res-desc').innerText = data.deskripsi;
+            document.getElementById('res-saran').innerText = data.saran;
+            document.getElementById('res-profesi').innerText = data.profesi;
+            document.getElementById('res-pasangan').innerText = data.pasangan;
+            
+            window.scrollTo(0,0);
+        }
+    </script>
 </body>
 </html>
