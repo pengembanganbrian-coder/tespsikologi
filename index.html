@@ -1,188 +1,189 @@
+Gemini
+
+Gerbang Tes Sederhana dan Menarik
+Gems
+My stuff
+Gerbang Tes Sederhana dan Menarik
+Panduan GitHub Pages dan Update Kode
+Membuat Tes PAPI Kostick Berbasis Web
+Membuat Portal Tes Psikologi Interaktif
+Waktu Unduh 32 GB pada 9 Mbps
+Understanding AI's Internal Operation
+Casual Chat in East Jakarta
+Sesuaikan Tes Kepribadian
+Pelatihan Analisis Biaya Manfaat
+Addressing Parental Neglect
+Tugas Atasan Sebagai Pembina
+Conversation with Gemini
+buatkan gerbangnya untuk 3 tes tersebut, codingnya dengan tema simple dan enak dilihat
+
+Tentu, mari kita buatkan sebuah Landing Page (Gate) yang bersih, modern, dan intuitif untuk mengarahkan pengguna ke 3 jenis tes tersebut. Saya akan menggunakan pendekatan minimalist card design agar pengguna tidak merasa kewalahan saat pertama kali masuk.
+
+Berikut adalah kode HTML dan CSS (digabungkan dalam satu file) yang bisa kamu gunakan:
+
+HTML
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-MBTI DJBC 2026</title>
+    <title>Portal Assessment - Pilih Tes Anda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --navy: #1a237e; --gold: #ffd600; --soft: #f4f6f9; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--soft); margin: 0; padding: 20px; }
-        .container { max-width: 950px; margin: auto; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
-        .header { background: var(--navy); color: white; padding: 30px; text-align: center; border-bottom: 6px solid var(--gold); }
-        .content { padding: 30px; }
-        .id-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #eee; }
-        label { font-size: 11px; font-weight: bold; color: var(--navy); display: block; margin-bottom: 5px; }
-        input[type="text"] { padding: 12px; border: 1px solid #ccc; border-radius: 5px; width: 100%; box-sizing: border-box; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { background: #eee; padding: 15px; border: 1px solid #ddd; color: var(--navy); }
-        td { border: 1px solid #ddd; padding: 15px; font-size: 14px; cursor: pointer; }
-        .selected { background: #e3f2fd !important; font-weight: bold; border-left: 5px solid var(--navy) !important; }
-        .btn { background: var(--navy); color: white; padding: 20px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-size: 18px; font-weight: bold; margin-top: 20px; }
-        #result-area { display: none; padding: 40px; text-align: center; }
-        #loading { display: none; font-weight: bold; color: var(--navy); margin: 20px 0; }
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --primary-text: #1e293b;
+            --secondary-text: #64748b;
+            --accent-color: #3b82f6;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--primary-text);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        p.subtitle {
+            color: var(--secondary-text);
+            margin-bottom: 3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2.5rem 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            border-color: var(--accent-color);
+        }
+
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--secondary-text);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="quiz-ui">
-        <div class="header">
-            <h1 style="margin:0; letter-spacing: 2px;">E-MBTI DJBC 2026</h1>
-            <p style="margin:5px 0 0; opacity:0.8">Mode Input: Murni Kode A/B</p>
-        </div>
+    <div class="container">
+        <h1>Pilih Modul Tes</h1>
+        <p class="subtitle">Silakan pilih salah satu asesmen di bawah ini untuk memulai.</p>
 
-        <div class="content">
-            <div class="id-grid">
-                <div><label>NAMA LENGKAP</label><input type="text" id="nama" placeholder="Nama Lengkap"></div>
-                <div><label>NIP</label><input type="text" id="nip" placeholder="NIP"></div>
-                <div><label>JABATAN</label><input type="text" id="jabatan" placeholder="Jabatan"></div>
-                <div><label>TANGGAL TES</label><input type="text" id="tgl" value="30/01/2026" readonly></div>
+        <div class="grid">
+            <div class="card">
+                <div>
+                    <div class="icon">🧠</div>
+                    <h2>Tes Kognitif</h2>
+                    <p>Ukur kemampuan logika, penalaran numerik, dan pemecahan masalah kompleks Anda.</p>
+                </div>
+                <a href="#" class="btn">Mulai Tes</a>
             </div>
 
-            <table>
-                <thead>
-                    <tr><th width="50">NO</th><th>PILIHAN A</th><th>PILIHAN B</th></tr>
-                </thead>
-                <tbody id="quiz-body"></tbody>
-            </table>
+            <div class="card">
+                <div>
+                    <div class="icon">🎭</div>
+                    <h2>Tes Kepribadian</h2>
+                    <p>Temukan profil karakter dan kecenderungan perilaku Anda dalam lingkungan kerja.</p>
+                </div>
+                <a href="#" class="btn">Mulai Tes</a>
+            </div>
 
-            <div id="loading">⏳ Mengirim kode A/B saja ke Spreadsheet...</div>
-            <button class="btn" id="submitBtn" onclick="submitTest()">KIRIM JAWABAN</button>
+            <div class="card">
+                <div>
+                    <div class="icon">🛠️</div>
+                    <h2>Tes Teknis</h2>
+                    <p>Evaluasi pemahaman mendalam Anda terkait spesifikasi peran dan keahlian praktis.</p>
+                </div>
+                <a href="#" class="btn">Mulai Tes</a>
+            </div>
         </div>
     </div>
 
-    <div id="result-area">
-        <div style="background: var(--navy); color: white; padding: 40px; border-radius: 15px;">
-            <h2>BERHASIL DISIMPAN!</h2>
-            <p>Data (A/B) sudah masuk ke kolom Spreadsheet Anda.</p>
-            <h1 style="font-size: 60px; color: var(--gold);">✓</h1>
-        </div>
-        <button class="btn" style="background:#555" onclick="location.reload()">ISI KEMBALI</button>
-    </div>
-</div>
-
-<script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbywPLYRAyRK7502irRcrV7Ca-0pwi2gkc3cgQXOPvqohcadM9GhOfaLoIgrFmtm7k3ADw/exec';
-
-    const questions = [
-        {a:"Lebih memilih berkomunikasi dengan menulis.", b:"Lebih memilih berkomunikasi dengan berbicara."},
-        {a:"Menemukan dan mengembangkan ide dengan merenungkan.", b:"Menemukan dan mengembangkan ide dengan mendiskusikan."},
-        {a:"Berorientasi pada dunia internal (memori, pemikiran, ide).", b:"Berorientasi pada dunia eksternal (kegiatan, orang, aktifitas)."},
-        {a:"Fokus pada beberapa ketertarikan / hobi tertentu namun mendalam.", b:"Fokus pada banyak ketertarikan / hobi secara meluas dan general."},
-        {a:"Tertutup dan mandiri.", b:"Sosial dan ekspresif."},
-        {a:"Pertemuan dengan orang lain dan aktivitas sosial adalah melelahkan.", b:"Bertemu orang dan aktivitas sosial membuat bersemangat."},
-        {a:"Beraktivitas sendirian di rumah adalah menyenangkan.", b:"Beraktivitas sendirian di rumah adalah membosankan."},
-        {a:"Berinisiataif bila situasi memaksa / berhubungan dengan kepentingan sendiri.", b:"Berinisiatif tinggi hampir dalam berbagai hal meski tidak berhubungan dengan dirinya."},
-        {a:"Lebih memilih tempat yang tenang dan pribadi untuk berkonsentrasi.", b:"Lebih memilih tempat yang ramai dan banyak interaksi / aktivitas."},
-        {a:"Berpikir secara matang sebelum bertindak.", b:"Memiliki keberanian bertindak tanpa harus terlalu lama berpikir."},
-        {a:"Menyimpan semangat dalam hati.", b:"Mengekspresikan semangat."},
-        {a:"Lebih banyak mendengarkan daripada berbicara.", b:"Mencari kesempatan untuk berkomunikasi secara perorangan."},
-        {a:"Komunikasi tidak langsung lebih disukai (telepon, surat, email).", b:"Komunikasi yang dilakukan secara langsung lebih disukai (tatap muka)."},
-        {a:"Membangun ide dengan matang baru membicarakannya.", b:"Membangun idenya justru pada saat berbicara."},
-        {a:"Berhati-hati, penuh pertimbangan, kaku.", b:"Spontan, easy going, fleksibel."},
-        {a:"Bergerak dari detail kepada gambaran besar sebagai kesimpulan akhir.", b:"Bergerak dari gambaran umum (big picture) baru kemudian menuju detail."},
-        {a:"Berbicara mengenai masalah yang dihadapi hari ini dan langkah praktis mengatasinya.", b:"Berbicara mengenai visi masa depan dan konsep-konsep mengenai visi tersebut."},
-        {a:"Menggunakan pengalaman sebagai pedoman.", b:"Menggunakan imajinasi dan perenungan sebagai pedoman."},
-        {a:"SOP sangat membantu.", b:"SOP sangat membosankan."},
-        {a:"Prosedural dan tradisional.", b:"Bebas dan dinamis."},
-        {a:"Memilih fakta lebih penting daripada ide inspiratif.", b:"Memilih ide inspiratif lebih penting daripada fakta."},
-        {a:"Kontinuitas dan stabilitas lebih diutamakan.", b:"Perubahan dan variasi lebih diutamakan."},
-        {a:"Bertindak step by step dengan timeframe yang jelas.", b:"Bertindak dengan semangat tanpa menggunakan timeframe."},
-        {a:"Dalam menarik kesimpulan lama dan hati-hati.", b:"Dalam menarik kesimpulan cepat sesuai naluri."},
-        {a:"Mengklarifikasi ide dan teori sebelum dipraktekkan.", b:"Memahami ide dan teori saat mempraktekannya secara langsung."},
-        {a:"Berfokus pada masa kini (apa yang bisa diperbaiki sekarang).", b:"Berfokus pada masa depan (apa yang mungkin bisa dicapai di masa mendatang)."},
-        {a:"Secara konsisten mengamati dan mengingat detail.", b:"Mengamati dan mengingat detail hanya bila berhubungan dengan pola."},
-        {a:"Praktis.", b:"Konseptual."},
-        {a:"Menggunakan keterampilan yang sudah dikuasai.", b:"Menyukai tantangan untuk menguasai keterampilan baru."},
-        {a:"Memilih cara yang sudah ada dan sudah terbukti.", b:"Memilih cara yang unik dan belum dipraktekkan orang lain."},
-        {a:"Obyektif.", b:"Subyektif."},
-        {a:"Diyakinkan dengan penjelasan yang masuk akal.", b:"Diyakinkan dengan penjelasan yang menyentuh perasaan."},
-        {a:"Berorientasi tugas-tugas dan job description.", b:"Berorientasi pada manusia dan hubungan."},
-        {a:"Mengambil keputusan berdasarkan logika dan aturan main.", b:"Mengambil keputusan berdasarkan perasaan pribadi dan kondisi orang lain."},
-        {a:"Mengemukakan tujuan dan sasaran lebih dahulu.", b:"Mengemukakan kesepakatan lebih dahulu."},
-        {a:"Menghargai seseorang karena skill dan faktor teknis.", b:"Menghargai seseorang karena sifat dan perilakunya."},
-        {a:"Melibatkan perasaan itu tidak profesional.", b:"Terlalu kaku pada peraturan dan pekerjaan itu kejam."},
-        {a:"Yang penting tujuan tercapai.", b:"Yang penting situasi harmonis terjaga."},
-        {a:"Mempertanyakan.", b:"Mengakomodasi."},
-        {a:"Bersemangat saat mengkritik dan menemukan kesalahan.", b:"Bersemangat saat menolong orang keluar dari kesalahan dan meluruskan."},
-        {a:"Standar harus ditegakkan di atas segalanya.", b:"Perasaan manusia lebih penting dari sekedar standar."},
-        {a:"Menuntut perlakuan yang adil dan sama pada semua orang.", b:"Menuntut perlakukan khusus sesuai karakteristik orang."},
-        {a:"Mementingkan sebab akibat.", b:"Mementingkan nilai-nilai personal."},
-        {a:"Sering dianggap keras kepala.", b:"Sering dianggap terlalu memihak."},
-        {a:"Menganalisa.", b:"Berempati."},
-        {a:"Terencana, dan memiliki deadline jelas.", b:"Spontan, fleksibel, tidak diikat waktu."},
-        {a:"Tidak menyukai hal-hal mendadak.", b:"Perubahan mendadak tidak masalah."},
-        {a:"Aturan dan jadwal memperjelas tindakan.", b:"Aturan dan jadwal mengikat dan membebani."},
-        {a:"Berorientasi pada hasil.", b:"Berorientasi pada proses."},
-        {a:"Fokus pada target.", b:"Siap menyesuaikan diri dan merubah target."},
-        {a:"Merasa tenang bila sudah diputuskan.", b:"Nyaman bila situasi tetap terbuka."},
-        {a:"Ketidakpastian membuat bingung.", b:"Ketidakpastian itu seru dan fun."},
-        {a:"Situasi last minute menyiksa.", b:"Situasi last minute memunculkan potensi."},
-        {a:"Perubahan adalah musuh.", b:"Perubahan adalah semangat hidup."},
-        {a:"Bertindak sesuai rencana.", b:"Bertindak sesuai situasi kondisi."},
-        {a:"Hidup harus diatur dari awal.", b:"Hidup mengalir sesuai kondisi."},
-        {a:"Daftar checklist panduan penting.", b:"Daftar checklist adalah beban."},
-        {a:"Puas menjalankan rencana.", b:"Puas beradaptasi dengan momentum."},
-        {a:"Mengatur orang dengan tata tertib.", b:"Membiarkan orang lain bertindak bebas."},
-        {a:"Berpegang teguh pada pendirian.", b:"Pendirian bisa berubah tergantung situasi."}
-    ];
-
-    const tbody = document.getElementById('quiz-body');
-    questions.forEach((q, i) => {
-        tbody.innerHTML += `
-            <tr id="row-${i}">
-                <td align="center"><b>${i+1}</b></td>
-                <td id="opt-${i}a" onclick="select(${i},'a')"><input type="radio" name="r${i}" value="A"> ${q.a}</td>
-                <td id="opt-${i}b" onclick="select(${i},'b')"><input type="radio" name="r${i}" value="B"> ${q.b}</td>
-            </tr>
-        `;
-    });
-
-    function select(idx, opt) {
-        document.querySelectorAll(`#row-${idx} input`)[opt === 'a' ? 0 : 1].checked = true;
-        document.getElementById(`opt-${idx}a`).className = (opt === 'a' ? 'selected' : '');
-        document.getElementById(`opt-${idx}b`).className = (opt === 'b' ? 'selected' : '');
-    }
-
-    async function submitTest() {
-        const answers = [];
-        for(let i=0; i<60; i++) {
-            let sel = document.querySelector(`input[name="r${i}"]:checked`);
-            if(!sel) {
-                alert("Nomor " + (i+1) + " belum dijawab!");
-                document.getElementById(`row-${i}`).scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-            // BAGIAN INI SUDAH DIKUNCI: HANYA MENGAMBIL VALUE "A" ATAU "B"
-            answers.push(sel.value); 
-        }
-
-        document.getElementById('submitBtn').disabled = true;
-        document.getElementById('loading').style.display = 'block';
-
-        const payload = {
-            nama: document.getElementById('nama').value,
-            nip: document.getElementById('nip').value,
-            jabatan: document.getElementById('jabatan').value,
-            tanggal: document.getElementById('tgl').value,
-            jawaban: answers
-        };
-
-        try {
-            await fetch(scriptURL, {
-                method: 'POST',
-                body: JSON.stringify(payload),
-                mode: 'no-cors'
-            });
-            document.getElementById('quiz-ui').style.display = 'none';
-            document.getElementById('result-area').style.display = 'block';
-            window.scrollTo(0,0);
-        } catch (e) {
-            alert("Selesai! Silakan cek Spreadsheet.");
-            document.getElementById('quiz-ui').style.display = 'none';
-            document.getElementById('result-area').style.display = 'block';
-        }
-    }
-</script>
 </body>
 </html>
+Mengapa Desain Ini "Enak Dilihat"?
+Tipografi Inter: Saya menggunakan font Inter yang sangat populer untuk UI modern karena tingkat keterbacaannya yang tinggi.
+
+Ruang Kosong (Whitespace): Jarak antar elemen diatur agar mata tidak cepat lelah dan fokus pada konten utama.
+
+Visual Feedback: Kartu akan sedikit "naik" (hover effect) saat kursor diletakkan di atasnya, memberikan kesan interaktif.
+
+Responsif: Tata letak otomatis berubah dari 3 kolom menjadi 1 kolom jika dibuka lewat ponsel.
+
+Tips Implementasi
+Untuk bagian href="#" pada tag <a>, kamu cukup menggantinya dengan URL halaman tes masing-masing, misalnya href="tes-kognitif.html".
+
+Apakah kamu ingin saya menambahkan fitur "Log In" sederhana atau sistem skor di halaman ini?
+
+
+
+
+Gemini can make mistakes, so double-check it
+
