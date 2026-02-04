@@ -66,7 +66,7 @@
             transition: width 0.4s ease;
         }
 
-        /* Identity Section */
+        /* Steps */
         .step { display: none; animation: fadeIn 0.5s ease; }
         .step.active { display: block; }
 
@@ -101,8 +101,6 @@
             cursor: pointer;
             transition: all 0.2s;
             font-weight: 500;
-            display: flex;
-            align-items: center;
         }
         .option-item:hover { background: var(--primary-light); border-color: var(--primary); }
         .option-item.selected { background: var(--primary); border-color: var(--primary); color: white; }
@@ -150,6 +148,12 @@
         .cat-berat { background: #fee2e2; color: #991b1b; }
         .cat-sangat-berat { background: #450a0a; color: white; }
 
+        #loadingOverlay {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
         .no-print { margin-top: 30px; display: flex; flex-direction: column; gap: 10px; }
     </style>
 </head>
@@ -183,6 +187,10 @@
 
     <div id="quiz-container"></div>
 
+    <div id="loadingOverlay">
+        <p>Mohon tunggu, sedang menyimpan hasil ke database...</p>
+    </div>
+
     <div id="step-result" class="step">
         <div id="pdfContent">
             <h2 style="text-align: center; margin-bottom: 5px;">Hasil Analisis Kesehatan Mental</h2>
@@ -205,6 +213,8 @@
 </div>
 
 <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbw8XYUWgDlKyGBU1D7BDqoFTD3Mzfbx1lwuTpKySB5DJEaYQdNFfTAk0v9bUyDhUSf0PQ/exec';
+    
     const questions = [
         "Saya merasa sulit untuk bersantai", "Saya merasa mulut saya sering kering", "Saya sama sekali tidak dapat merasakan perasaan positif",
         "Saya mengalami kesulitan bernafas (terengah-engah tanpa aktivitas fisik)", "Saya sepertinya tidak kuat lagi untuk melakukan suatu kegiatan",
@@ -220,14 +230,14 @@
     const mapping = ["S", "A", "D", "A", "D", "S", "A", "S", "A", "D", "S", "S", "D", "S", "A", "D", "D", "S", "A", "A", "D"];
     const labels = ["Tidak Pernah", "Kadang-kadang", "Cukup Sering", "Sangat Sering"];
     
-    let currentStep = -1; // -1 is Identity
+    let currentStep = -1;
     let answers = new Array(questions.length).fill(null);
 
     function startQuiz() {
-        const name = document.getElementById('userName').value;
-        const nip = document.getElementById('userNIP').value;
-        if(!name || !nip) { alert("Mohon lengkapi identitas."); return; }
-        
+        if(!document.getElementById('userName').value || !document.getElementById('userNIP').value) {
+            alert("Mohon lengkapi identitas.");
+            return;
+        }
         document.getElementById('step-identity').classList.remove('active');
         document.getElementById('progressWrapper').style.display = 'block';
         currentStep = 0;
@@ -251,9 +261,9 @@
                     `).join('')}
                 </div>
                 <div class="nav-buttons">
-                    <button class="btn btn-prev" onclick="prevStep()">${currentStep === 0 ? 'Kembali ke Identitas' : 'Kembali'}</button>
+                    <button class="btn btn-prev" onclick="prevStep()">${currentStep === 0 ? 'Kembali' : 'Kembali'}</button>
                     ${currentStep === questions.length - 1 ? 
-                        `<button class="btn btn-next" id="btnFinish" ${answers[currentStep] === null ? 'disabled' : ''} onclick="showResults()">Lihat Hasil</button>` : 
+                        `<button class="btn btn-next" id="btnFinish" ${answers[currentStep] === null ? 'disabled' : ''} onclick="submitData()">Lihat Hasil</button>` : 
                         `<button class="btn btn-next" id="btnNext" ${answers[currentStep] === null ? 'disabled' : ''} onclick="nextStep()">Lanjut</button>`
                     }
                 </div>
@@ -263,131 +273,92 @@
 
     function selectOption(val) {
         answers[currentStep] = val;
-        // Visual feedback
-        const items = document.querySelectorAll('.option-item');
-        items.forEach((item, i) => {
-            if(i === val) item.classList.add('selected');
-            else item.classList.remove('selected');
-        });
-        
-        // Auto-next dengan delay sedikit agar user sempat melihat pilihannya
-        setTimeout(() => {
-            if (currentStep < questions.length - 1) {
-                nextStep();
-            } else {
-                document.getElementById('btnFinish').disabled = false;
-            }
-        }, 300);
+        renderQuestion();
+        setTimeout(() => { if(currentStep < questions.length - 1) nextStep(); }, 300);
     }
 
-    function nextStep() {
-        if (currentStep < questions.length - 1) {
-            currentStep++;
-            renderQuestion();
-        }
-    }
-
-    function prevStep() {
-        if (currentStep === 0) {
+    function nextStep() { currentStep++; renderQuestion(); }
+    function prevStep() { 
+        if(currentStep === 0) {
             currentStep = -1;
-            document.getElementById('quiz-container').innerHTML = '';
             document.getElementById('step-identity').classList.add('active');
+            document.getElementById('quiz-container').innerHTML = '';
             document.getElementById('progressWrapper').style.display = 'none';
         } else {
-            currentStep--;
-            renderQuestion();
+            currentStep--; renderQuestion();
         }
     }
 
     function getInterpretation(score, type) {
         const data = {
-            D: { 
-                name: "Depresi",
-                levels: [
-                    { max: 9, label: "Normal", class: "cat-normal" },
-                    { max: 13, label: "Ringan", class: "cat-ringan" },
-                    { max: 20, label: "Sedang", class: "cat-sedang" },
-                    { max: 27, label: "Berat", class: "cat-berat" },
-                    { max: Infinity, label: "Sangat Berat", class: "cat-sangat-berat" }
-                ]
-            },
-            A: { 
-                name: "Kecemasan",
-                levels: [
-                    { max: 7, label: "Normal", class: "cat-normal" },
-                    { max: 9, label: "Ringan", class: "cat-ringan" },
-                    { max: 14, label: "Sedang", class: "cat-sedang" },
-                    { max: 19, label: "Berat", class: "cat-berat" },
-                    { max: Infinity, label: "Sangat Berat", class: "cat-sangat-berat" }
-                ]
-            },
-            S: { 
-                name: "Stres",
-                levels: [
-                    { max: 14, label: "Normal", class: "cat-normal" },
-                    { max: 18, label: "Ringan", class: "cat-ringan" },
-                    { max: 25, label: "Sedang", class: "cat-sedang" },
-                    { max: 33, label: "Berat", class: "cat-berat" },
-                    { max: Infinity, label: "Sangat Berat", class: "cat-sangat-berat" }
-                ]
-            }
+            D: { name: "Depresi", levels: [{max:9, label:"Normal", class:"cat-normal"}, {max:13, label:"Ringan", class:"cat-ringan"}, {max:20, label:"Sedang", class:"cat-sedang"}, {max:27, label:"Berat", class:"cat-berat"}, {max:999, label:"Sangat Berat", class:"cat-sangat-berat"}]},
+            A: { name: "Kecemasan", levels: [{max:7, label:"Normal", class:"cat-normal"}, {max:9, label:"Ringan", class:"cat-ringan"}, {max:14, label:"Sedang", class:"cat-sedang"}, {max:19, label:"Berat", class:"cat-berat"}, {max:999, label:"Sangat Berat", class:"cat-sangat-berat"}]},
+            S: { name: "Stres", levels: [{max:14, label:"Normal", class:"cat-normal"}, {max:18, label:"Ringan", class:"cat-ringan"}, {max:25, label:"Sedang", class:"cat-sedang"}, {max:33, label:"Berat", class:"cat-berat"}, {max:999, label:"Sangat Berat", class:"cat-sangat-berat"}]}
         };
-        const config = data[type];
-        const res = config.levels.find(l => score <= l.max);
-        return { ...res, title: config.name };
+        const res = data[type].levels.find(l => score <= l.max);
+        return { ...res, title: data[type].name };
     }
 
-    function showResults() {
-        document.getElementById('quiz-container').innerHTML = '';
+    async function submitData() {
+        document.getElementById('quiz-container').style.display = 'none';
+        document.getElementById('loadingOverlay').style.display = 'block';
+
+        let s = { D: 0, A: 0, S: 0 };
+        answers.forEach((v, i) => s[mapping[i]] += v);
+
+        const results = {
+            nama: document.getElementById('userName').value,
+            nip: document.getElementById('userNIP').value,
+            jabatan: document.getElementById('userJabatan').value,
+            skor_d: s.D * 2,
+            skor_a: s.A * 2,
+            skor_s: s.S * 2,
+            inter_d: getInterpretation(s.D*2, "D").label,
+            inter_a: getInterpretation(s.A*2, "A").label,
+            inter_s: getInterpretation(s.S*2, "S").label
+        };
+
+        try {
+            await fetch(scriptURL, { method: 'POST', mode: 'no-cors', cache: 'no-cache', body: JSON.stringify(results) });
+        } catch (e) {
+            console.log("Error sending to sheet", e);
+        }
+
+        showResults(results);
+    }
+
+    function showResults(res) {
+        document.getElementById('loadingOverlay').style.display = 'none';
         document.getElementById('progressWrapper').style.display = 'none';
         document.getElementById('step-result').classList.add('active');
 
-        let scores = { D: 0, A: 0, S: 0 };
-        answers.forEach((val, i) => {
-            scores[mapping[i]] += val;
-        });
-
-        // Display Info
-        const name = document.getElementById('userName').value;
-        const nip = document.getElementById('userNIP').value;
-        const jabatan = document.getElementById('userJabatan').value;
         document.getElementById('userInfoDisplay').innerHTML = `
-            <strong>Nama:</strong> ${name}<br>
-            <strong>NIP:</strong> ${nip}<br>
-            <strong>Unit/Jabatan:</strong> ${jabatan}<br>
-            <strong>Waktu Tes:</strong> ${new Date().toLocaleString('id-ID')}
+            <strong>Nama:</strong> ${res.nama}<br>
+            <strong>NIP:</strong> ${res.nip}<br>
+            <strong>Unit/Jabatan:</strong> ${res.jabatan}<br>
+            <strong>Waktu:</strong> ${new Date().toLocaleString('id-ID')}
         `;
 
-        // Display Cards
-        const subscales = ['D', 'A', 'S'];
-        document.getElementById('resultCards').innerHTML = subscales.map(sub => {
-            const finalScore = scores[sub] * 2;
-            const interpret = getInterpretation(finalScore, sub);
-            return `
-                <div class="score-card">
-                    <div>
-                        <div style="font-weight:700; font-size: 1.1rem;">${interpret.title}</div>
-                        <div style="font-size: 0.85rem; color: var(--text-muted);">Skor: ${finalScore}</div>
-                    </div>
-                    <span class="tag ${interpret.class}">${interpret.label}</span>
-                </div>
-            `;
+        const subs = [
+            {id:'D', score: res.skor_d},
+            {id:'A', score: res.skor_a},
+            {id:'S', score: res.skor_s}
+        ];
+
+        document.getElementById('resultCards').innerHTML = subs.map(sub => {
+            const interp = getInterpretation(sub.score, sub.id);
+            return `<div class="score-card">
+                <div><div style="font-weight:700;">${interp.title}</div><small>Skor: ${sub.score}</small></div>
+                <span class="tag ${interp.class}">${interp.label}</span>
+            </div>`;
         }).join('');
     }
 
     function downloadPDF() {
         const element = document.getElementById('pdfContent');
         const nip = document.getElementById('userNIP').value;
-        const opt = {
-            margin: 15,
-            filename: `DASS21_Result_${nip}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-        html2pdf().set(opt).from(element).save();
+        html2pdf().set({ margin: 15, filename: `DASS21_${nip}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }}).from(element).save();
     }
 </script>
-
 </body>
 </html>
