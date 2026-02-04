@@ -327,31 +327,56 @@
         showResults(results);
     }
 
-    function showResults(res) {
-        document.getElementById('loadingOverlay').style.display = 'none';
-        document.getElementById('progressWrapper').style.display = 'none';
-        document.getElementById('step-result').classList.add('active');
+   function showResults(res) {
+    document.getElementById('loadingOverlay').style.display = 'none';
+    document.getElementById('progressWrapper').style.display = 'none';
+    document.getElementById('step-result').classList.add('active');
 
-        document.getElementById('userInfoDisplay').innerHTML = `
-            <strong>Nama:</strong> ${res.nama}<br>
-            <strong>NIP:</strong> ${res.nip}<br>
-            <strong>Unit/Jabatan:</strong> ${res.jabatan}<br>
-            <strong>Waktu:</strong> ${new Date().toLocaleString('id-ID')}
-        `;
+    document.getElementById('userInfoDisplay').innerHTML = `
+        <strong>Nama:</strong> ${res.nama}<br>
+        <strong>NIP:</strong> ${res.nip}<br>
+        <strong>Unit/Jabatan:</strong> ${res.jabatan}<br>
+        <strong>Waktu:</strong> ${new Date().toLocaleString('id-ID')}
+    `;
 
-        const subs = [
-            {id:'D', score: res.skor_d},
-            {id:'A', score: res.skor_a},
-            {id:'S', score: res.skor_s}
-        ];
+    // 1. Tampilkan Card Skor seperti biasa
+    const subs = [
+        {id:'D', score: res.skor_d, label: res.inter_d},
+        {id:'A', score: res.skor_a, label: res.inter_a},
+        {id:'S', score: res.skor_s, label: res.inter_s}
+    ];
 
-        document.getElementById('resultCards').innerHTML = subs.map(sub => {
-            const interp = getInterpretation(sub.score, sub.id);
-            return `<div class="score-card">
-                <div><div style="font-weight:700;">${interp.title}</div><small>Skor: ${sub.score}</small></div>
-                <span class="tag ${interp.class}">${interp.label}</span>
-            </div>`;
-        }).join('');
+    document.getElementById('resultCards').innerHTML = subs.map(sub => {
+        const interp = getInterpretation(sub.score, sub.id);
+        return `<div class="score-card">
+            <div><div style="font-weight:700;">${interp.title}</div><small>Skor: ${sub.score}</small></div>
+            <span class="tag ${interp.class}">${interp.label}</span>
+        </div>`;
+    }).join('');
+
+    // 2. LOGIKA KESIMPULAN OTOMATIS (Sama seperti rumus IFS di Sheet Anda)
+    let kesimpulanText = "";
+    let isSangatBerat = (res.inter_d === "Sangat Berat" || res.inter_a === "Sangat Berat" || res.inter_s === "Sangat Berat");
+    let isBerat = (res.inter_d === "Berat" || res.inter_a === "Berat" || res.inter_s === "Berat");
+    let isNormal = (res.inter_d === "Normal" && res.inter_a === "Normal" && res.inter_s === "Normal");
+
+    if (isSangatBerat) {
+        kesimpulanText = "HASIL: Tingkat tekanan psikologis Anda berada pada kategori Sangat Berat. Segera konsultasikan kondisi Anda dengan profesional (Psikolog/Psikiater) atau Tim Dukungan Mental.";
+    } else if (isBerat) {
+        kesimpulanText = "HASIL: Anda mengalami indikasi tekanan emosional yang Berat. Kami menyarankan Anda untuk mengambil waktu istirahat dan berbicara dengan konselor internal.";
+    } else if (isNormal) {
+        kesimpulanText = "HASIL: Kondisi emosional Anda berada dalam rentang Normal. Tetap jaga keseimbangan pola hidup dan kesehatan mental Anda.";
+    } else {
+        kesimpulanText = "HASIL: Kondisi emosional Anda berada dalam rentang Ringan/Sedang. Lakukan manajemen stres secara mandiri atau berdiskusi dengan orang terpercaya.";
+    }
+
+    // Tampilkan kalimat kesimpulan di bawah kartu skor
+    document.getElementById('resultCards').innerHTML += `
+        <div style="margin-top: 25px; padding: 20px; border: 2px solid var(--primary); border-radius: 12px; background: #eff6ff; color: var(--primary); font-weight: 600; line-height: 1.6;">
+            ${kesimpulanText}
+        </div>
+    `;
+}
     }
 
     function downloadPDF() {
