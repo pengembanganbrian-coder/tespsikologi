@@ -23,29 +23,35 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-semibold text-gray-600">Nama Lengkap</label>
-                    <input type="text" id="input-nama" class="w-full border p-2 rounded mt-1 shadow-sm">
+                    <input type="text" id="input-nama" class="w-full border p-2 rounded mt-1 shadow-sm focus:ring-2 focus:ring-blue-400 outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-600">NIP</label>
-                    <input type="text" id="input-nip" class="w-full border p-2 rounded mt-1 shadow-sm">
+                    <input type="text" id="input-nip" class="w-full border p-2 rounded mt-1 shadow-sm focus:ring-2 focus:ring-blue-400 outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-600">Jabatan</label>
-                    <input type="text" id="input-jabatan" class="w-full border p-2 rounded mt-1 shadow-sm">
+                    <input type="text" id="input-jabatan" class="w-full border p-2 rounded mt-1 shadow-sm focus:ring-2 focus:ring-blue-400 outline-none">
                 </div>
                 <div>
+                    <label class="block text-sm font-semibold text-gray-600">No HP (WhatsApp)</label>
+                    <input type="text" id="input-hp" class="w-full border p-2 rounded mt-1 shadow-sm focus:ring-2 focus:ring-blue-400 outline-none" placeholder="0812...">
+                </div>
+                <div class="md:col-span-2">
                     <label class="block text-sm font-semibold text-gray-600">Tanggal Tes</label>
                     <input type="date" id="input-tanggal" class="w-full border p-2 rounded mt-1 shadow-sm">
                 </div>
             </div>
-            <button onclick="startTest()" class="mt-6 w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">MULAI TES</button>
+            <button id="start-btn" onclick="startTest()" class="mt-6 w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition flex justify-center items-center">
+                <span>MULAI TES</span>
+            </button>
         </div>
 
         <div id="quiz-section" class="hidden no-print">
             <div class="bg-white p-8 rounded-xl shadow-md">
                 <div class="flex justify-between items-center mb-6">
                     <span id="progress-text" class="font-bold text-blue-600">Soal 1 / 60</span>
-                    <div class="w-1/2 bg-gray-200 h-2 rounded-full"><div id="progress-bar" class="bg-blue-600 h-2 rounded-full" style="width: 2%"></div></div>
+                    <div class="w-1/2 bg-gray-200 h-2 rounded-full"><div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all" style="width: 2%"></div></div>
                 </div>
                 <h3 class="text-lg text-gray-500 italic mb-4">Pilihlah salah satu yang lebih dominan menurut Anda:</h3>
                 <div class="space-y-4">
@@ -59,19 +65,20 @@
             <div class="bg-white p-10 rounded-xl shadow-2xl print-container">
                 <div class="text-center border-b-4 border-blue-600 pb-6 mb-8">
                     <h1 class="text-3xl font-black text-gray-800">HASIL PEMERIKSAAN PSIKOLOGIS</h1>
-                    <p class="text-blue-600 font-bold tracking-widest">MYERS-BRIGGS TYPE INDICATOR (MBTI)</p>
+                    <p class="text-blue-600 font-bold tracking-widest uppercase">Myers-Briggs Type Indicator (MBTI)</p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 mb-8 bg-gray-50 p-4 rounded-lg border">
+                <div class="grid grid-cols-2 gap-4 mb-8 bg-gray-50 p-4 rounded-lg border text-sm">
                     <p><strong>Nama:</strong> <span id="res-nama"></span></p>
                     <p><strong>NIP:</strong> <span id="res-nip"></span></p>
                     <p><strong>Jabatan:</strong> <span id="res-jabatan"></span></p>
+                    <p><strong>No HP:</strong> <span id="res-hp"></span></p>
                     <p><strong>Tanggal:</strong> <span id="res-tanggal"></span></p>
                 </div>
 
                 <div class="text-center mb-10">
                     <span class="text-gray-500 font-bold uppercase tracking-widest">Tipe Kepribadian Anda Adalah:</span>
-                    <h2 id="res-code" class="text-7xl font-black text-blue-600 my-2"></h2>
+                    <h2 id="res-code" class="text-7xl font-black text-blue-600 my-2 leading-tight"></h2>
                     <h3 id="res-title" class="text-2xl font-bold text-gray-700"></h3>
                 </div>
 
@@ -103,7 +110,7 @@
                 </div>
 
                 <div class="mt-12 pt-8 border-t text-center no-print">
-                    <button onclick="window.print()" class="bg-blue-600 text-white px-10 py-3 rounded-full font-bold shadow-lg hover:bg-blue-700">CETAK HASIL LENGKAP</button>
+                    <button onclick="window.print()" class="bg-blue-600 text-white px-10 py-3 rounded-full font-bold shadow-lg hover:bg-blue-700 transition">CETAK HASIL LENGKAP</button>
                     <button onclick="location.reload()" class="ml-4 text-gray-500 underline">Ulangi Tes</button>
                 </div>
             </div>
@@ -111,7 +118,8 @@
     </div>
 
     <script>
-        // Data Soal Lengkap [cite: 7, 72, 130, 188, 243]
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw8XYUWgDlKyGBU1D7BDqoFTD3Mzfbx1lwuTpKySB5DJEaYQdNFfTAk0v9bUyDhUSf0PQ/exec";
+
         const questions = [
             { id: 1, a: "Terencana, dan memiliki deadline jelas.", b: "Spontan, fleksibel, tidak diikat waktu." },
             { id: 2, a: "Berpikir secara matang sebelum bertindak.", b: "Memiliki keberanian bertindak tanpa harus terlalu lama berpikir." },
@@ -175,7 +183,6 @@
             { id: 60, a: "Spontan, easy going, fleksibel.", b: "Berhati-hati, penuh pertimbangan, kaku." }
         ];
 
-        // Scoring Map (Berdasarkan Gambar Rumus)
         const mapping = {
             "60B":"I","60A":"E","52B":"I","52A":"E","45A":"I","45B":"E","38A":"I","38B":"E","35B":"I","35A":"E","31A":"I","31B":"E","29A":"I","29B":"E","28B":"I","28A":"E","20A":"I","20B":"E","15A":"I","15B":"E","11A":"I","11B":"E","10A":"I","10B":"E","7B":"I","7A":"E","5B":"I","5A":"E","2A":"I","2B":"E",
             "53A":"S","53B":"N","51A":"S","51B":"N","46A":"S","46B":"N","43A":"S","43B":"N","41A":"S","41B":"N","36A":"S","36B":"N","34A":"S","34B":"N","27A":"S","27B":"N","25A":"S","25B":"N","22B":"S","22A":"N","18B":"S","18A":"N","16A":"S","16B":"N","13A":"S","13B":"N","8A":"S","8B":"N","6B":"S","6A":"N",
@@ -183,7 +190,6 @@
             "59B":"J","59A":"P","56A":"J","56B":"P","54A":"J","54B":"P","50B":"J","50A":"P","47A":"J","47B":"P","44B":"J","44A":"P","40B":"J","40A":"P","33B":"J","33A":"P","26B":"J","26A":"P","24A":"J","24B":"P","21B":"J","21A":"P","19A":"J","19B":"P","12B":"J","12A":"P","3A":"J","3B":"P","1B":"J","1A":"P"
         };
 
-        // Deskripsi Lengkap Berdasarkan CSV 
         const fullDetails = {
             "ISTJ": { title: "Bertanggungjawab", uraian: "Serius, tenang, stabil & damai.\nSenang pada fakta, logis, obyektif, praktis & realistis.\nTask oriented, tekun, teratur, menepati janji, dapat diandalkan & bertanggung jawab.\nPendengar yang baik, setia, hanya mau berbagi dengan orang dekat.\nMemegang aturan, standar & prosedur dengan teguh.", saran: "Belajarlah memahami perasaan & kebutuhan orang lain.\nKurangi keinginan untuk mengontrol orang lain atau memerintah mereka untuk menegakkan aturan.\nLihatlah lebih banyak sisi positif pada orang lain atau hal lainnya.\nTerbukalah terhadap perubahan.", profesi: "Bidang Manajemen, Polisi, Intelijen, Hakim, Pengacara, Dokter, Akuntan, Programmer, System Analys, Militer", pasangan: "ESFP atau ESTP" },
             "ISFJ": { title: "Setia", uraian: "Penuh pertimbangan, hati-hati, teliti dan akurat.\nSerius, tenang, stabil namun sensitif.\nRamah, perhatian pada perasaan & kebutuhan orang lain, setia, kooperatif.\nPunya kemampuan mengorganisasi, detail, teliti, sangat bertanggungjawab.", saran: "Lihat lebih dalam, lebih antusias, & lebih semangat.\nBelajarlah mengatakan ”tidak”. Jangan menyenangkan semua orang.\nJangan terjebak zona nyaman dan rutinitas. Cobalah hal baru.", profesi: "Architect, Interior Designer, Perawat, Administratif, Designer, Child Care, Konselor, Perhotelan", pasangan: "ESFP atau ESTP" },
@@ -197,7 +203,7 @@
             "ESFP": { title: "Murah Hati", uraian: "Outgoing, easygoing, sangat sosial, ramah, hangat & menyenangkan.\nOptimis, ceria, suka menjadi perhatian.\nPunya interpersonal skill yang baik, murah hati, mudah simpatik.\nSangat baik dalam keadaan yang membutuhkan common sense dan tindakan cepat.", saran: "Jangan terburu-buru mengambil keputusan. Belajarlah fokus.\nJangan hanya ingin menyenangkan semua orang.\nBelajarlah menghadapi kritik dan konflik. Jangan lari.\nHati-hati dengan kecenderungan materialistis.", profesi: "Entertainer, Seniman, Marketing, Konselor, Designer, Tour Guide, Hospitality", pasangan: "ISTJ atau ISFJ" },
             "ENFP": { title: "Optimis", uraian: "Ramah, hangat, enerjik, optimis, antusias, fun.\nImaginatif, penuh ide, kreatif, inovatif.\nMampu beradaptasi dengan beragam situasi dan perubahan.\nPandai berkomunikasi & membawa suasana positif.", saran: "Belajarlah untuk fokus, disiplin, tegas dan konsisten.\nBelajarlah untuk menghadapi konflik dan kritik.\nPikirkan kebutuhan diri sendiri juga.\nBelajarlah mengelola keuangan.", profesi: "Konselor, Psikolog, Entertainer, Pengajar, Motivator, Presenter, Reporter, MC", pasangan: "INTJ atau INFJ" },
             "ENTP": { title: "Inovatif – Kreatif", uraian: "Gesit, kreatif, cerdik, logis, baik dalam banyak hal.\nBanyak bicara dan punya kemampuan debat yang baik.\nFleksibel. Punya banyak cara memecahkan tantangan.\nCenderung melakukan hal baru sebelum menyelesaikan yang lama.", saran: "Cobalah win-win solution. Jangan ingin menang sendiri.\nBelajarlah disiplin dan konsisten.\nHindari perdebatan tidak penting.\nSeimbangkan cara pandang agar tidak terlalu optimis berlebihan.", profesi: "Pengacara, Psikolog, Konsultan, Ilmuwan, Aktor, Marketing, Programmer, Fotografer", pasangan: "INFJ atau INTJ" },
-            "ESTJ": { title: "Konservatif – Disiplin", uraian: "Praktis, realistis, berpegang pada fakta.\nSangat sistematis, prosedural dan terencana.\nDisiplin, on time dan pekerja keras.\nKonservatif dan cenderung kaku.\nSenang mengorganisir sesuatu.", saran: "Kurangi keinginan untuk mengontrol dan memaksa orang lain.\nBelajarlah mengontrol emosi dan amarah.\nCobalah introspeksi diri dan meluangkan waktu merenung.\nBelajarlah lebih sabar dan low profile.", profesi: "Militer, Manajer, Polisi, Hakim, Pengacara, Guru, Sales, Auditor, Akuntan", pasangan: "ISTP atau INTP" },
+            "ESTJ": { title: "Konservatif – Disiplin", uraian: "Praktis, realistis, berpegang pada fakta.\nSangat sistematis, prosedural dan terencana.\nDisiplin, on time dan pekerja keras.\nKonservatif dan cenderung kaku.\nSenang mengorganisir sesuatu.", saran: "Kurangi keinginan untuk mengontrol dan memaksa orang lain.\nBelajarlah mengontrol emosi dan amarah.\nCobalah introspeksi diri dan meluangkan waktu sejenak untuk merenung.\nBelajarlah lebih sabar dan low profile.", profesi: "Militer, Manajer, Polisi, Hakim, Pengacara, Guru, Sales, Auditor, Akuntan", pasangan: "ISTP atau INTP" },
             "ESFJ": { title: "Harmonis", uraian: "Hangat, banyak bicara, populer, suportif.\nMembutuhkan keseimbangan dan baik dalam menciptakan harmoni.\nSelalu melakukan sesuatu yang manis bagi orang lain.\nTeliti dan rajin merawat apa yang ia miliki.", saran: "Jangan mengorbankan diri hanya untuk menyenangkan orang lain.\nJangan mengukur harga diri hanya dari pujian orang lain.\nBelajarlah lebih tegas dan dewasa dalam menerima tanggung jawab.\nHadapi kritik dan konflik.", profesi: "Perencana Keuangan, Perawat, Guru, Konselor, Administratif, Hospitality", pasangan: "ISFP atau INFP" },
             "ENFJ": { title: "Meyakinkan", uraian: "Kreatif, imajinatif, peka, sensitive, loyal.\nPeduli pada perasaan orang lain dan ingin menyenangkan mereka.\nPandai bergaul, meyakinkan, ramah, populer.\nResponsif pada kritik dan pujian.", saran: "Jangan mengorbankan diri hanya untuk orang lain.\nJangan mudah kecewa jika orang lain tidak sesuai harapan Anda.\nBelajarlah tegas dalam mengambil keputusan.\nJangan bersikap terlalu keras terhadap diri sendiri.", profesi: "Konsultan, Psikolog, Pengajar, Marketing, HRD, Event Coordinator, Motivator", pasangan: "INFP atau ISFP" },
             "ENTJ": { title: "Pemimpin Alami", uraian: "Tegas, asertif, jujur terus terang, obyektif.\nDominan, kuat kemauannya, perfeksionis dan kompetitif.\nTangguh, disiplin, dan sangat menghargai komitmen.\nBerkarisma, mampu menggerakkan orang.", saran: "Belajarlah relaks. Tidak perlu selalu kompetitif.\nNyatakan perasaan Anda, itu bukan kelemahan.\nBelajarlah mengelola amarah.\nJangan terlalu arogan dan meremehkan orang lain.", profesi: "Entrepreneur, Pengacara, Hakim, Konsultan, Pemimpin Organisasi, Business analyst", pasangan: "INTP atau ISTP" }
@@ -208,7 +214,8 @@
 
         function startTest() {
             const nama = document.getElementById('input-nama').value;
-            if(!nama) return alert("Harap isi Nama terlebih dahulu!");
+            const hp = document.getElementById('input-hp').value;
+            if(!nama || !hp) return alert("Harap isi Nama dan No HP terlebih dahulu!");
             
             document.getElementById('identity-section').classList.add('hidden');
             document.getElementById('quiz-section').classList.remove('hidden');
@@ -233,22 +240,45 @@
             }
         }
 
-        function finalize() {
+        async function finalize() {
+            // Tampilkan layar loading / proses
+            document.getElementById('quiz-section').innerHTML = '<div class="text-center py-10"><p class="text-xl font-bold">Sedang menyimpan data ke database...</p></div>';
+
+            const pesertaData = {
+                nama: document.getElementById('input-nama').value,
+                nip: document.getElementById('input-nip').value || "-",
+                jabatan: document.getElementById('input-jabatan').value || "-",
+                no_hp: document.getElementById('input-hp').value,
+                tanggal: document.getElementById('input-tanggal').value || new Date().toLocaleDateString()
+            };
+
+            // Hitung MBTI
             let s = {I:0, E:0, S:0, N:0, T:0, F:0, J:0, P:0};
             questions.forEach((q, i) => {
                 let code = q.id + userAnswers[i];
                 if(mapping[code]) s[mapping[code]]++;
             });
-
             let res = (s.I>=s.E?'I':'E')+(s.S>=s.N?'S':'N')+(s.T>=s.F?'T':'F')+(s.J>=s.P?'J':'P');
-            
-            // Fill identity
-            document.getElementById('res-nama').innerText = document.getElementById('input-nama').value;
-            document.getElementById('res-nip').innerText = document.getElementById('input-nip').value || "-";
-            document.getElementById('res-jabatan').innerText = document.getElementById('input-jabatan').value || "-";
-            document.getElementById('res-tanggal').innerText = document.getElementById('input-tanggal').value || new Date().toLocaleDateString();
 
-            // Fill content
+            // KIRIM KE SPREADSHEET (Hanya No, Nama, NIP, Jabatan, No HP)
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Penting untuk Google Apps Script
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ peserta: pesertaData, tipe: res })
+                });
+            } catch (err) {
+                console.error("Gagal sinkronisasi spreadsheet:", err);
+            }
+
+            // Tampilkan Hasil di UI
+            document.getElementById('res-nama').innerText = pesertaData.nama;
+            document.getElementById('res-nip').innerText = pesertaData.nip;
+            document.getElementById('res-jabatan').innerText = pesertaData.jabatan;
+            document.getElementById('res-hp').innerText = pesertaData.no_hp;
+            document.getElementById('res-tanggal').innerText = pesertaData.tanggal;
+
             const d = fullDetails[res];
             document.getElementById('res-code').innerText = res;
             document.getElementById('res-title').innerText = d.title;
