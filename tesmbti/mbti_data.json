@@ -1,105 +1,162 @@
 {
   "ISTJ": {
     "nama": "ISTJ (Bertanggungjawab)",
-    "karakteristik_umum": "Orang yang tenang yang mencari stabilitas dan kedamaian. Bekerja sendiri dan bisa diandalkan, namun nyaman dalam tim jika peran jelas. Sangat menghormati fakta, realistis, dan sistematis.",
-    "kekuatan": "Memiliki rasa tanggung jawab tinggi, loyal, tekun, dan memegang teguh prosedur.",
-    "gaya_komunikasi": "Menggunakan logika untuk mengenali kelemahan, ingin tahu 'mengapa', dan menyukai informasi obyektif serta padat.",
-    "pengambilan_keputusan": "Tegas, obyektif, dan sering mengesampingkan perasaan demi menyelesaikan permasalahan.",
-    "pemimpin_pengikut": "Sebagai pemimpin, menjunjung tinggi standar dan kompetensi. Sebagai pengikut, sangat loyal jika pemimpinnya kompeten.",
-    "perilaku_stres": "Menjadi kaku, kritis, dan sulit mendelegasikan. Saat depresi bisa terjebak 'Catastrophizing' atau membayangkan hal negatif.",
-    "saran": "Belajarlah memahami perasaan orang lain, kurangi keinginan mengontrol, dan lebih terbuka terhadap perubahan perspektif."
+    "deskripsi": "Tenang, mencari stabilitas dan kedamaian. Sangat berpegang pada aturan, fakta, realistis, dan sistematis.",
+    "karakteristik": "• Kompetensi dan tanggung jawab adalah yang terpenting.\n• Sangat loyal, tekun, menepati janji, dan bisa diandalkan.\n• Mendukung perubahan asalkan memiliki alasan yang logis.",
+    "kekuatan": "• Memiliki rasa tanggung jawab dan kesetiaan yang tinggi.\n• Sangat berorientasi pada tugas dan metodik.\n• Memegang aturan, standar dan prosedur dengan teguh.",
+    "komunikasi": "Menggunakan logika dan analisa untuk mengenali kelemahan. Ingin tahu ‘mengapa’. Menyukai informasi yang disajikan secara obyektif. Menggunakan bahasa yang tepat dan padat.",
+    "stres": "• Menjadi sangat kaku dan kritis.\n• Sulit mempercayai orang dan sulit mendelegasikan tanggung jawab.\n• Saat depresi: Terjebak dalam keadaan Catasthropizing (membayangkan hal-hal negatif).",
+    "saran": "Belajarlah memahami perasaan orang lain. Kurangilah keinginan Anda untuk mengontrol orang lain secara berlebihan. Terbukalah terhadap perubahan perspektif.",
+    "pasangan": "ESFP atau ESTP"
   },
   "ISFJ": {
     "nama": "ISFJ (Setia)",
-    "karakteristik_umum": "Penuh pertimbangan, hati-hati, teliti, dan akurat. Ramah, perhatian pada perasaan orang lain, dan pendengar yang baik.",
-    "kekuatan": "Sangat bertanggung jawab, kooperatif, dan memiliki kemampuan mengorganisasi yang detail.",
-    "gaya_komunikasi": "Menghindari konflik, lebih suka mendukung secara personal, dan sangat menjaga keharmonisan hubungan.",
-    "perilaku_stres": "Cenderung menyalahkan diri sendiri dan merasa terbebani oleh kebutuhan semua orang di sekitarnya.",
-    "saran": "Belajarlah mengatakan 'tidak' agar tidak dianggap plin-plan, dan jangan takut mencoba hal baru di luar zona nyaman."
+    "deskripsi": "Penuh pertimbangan, hati-hati, teliti dan akurat. Serius, tenang, namun sangat sensitif dan ramah.",
+    "karakteristik": "• Sangat bertanggung jawab dan bisa diandalkan.\n• Memiliki kemampuan mengorganisasi yang sangat baik.\n• Menghargai tradisi dan sejarah.",
+    "kekuatan": "• Perhatian pada perasaan dan kebutuhan orang lain.\n• Setia, kooperatif, dan pendengar yang baik.\n• Detail dan teliti dalam bekerja.",
+    "komunikasi": "Hangat dan mendukung. Menghindari konfrontasi langsung. Menghargai feedback yang diberikan secara personal.",
+    "stres": "• Merasa terbebani oleh kebutuhan orang lain.\n• Menjadi tertutup dan sulit tidur karena terlalu banyak berpikir.\n• Bisa merasa tidak dihargai atas pengabdiannya.",
+    "saran": "Belajarlah mengatakan ”tidak”. Jangan menyenangkan semua orang atau Anda dianggap plin plan. Jangan terjebak zona nyaman dan rutinitas.",
+    "pasangan": "ESFP atau ESTP"
   },
   "INFJ": {
     "nama": "INFJ (Reflektif)",
-    "karakteristik_umum": "Idealis, perfeksionis, visioner, dan penuh ide kreatif. Biasanya diikuti karena kejelasan visi dan dedikasi pada hal baik.",
-    "kekuatan": "Empati tinggi, sensitif, original, dan memiliki keinginan kuat memberikan yang terbaik dalam pekerjaan.",
-    "gaya_komunikasi": "Menginspirasi, suka merenung, dan menunjukkan perhatian mendalam melalui tindakan dan visi.",
-    "saran": "Seimbangkan cara pandang, jangan hanya melihat risiko negatif. Belajarlah untuk rileks dan jangan menyalahkan diri sendiri."
+    "deskripsi": "Idealis, perfeksionis, dan visioner. Memegang teguh prinsip dan memiliki keinginan kuat melakukan hal-hal baik.",
+    "karakteristik": "• Penuh ide, kreatif, suka merenung dan inspiring.\n• Sukses karena ketekunan dan originalitas.\n• Biasanya diikuti dan dihormati karena kejelasan visi.",
+    "kekuatan": "• Perhatian, empati, dan sangat berkomitmen terhadap hubungan.\n• Mampu memahami konsep-konsep yang kompleks.\n• Memiliki dedikasi tinggi pada nilai-nilai kemanusiaan.",
+    "komunikasi": "Mendorong orang lain melalui visi. Menghargai keaslian dan kedalaman dalam pembicaraan.",
+    "stres": "• Menjadi terobsesi pada detail kecil yang tidak penting.\n• Menarik diri dari dunia luar sepenuhnya.\n• Mudah marah dan menyalahkan orang lain atau situasi.",
+    "saran": "Seimbangkan cara pandang Anda. Jangan hanya melihat sisi negatif & resiko. Rileks dan jangan terus menerus berfikir atau menyelesaikan tanggungjawab.",
+    "pasangan": "ESFP atau ESTP"
   },
   "INTJ": {
     "nama": "INTJ (Independen)",
-    "karakteristik_umum": "Mandiri, percaya diri, dan memiliki dorongan kuat untuk mencapai ide-ide original. Mampu menyederhanakan hal rumit menjadi praktis.",
-    "kekuatan": "Analisa yang tajam, visioner, dan tidak terganggu oleh kritik atau konflik dalam mencapai tujuan.",
-    "saran": "Belajarlah mengungkapkan emosi, lebih terbuka pada dunia luar (bergaul), dan hindari perdebatan yang tidak penting."
+    "deskripsi": "Visioner, punya perencanaan praktis, mandiri dan percaya diri. Memiliki dorongan kuat untuk mencapai ide-ide original.",
+    "karakteristik": "• Mampu menyederhanakan sesuatu yang rumit menjadi praktis.\n• Kritik & konflik tidak menjadi masalah berarti bagi mereka.\n• Sangat menghargai pengetahuan dan kompetensi.",
+    "kekuatan": "• Strategis dan mampu melihat gambaran besar.\n• Mandiri dan tidak butuh pengakuan dari orang lain untuk bekerja.\n• Analisa yang tajam dan logis.",
+    "komunikasi": "To-the-point dan tidak suka basa-basi. Menghargai perdebatan intelektual asalkan logis.",
+    "stres": "• Terjebak dalam kesenangan sensorik (makan berlebih, belanja impulsif).\n• Menjadi sangat sinis dan mudah menghakimi orang lain.",
+    "saran": "Belajarlah mengungkapkan emosi & perasaan Anda. Hindari perdebatan tidak penting. Belajarlah untuk berempati dan peka terhadap orang lain.",
+    "pasangan": "ENFP atau ENTP"
   },
   "ISTP": {
     "nama": "ISTP (Pragmatis)",
-    "karakteristik_umum": "Tenang, pendiam, namun sangat percaya diri dan tegas. Mampu menghadapi perubahan mendadak dengan tenang.",
-    "kekuatan": "Problem solver teknis yang handal, logis, rasional, dan mampu mendelegasikan tugas secara efektif.",
-    "saran": "Belajarlah mengenali dan mengekspresikan perasaan. Jangan menyimpan informasi yang seharusnya dibagi kepada tim."
+    "deskripsi": "Tenang, pendiam, cenderung kaku, namun sangat berani dan mampu menghadapi perubahan mendadak dengan cepat.",
+    "karakteristik": "• Logis, rasional, kritis, dan obyektif.\n• Problem solver yang baik terutama untuk masalah teknis.\n• Percaya diri dan tegas.",
+    "kekuatan": "• Mampu menganalisa dan mengorganisir dengan efisien.\n• Mampu mendelegasikan tanggung jawab secara tepat.\n• Fokus pada hasil nyata.",
+    "komunikasi": "Singkat dan padat. Lebih suka mendiskusikan fakta dan data daripada perasaan atau teori abstrak.",
+    "stres": "• Meledak secara emosional secara tiba-tiba.\n• Menjadi sangat pasif-agresif.",
+    "saran": "Belajarlah untuk mengenali perasaan Anda dan mengekspresikannya. Jangan menyimpan informasi yang harusnya dibagi kepada tim.",
+    "pasangan": "ESTJ atau ENTJ"
   },
   "ISFP": {
     "nama": "ISFP (Artistik)",
-    "karakteristik_umum": "Rendah hati, fleksibel, sensitif, dan menghindari konflik. Lebih banyak bertindak daripada bicara.",
-    "kekuatan": "Sangat menikmati momen saat ini, ramah, dan menjadi pelaksana yang setia terhadap nilai-nilai yang mereka yakini.",
-    "saran": "Jangan takut pada penolakan atau konflik. Pikirkan dampak jangka panjang dari keputusan kecil hari ini."
+    "deskripsi": "Berpikiran simpel & praktis, fleksibel, sensitif, ramah, dan rendah hati.",
+    "karakteristik": "• Menghindari konflik dan tidak memaksakan pendapat.\n• Menjadi pengikut dan pelaksana yang setia.\n• Menikmati apa yang terjadi saat ini.",
+    "kekuatan": "• Menunjukkan perhatian melalui tindakan dibanding kata-kata.\n• Memiliki rasa keindahan dan estetika yang tinggi.\n• Setia dan kooperatif dalam tim.",
+    "komunikasi": "Tenang dan suportif. Lebih suka mendengarkan daripada berbicara di depan banyak orang.",
+    "stres": "• Menjadi sangat kritis pada diri sendiri.\n• Merasa tidak mampu dan kehilangan arah.",
+    "saran": "Jangan takut pada penolakan dan konflik. Cobalah mulai memikirkan dampak jangka panjang dari keputusan hari ini. Asah kreatifitas Anda.",
+    "pasangan": "ESFJ atau ENFJ"
   },
   "INFP": {
     "nama": "INFP (Idealis)",
-    "karakteristik_umum": "Sangat peka dengan perasaan orang lain, penuh antusiasme, dan setia kepada orang yang dekat dengannya.",
-    "kekuatan": "Optimis dalam melihat potensi orang lain, berpikir win-win solution, dan sangat idealis.",
-    "saran": "Belajarlah menghadapi kritik tanpa menyalahkan diri sendiri. Bertindak benar lebih penting daripada sekadar bertindak baik."
+    "deskripsi": "Sangat peka dengan perasaan orang lain, penuh antusiasme dan setia pada orang-orang dekatnya.",
+    "karakteristik": "• Cenderung idealis dan perfeksionis.\n• Berpikir win-win solution.\n• Mempercayai dan mengoptimalkan potensi orang lain.",
+    "kekuatan": "• Peduli pada banyak hal secara tulus.\n• Memiliki nilai-nilai moral yang sangat kuat.\n• Mampu melihat sisi positif dalam segala situasi.",
+    "komunikasi": "Lembut dan diplomatik. Lebih suka komunikasi tertulis atau satu-lawan-satu.",
+    "stres": "• Menjadi sangat sinis dan suka mencela.\n• Terjebak dalam detail yang salah dan kehilangan gambaran besar.",
+    "saran": "Belajarlah menghadapi kritik secara obyektif. Belajarlah untuk bersikap tegas. Jangan terlalu baik pada orang lain tapi melupakan diri sendiri.",
+    "pasangan": "ENFJ atau ESFJ"
   },
   "INTP": {
     "nama": "INTP (Konseptual)",
-    "karakteristik_umum": "Menghargai intelektualitas, kritis, skeptis, dan menikmati hal-hal teoritis serta ilmiah.",
-    "kekuatan": "Mampu memecahkan masalah dengan logika dan analisa mendalam. Sangat serius jika menemukan minat yang menarik.",
-    "saran": "Belajarlah membangun hubungan sosial dan mendengar aktif. Jangan hanya berganti ide tanpa ada yang terwujud."
+    "deskripsi": "Sangat menghargai intelektualitas dan pengetahuan. Menikmati hal-hal teoritis dan ilmiah.",
+    "karakteristik": "• Cenderung kritis, skeptis, dan mudah curiga.\n• Lebih suka bekerja sendiri daripada memimpin.\n• Mampu memecahkan masalah dengan logika murni.",
+    "kekuatan": "• Memiliki minat yang mendalam pada bidang yang mereka sukai.\n• Sangat serius dan antusias menekuni ilmu pengetahuan.\n• Berpikir secara independen.",
+    "komunikasi": "Hati-hati dan akurat dalam menggunakan kata-kata. Kadang terlihat sombong karena standar intelektualnya yang tinggi.",
+    "stres": "• Menjadi sangat emosional dan tidak logis.\n• Merasa terisolasi dan tidak dipahami oleh dunia.",
+    "saran": "Belajarlah membangun hubungan dengan orang lain. Jangan hanya berganti-ganti ide tetapi tidak satupun yang terwujud. Belajarlah berempati.",
+    "pasangan": "ENTJ atau ESTJ"
   },
   "ESTP": {
     "nama": "ESTP (Spontan)",
-    "karakteristik_umum": "Enerjik, cekatan, dan ceplas-ceplos. Memiliki interpersonal skill yang baik dan berkarisma.",
-    "kekuatan": "Pemecah masalah langsung di tempat, asertif, dan mampu menghadapi konflik tanpa rasa khawatir.",
-    "saran": "Luangkan waktu untuk merenung dan merencanakan masa depan. Belajarlah memahami pemikiran orang lain sebelum bicara."
+    "deskripsi": "Spontan, Aktif, Enerjik, Cekatan, dan Antusias. Komunikator yang asertif dan berkarisma.",
+    "karakteristik": "• Baik dalam pemecahan masalah langsung di tempat.\n• Menikmati apapun yang terjadi dan tidak khawatir.\n• Ceplas-ceplos dan to-the-point.",
+    "kekuatan": "• Mampu menghadapi masalah, konflik, dan kritik dengan tenang.\n• Memiliki interpersonal skill yang sangat baik.\n• Adaptif dan toleran.",
+    "komunikasi": "Terbuka dan persuasif. Paling baik dalam menjelaskan hal-hal nyata yang bisa segera dilakukan.",
+    "stres": "• Menarik diri dan merasa tidak berdaya.\n• Terobsesi dengan hal-hal mistis atau teori konspirasi.",
+    "saran": "Belajarlah memahami perasaan orang lain sebelum bicara. Sesekali luangkan waktu untuk merencanakan masa depan Anda secara serius.",
+    "pasangan": "ISFJ atau ISTJ"
   },
   "ESFP": {
     "nama": "ESFP (Murah Hati)",
-    "karakteristik_umum": "Easygoing, ceria, dan suka menjadi pusat perhatian. Menghindari konflik demi menjaga keharmonisan.",
-    "kekuatan": "Sangat baik dalam ketrampilan praktis, murah hati, dan mudah mengenali perasaan orang sekelilingnya.",
-    "saran": "Jangan terburu-buru mengambil keputusan. Belajarlah menghadapi kritik daripada lari dari masalah."
+    "deskripsi": "Outgoing, easygoing, ramah, hangat, dan sangat menyenangkan. Suka menjadi pusat perhatian.",
+    "karakteristik": "• Optimis, ceria, dan menghibur.\n• Menghindari konflik dan menjaga keharmonisan.\n• Sangat baik dalam tindakan cepat dan praktis.",
+    "kekuatan": "• Murah hati, simpatik, dan mengenali perasaan orang lain.\n• Punya interpersonal skill yang baik.\n• Menghargai hidup dan kebersamaan.",
+    "komunikasi": "Ceria dan santai. Lebih suka berbicara tentang pengalaman pribadi dan hal-hal yang menyenangkan saat ini.",
+    "stres": "• Menjadi bingung dan cemas berlebihan.\n• Merasa kesepian dan tidak berharga.",
+    "saran": "Jangan terburu-buru mengambil keputusan. Belajarlah menghadapi kritik dan konflik daripada menghindar. Hati-hati dengan sifat boros.",
+    "pasangan": "ISTJ atau ISFJ"
   },
   "ENFP": {
     "nama": "ENFP (Optimis)",
-    "karakteristik_umum": "Bersemangat, inovatif, dan sangat menghargai orang lain. Secara dominan menggunakan Intuition eksternal dan Feeling internal.",
-    "kekuatan": "Pandai berkomunikasi, membawa suasana positif, dan mampu beradaptasi dengan perubahan beragam.",
-    "saran": "Belajarlah untuk fokus, disiplin, dan tegas. Jangan melupakan kebutuhan diri sendiri karena terlalu peduli pada orang lain."
+    "deskripsi": "Enerjik, optimis, antusias, dan penuh semangat. Imaginatif dan inovatif.",
+    "karakteristik": "• Mampu beradaptasi dengan beragam situasi.\n• Pandai berkomunikasi dan membawa suasana positif.\n• Mudah membaca perasaan orang lain.",
+    "kekuatan": "• Penuh ide dan kreativitas.\n• Memiliki rasa ingin tahu yang besar.\n• Memotivasi orang lain melalui semangatnya.",
+    "komunikasi": "Antusias dan inspiratif. Suka menggunakan kiasan dan berbicara tentang visi masa depan.",
+    "stres": "• Menjadi terobsesi pada detail data dan fakta secara tidak wajar.\n• Merasa terkekang oleh komitmen.",
+    "saran": "Belajarlah untuk fokus, disiplin, dan tegas. Jangan melupakan kebutuhan diri sendiri karena terlalu peduli pada kebutuhan orang lain.",
+    "pasangan": "INTJ atau INFJ"
   },
   "ENTP": {
     "nama": "ENTP (Inovatif – Kreatif)",
-    "karakteristik_umum": "Gesit, cerdik, dan punya kemampuan debat yang baik tanpa merasa bersalah. Selalu ingin mengembangkan diri.",
-    "kekuatan": "Fleksibel dan punya banyak cara memecahkan tantangan. Sangat logis dalam menganalisa masalah.",
-    "saran": "Hindari perdebatan tidak penting. Belajarlah untuk waspada dan tidak terlalu optimis mengambil risiko yang tidak realistis."
+    "deskripsi": "Gesit, kreatif, inovatif, dan cerdik. Memiliki kemampuan debat yang sangat baik.",
+    "karakteristik": "• Fleksibel dan punya banyak cara memecahkan tantangan.\n• Punya keinginan kuat untuk mengembangkan diri.\n• Cenderung melakukan hal baru sebelum yang lama selesai.",
+    "kekuatan": "• Logis dan baik dalam banyak hal.\n• Mampu melihat peluang di mana orang lain melihat hambatan.\n• Mandiri secara intelektual.",
+    "komunikasi": "Suka berdebat hanya untuk senang-senang. Blak-blakan dan jujur dalam memberikan argumen.",
+    "stres": "• Menjadi terisolasi dan merasa kehilangan arah kreatif.\n• Terobsesi dengan detail kecil yang tidak penting.",
+    "saran": "Cobalah untuk win-win solution. Jangan ingin menang sendiri. Belajarlah untuk disiplin dan konsisten. Hindari perdebatan tidak penting.",
+    "pasangan": "INFJ atau INTJ"
   },
   "ESTJ": {
     "nama": "ESTJ (Konservatif – Disiplin)",
-    "karakteristik_umum": "Praktis, sistematis, dan pekerja keras. Sangat patuh pada prosedur dan instruksi yang terencana.",
-    "kekuatan": "Administrator yang baik, on time, dan sangat disiplin dalam menjaga standar organisasi.",
-    "saran": "Kurangi keinginan memaksa orang lain. Belajarlah sabar dan luangkan waktu untuk introspeksi diri serta mengontrol amarah."
+    "deskripsi": "Praktis, realistis, dan berpegang pada fakta. Sangat sistematis, prosedural, dan terencana.",
+    "karakteristik": "• Disiplin, on time, dan pekerja keras.\n• Senang mengorganisir sesuatu secara tertib.\n• Konservatif dan cenderung kaku.",
+    "kekuatan": "• Mampu menjadi administrator yang baik.\n• Tegas dalam menegakkan peraturan.\n• Fokus pada hasil bisnis dan mekanistis.",
+    "komunikasi": "Langsung dan otoriter. Menghargai orang yang bicara berdasarkan data dan fakta nyata.",
+    "stres": "• Menjadi sangat emosional dan merasa tidak ada yang menghargai kerja kerasnya.\n• Meledak karena hal-hal kecil.",
+    "saran": "Kurangi keinginan untuk mengontrol orang lain. Belajarlah untuk mengontrol emosi Anda. Cobalah untuk introspeksi diri.",
+    "pasangan": "ISTP atau INTP"
   },
   "ESFJ": {
     "nama": "ESFJ (Harmonis)",
-    "deskripsi": "Populer, suportif, dan dilahirkan untuk bekerja sama. Menciptakan harmoni dalam kelompok adalah prioritasnya.",
-    "kekuatan": "Teliti, rajin merawat apa yang dimiliki, dan selalu melakukan hal manis untuk orang lain.",
-    "saran": "Jangan mengukur harga diri hanya dari pujian orang. Belajarlah menghadapi konflik secara dewasa dan tegas."
+    "deskripsi": "Hangat, populer, suportif, dan anggota kelompok yang aktif. Membutuhkan keseimbangan dan harmoni.",
+    "karakteristik": "• Selalu melakukan sesuatu yang manis bagi orang lain.\n• Bekerja baik dalam situasi yang memujinya.\n• Teliti dan rajin merawat apa yang ia miliki.",
+    "kekuatan": "• Punya rasa setia kawan yang tinggi.\n• Mampu mengelola kebutuhan praktis tim dengan baik.\n• Ramah dan mudah bergaul.",
+    "komunikasi": "Sangat sopan dan menghargai norma sosial. Suka berbicara tentang detail kehidupan sehari-hari.",
+    "stres": "• Menjadi sangat kritis pada orang-orang terdekat.\n• Merasa dikhianati dan sangat terluka.",
+    "saran": "Jangan mengorbankan diri hanya untuk menyenangkan orang lain. Terima tanggungjawab hidup dan belajarlah untuk lebih dewasa. Hadapi konflik.",
+    "pasangan": "ISFP atau INFP"
   },
   "ENFJ": {
     "nama": "ENFJ (Meyakinkan)",
-    "deskripsi": "Responsif terhadap pujian dan kritik. Pandai bergaul, simpatik, dan meyakinkan orang lain dengan mudah.",
-    "kekuatan": "Loyal, kreatif, dan sangat peduli pada keinginan atau perasaan orang di sekitarnya.",
-    "saran": "Jangan mengorbankan diri hanya untuk menyenangkan orang lain. Belajarlah untuk tidak mudah kecewa jika orang tidak sesuai harapan."
+    "deskripsi": "Kreatif, imajinatif, peka, dan loyal. Pandai bergaul, meyakinkan, dan simpatik.",
+    "karakteristik": "• Responsif pada kritik dan pujian.\n• Menyukai variasi dan tantangan baru.\n• Butuh apresiasi dan penerimaan.",
+    "kekuatan": "• Pandai memotivasi orang lain.\n• Memiliki dedikasi tinggi terhadap harmoni kelompok.\n• Komunikator yang handal.",
+    "komunikasi": "Diplomatik dan sangat menghargai perasaan lawan bicara. Mampu menyatukan pendapat yang berbeda.",
+    "stres": "• Menjadi sangat kritis secara tidak logis.\n• Menarik diri dan merasa gagal total sebagai pemimpin atau teman.",
+    "saran": "Jangan mengorbankan diri hanya untuk menyenangkan orang lain. Belajarlah untuk tegas. Jangan bersikap terlalu keras terhadap diri sendiri.",
+    "pasangan": "INFP atau ISFP"
   },
   "ENTJ": {
     "nama": "ENTJ (Pemimpin Alami)",
-    "deskripsi": "Tangguh, disiplin, dan sangat menghargai komitmen. Cenderung menutupi kelemahan dan perasaan.",
-    "kekuatan": "Berkarisma, obyektif, jujur terus terang, dan berbakat menjadi pemimpin yang mampu menggerakkan orang.",
-    "saran": "Belajarlah untuk rileks dan tidak selalu kompetitif. Menyatakan perasaan bukanlah sebuah kelemahan."
+    "deskripsi": "Tegas, asertif, jujur terus terang, dan punya standar tinggi. Dominan dan kuat kemauannya.",
+    "karakteristik": "• Tangguh, disiplin, dan menghargai komitmen.\n• Berkarisma dan mampu menggerakkan orang.\n• Berbakat pemimpin.",
+    "kekuatan": "• Obyektif, kritis, dan mampu mengambil keputusan sulit.\n• Sangat kompetitif dan fokus pada hasil.\n• Berpikir secara strategis jangka panjang.",
+    "komunikasi": "Sangat tegas, percaya diri, dan mendominasi pembicaraan. Seringkali terlihat mengintimidasi.",
+    "stres": "• Merasa terbebani oleh emosi yang tidak bisa dikontrol.\n• Menjadi meledak-ledak dan mencari pelarian fisik.",
+    "saran": "Belajarlah untuk relaks. Ungkapkan perasaan Anda secara jujur. Belajarlah menghargai dan mengapresiasi kelebihan orang lain.",
+    "pasangan": "INTP atau ISTP"
   }
 }
