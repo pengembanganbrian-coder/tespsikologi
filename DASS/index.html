@@ -48,7 +48,6 @@
         h1 { color: var(--primary); margin: 0; font-size: 1.5rem; letter-spacing: -0.5px; }
         .subtitle { color: var(--accent); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; margin-top: 5px; }
 
-        /* Progress Bar */
         .progress-container {
             width: 100%;
             height: 8px;
@@ -66,7 +65,6 @@
             transition: width 0.4s ease;
         }
 
-        /* Steps */
         .step { display: none; animation: fadeIn 0.5s ease; }
         .step.active { display: block; }
 
@@ -88,7 +86,6 @@
         }
         input[type="text"]:focus { outline: none; border-color: var(--primary); }
 
-        /* Question Styles */
         .question-number { color: var(--primary); font-weight: 700; font-size: 1.1rem; margin-bottom: 10px; display: block; }
         .question-text { font-size: 1.25rem; font-weight: 600; line-height: 1.4; margin-bottom: 30px; }
 
@@ -125,12 +122,11 @@
         .btn-next { background: var(--primary); color: white; flex-grow: 1; }
         .btn-next:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* Result Styles */
         .score-card {
-            padding: 20px;
+            padding: 15px 20px;
             border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            margin-bottom: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -138,11 +134,12 @@
         .tag {
             padding: 6px 14px;
             border-radius: 8px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
         }
-        .cat-normal { background: #dcfce7; color: #166534; }
+        /* Interpretasi Colors */
+        .cat-normal { background: #00FF00; color: #000; } /* Hijau Terang sesuai gambar */
         .cat-ringan { background: #fef9c3; color: #854d0e; }
         .cat-sedang { background: #ffedd5; color: #9a3412; }
         .cat-berat { background: #fee2e2; color: #991b1b; }
@@ -188,26 +185,29 @@
     <div id="quiz-container"></div>
 
     <div id="loadingOverlay">
-        <p>Mohon tunggu, sedang menyimpan hasil ke database...</p>
+        <p>Mohon tunggu, sedang menyimpan hasil...</p>
     </div>
 
     <div id="step-result" class="step">
         <div id="pdfContent">
-            <h2 style="text-align: center; margin-bottom: 5px;">Hasil Analisis Kesehatan Mental</h2>
-            <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Laporan Rahasia Internal DJBC</p>
+            <h2 style="text-align: center; margin-bottom: 5px;">Hasil Pemeriksaan DASS-21</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 0.8rem;">Laporan Rahasia Internal DJBC 2026</p>
             
-            <div id="userInfoDisplay" style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px; font-size: 0.9rem; line-height: 1.6;"></div>
+            <div id="userInfoDisplay" style="background: #f8fafc; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 25px; font-size: 0.9rem; line-height: 1.6;"></div>
             
+            <h3 style="font-size: 1rem; border-bottom: 2px solid #eee; padding-bottom: 5px;">ASPEK</h3>
             <div id="resultCards"></div>
             
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 20px; font-style: italic;">
-                *Instrumen DASS-21 adalah alat skrining, bukan diagnosa klinis definitif. Jika hasil menunjukkan indikasi berat, disarankan berkonsultasi dengan profesional.
+            <div id="kesimpulanBox"></div>
+            
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 30px; text-align: right;">
+                © Copyright Tim Dukungan Kesehatan Mental DJBC 2026
             </p>
         </div>
 
         <div class="no-print">
             <button class="btn btn-next" onclick="downloadPDF()" style="background: var(--success);">Unduh Hasil (PDF)</button>
-            <button class="btn btn-prev" onclick="location.reload()">Ulangi Tes Dari Awal</button>
+            <button class="btn btn-prev" onclick="location.reload()">Ulangi Tes</button>
         </div>
     </div>
 </div>
@@ -261,7 +261,7 @@
                     `).join('')}
                 </div>
                 <div class="nav-buttons">
-                    <button class="btn btn-prev" onclick="prevStep()">${currentStep === 0 ? 'Kembali' : 'Kembali'}</button>
+                    <button class="btn btn-prev" onclick="prevStep()">Kembali</button>
                     ${currentStep === questions.length - 1 ? 
                         `<button class="btn btn-next" id="btnFinish" ${answers[currentStep] === null ? 'disabled' : ''} onclick="submitData()">Lihat Hasil</button>` : 
                         `<button class="btn btn-next" id="btnNext" ${answers[currentStep] === null ? 'disabled' : ''} onclick="nextStep()">Lanjut</button>`
@@ -319,70 +319,71 @@
         };
 
         try {
-            await fetch(scriptURL, { method: 'POST', mode: 'no-cors', cache: 'no-cache', body: JSON.stringify(results) });
-        } catch (e) {
-            console.log("Error sending to sheet", e);
-        }
+            await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(results) });
+        } catch (e) { console.log("Error", e); }
 
         showResults(results);
     }
 
-   function showResults(res) {
-    document.getElementById('loadingOverlay').style.display = 'none';
-    document.getElementById('progressWrapper').style.display = 'none';
-    document.getElementById('step-result').classList.add('active');
+    function showResults(res) {
+        document.getElementById('loadingOverlay').style.display = 'none';
+        document.getElementById('progressWrapper').style.display = 'none';
+        document.getElementById('step-result').classList.add('active');
 
-    document.getElementById('userInfoDisplay').innerHTML = `
-        <strong>Nama:</strong> ${res.nama}<br>
-        <strong>NIP:</strong> ${res.nip}<br>
-        <strong>Unit/Jabatan:</strong> ${res.jabatan}<br>
-        <strong>Waktu:</strong> ${new Date().toLocaleString('id-ID')}
-    `;
+        document.getElementById('userInfoDisplay').innerHTML = `
+            <strong>NIP:</strong> ${res.nip}<br>
+            <strong>Nama:</strong> ${res.nama}<br>
+            <strong>Tanggal Tes:</strong> ${new Date().toLocaleDateString('id-ID')}
+        `;
 
-    // 1. Tampilkan Card Skor seperti biasa
-    const subs = [
-        {id:'D', score: res.skor_d, label: res.inter_d},
-        {id:'A', score: res.skor_a, label: res.inter_a},
-        {id:'S', score: res.skor_s, label: res.inter_s}
-    ];
+        const subs = [
+            {id:'D', score: res.skor_d, label: res.inter_d},
+            {id:'A', score: res.skor_a, label: res.inter_a},
+            {id:'S', score: res.skor_s, label: res.inter_s}
+        ];
 
-    document.getElementById('resultCards').innerHTML = subs.map(sub => {
-        const interp = getInterpretation(sub.score, sub.id);
-        return `<div class="score-card">
-            <div><div style="font-weight:700;">${interp.title}</div><small>Skor: ${sub.score}</small></div>
-            <span class="tag ${interp.class}">${interp.label}</span>
-        </div>`;
-    }).join('');
+        document.getElementById('resultCards').innerHTML = subs.map(sub => {
+            const interp = getInterpretation(sub.score, sub.id);
+            return `<div class="score-card">
+                <div style="font-weight:600;">${interp.title}</div>
+                <div style="flex-grow:1; text-align:center;">:</div>
+                <div style="width: 60%;"><span class="tag ${interp.class}" style="display:block; text-align:center;">${interp.label}</span></div>
+            </div>`;
+        }).join('');
 
-    // 2. LOGIKA KESIMPULAN OTOMATIS (Sama seperti rumus IFS di Sheet Anda)
-    let kesimpulanText = "";
-    let isSangatBerat = (res.inter_d === "Sangat Berat" || res.inter_a === "Sangat Berat" || res.inter_s === "Sangat Berat");
-    let isBerat = (res.inter_d === "Berat" || res.inter_a === "Berat" || res.inter_s === "Berat");
-    let isNormal = (res.inter_d === "Normal" && res.inter_a === "Normal" && res.inter_s === "Normal");
+        let kesimpulanText = "";
+        let isSangatBerat = (res.inter_d === "Sangat Berat" || res.inter_a === "Sangat Berat" || res.inter_s === "Sangat Berat");
+        let isBerat = (res.inter_d === "Berat" || res.inter_a === "Berat" || res.inter_s === "Berat");
+        let isNormal = (res.inter_d === "Normal" && res.inter_a === "Normal" && res.inter_s === "Normal");
 
-    if (isSangatBerat) {
-        kesimpulanText = "HASIL: Tingkat tekanan psikologis Anda berada pada kategori Sangat Berat. Segera konsultasikan kondisi Anda dengan profesional (Psikolog/Psikiater) atau Tim Dukungan Mental.";
-    } else if (isBerat) {
-        kesimpulanText = "HASIL: Anda mengalami indikasi tekanan emosional yang Berat. Kami menyarankan Anda untuk mengambil waktu istirahat dan berbicara dengan konselor internal.";
-    } else if (isNormal) {
-        kesimpulanText = "HASIL: Kondisi emosional Anda berada dalam rentang Normal. Tetap jaga keseimbangan pola hidup dan kesehatan mental Anda.";
-    } else {
-        kesimpulanText = "HASIL: Kondisi emosional Anda berada dalam rentang Ringan/Sedang. Lakukan manajemen stres secara mandiri atau berdiskusi dengan orang terpercaya.";
-    }
+        if (isSangatBerat) {
+            kesimpulanText = "HASIL: Tingkat tekanan psikologis Anda berada pada kategori Sangat Berat. Segera konsultasikan kondisi Anda dengan profesional (Psikolog/Psikiater) atau Tim Dukungan Mental.";
+        } else if (isBerat) {
+            kesimpulanText = "HASIL: Anda mengalami indikasi tekanan emosional yang Berat. Kami menyarankan Anda untuk mengambil waktu istirahat dan berbicara dengan konselor internal.";
+        } else if (isNormal) {
+            kesimpulanText = "HASIL: Kondisi emosional Anda berada dalam rentang Normal. Tetap jaga keseimbangan pola hidup dan kesehatan mental Anda.";
+        } else {
+            kesimpulanText = "HASIL: Kondisi emosional Anda berada dalam rentang Ringan/Sedang. Lakukan manajemen stres secara mandiri atau berdiskusi dengan orang terpercaya.";
+        }
 
-    // Tampilkan kalimat kesimpulan di bawah kartu skor
-    document.getElementById('resultCards').innerHTML += `
-        <div style="margin-top: 25px; padding: 20px; border: 2px solid var(--primary); border-radius: 12px; background: #eff6ff; color: var(--primary); font-weight: 600; line-height: 1.6;">
-            ${kesimpulanText}
-        </div>
-    `;
-}
+        document.getElementById('kesimpulanBox').innerHTML = `
+            <div style="margin-top: 20px; padding: 15px; border: 1.5px solid #1e3a8a; border-radius: 8px; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
+                ${kesimpulanText}
+            </div>
+        `;
     }
 
     function downloadPDF() {
         const element = document.getElementById('pdfContent');
         const nip = document.getElementById('userNIP').value;
-        html2pdf().set({ margin: 15, filename: `DASS21_${nip}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }}).from(element).save();
+        const opt = {
+            margin: 15,
+            filename: `Hasil_DASS21_${nip}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
     }
 </script>
 </body>
