@@ -1,57 +1,58 @@
 import streamlit as st
+import pandas as pd
 from pertanyaan import SOAL_DISC
 
 st.set_page_config(page_title="Tes DISC Online", layout="wide")
 
-# Header dan Identitas
-st.title("Lembar Kerja Tes DISC")
-st.info("Instruksi: Pilih satu 'M' (Paling Mirip) dan satu 'L' (Paling Tidak Mirip) untuk setiap kotak.")
+# --- LOGIC SCORING (Mapping Kunci Jawaban) ---
+# Ini adalah contoh mapping sederhana. 
+# Idealnya disesuaikan dengan 'key.csv' dari file Excel kamu.
+def hitung_score(jawaban):
+    score = {"D": 0, "I": 0, "S": 0, "C": 0}
+    for item in jawaban:
+        # Logika: Jika pilihan 'Most' sesuai kunci D, maka D + 1
+        # Jika pilihan 'Least' sesuai kunci D, maka D - 1
+        # (Di sini kamu bisa masukkan rumus spesifik dari file Excel-mu)
+        pass
+    return score
+
+st.title("Sistem Tes DISC Digital 2026")
 
 with st.sidebar:
-    st.header("Data Peserta")
+    st.header("Profil Peserta")
     nama = st.text_input("Nama Lengkap")
-    nip = st.text_input("NIP / ID")
-    jabatan = st.text_input("Jabatan")
+    nip = st.text_input("NIP")
 
-# Tempat menyimpan pilihan user
-data_jawaban = []
-
-# Tampilan Grid Soal (3 Kolom)
+# Penampilan 24 Kotak Soal
+jawaban_user = []
 cols = st.columns(3)
 
 for i, options in enumerate(SOAL_DISC):
-    # Bagi kotak soal ke 3 kolom agar rapi
     with cols[i % 3]:
         with st.container(border=True):
             st.markdown(f"**KOTAK {i+1}**")
-            
-            # Header kecil
-            h_col1, h_col2, h_col3 = st.columns([1, 1, 4])
-            h_col1.write("**M**")
-            h_col2.write("**L**")
-            h_col3.write("**Pernyataan**")
-            
-            # Pilihan User
-            m_val = h_col1.radio(f"M{i}", [0,1,2,3], key=f"m{i}", label_visibility="collapsed")
-            l_val = h_col2.radio(f"L{i}", [0,1,2,3], key=f"l{i}", label_visibility="collapsed")
-            
-            # Teks Pernyataan
-            for idx, text in enumerate(options):
-                h_col3.text(text)
-            
-            # Validasi
-            if m_val == l_val:
-                st.error("M & L tidak boleh sama!")
-            
-            data_jawaban.append({"kotak": i+1, "most": options[m_val], "least": options[l_val]})
+            c1, c2, c3 = st.columns([1, 1, 4])
+            m = c1.radio(f"M{i}", [0,1,2,3], key=f"m{i}", label_visibility="collapsed")
+            l = c2.radio(f"L{i}", [0,1,2,3], key=f"l{i}", label_visibility="collapsed")
+            for idx, txt in enumerate(options):
+                c3.text(txt)
+            jawaban_user.append({"M": m, "L": l})
 
 st.divider()
 
-if st.button("KIRIM JAWABAN", type="primary"):
+if st.button("LIHAT HASIL ANALISIS", type="primary"):
     if not nama:
-        st.warning("Mohon isi Nama Lengkap terlebih dahulu.")
+        st.error("Isi Nama dulu ya!")
     else:
         st.balloons()
-        st.success(f"Terima kasih {nama}, jawaban Anda berhasil direkam!")
-        # Di sini nantinya kita masukkan rumus hitung D, I, S, C
-        st.write("Data Anda:", data_jawaban)
+        st.success(f"Hasil Analisis untuk {nama}")
+        
+        # Contoh Tampilan Grafik (Hanya Ilustrasi sebelum Mapping Kunci Selesai)
+        chart_data = pd.DataFrame({
+            'Kategori': ['D', 'I', 'S', 'C'],
+            'Skor': [10, 15, 8, 12] # Ini nanti diganti hasil hitung_score
+        })
+        st.bar_chart(chart_data.set_index('Kategori'))
+        
+        st.write("### Karakteristik Anda:")
+        st.write("Berdasarkan hasil tes, Anda cenderung memiliki profil yang teliti dan berorientasi pada data.")
