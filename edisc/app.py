@@ -1,68 +1,137 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 
-# --- PENGECEKAN FILE ---
+# =========================
+# IMPORT DATA & SCORING
+# =========================
 try:
     from pertanyaan import SOAL_DISC
-    from scoring import MAPPING_MOST, MAPPING_LEAST
-except ImportError:
-    st.error("❌ File 'pertanyaan.py' atau 'scoring.py' tidak ditemukan di GitHub kamu!")
+    from skoring import MAPPING_MOST, MAPPING_LEAST
+except ImportError as e:
+    st.error("❌ File pendukung tidak ditemukan.")
+    st.code(str(e))
     st.stop()
 
-st.set_page_config(page_title="Tes DISC Online", layout="wide")
+# =========================
+# KONFIGURASI HALAMAN
+# =========================
+st.set_page_config(
+    page_title="Tes DISC Online",
+    layout="wide"
+)
 
-st.title("Lembar Kerja Tes DISC")
+st.title("🧠 Tes DISC Online")
 
-# Identitas
+# =========================
+# SIDEBAR – IDENTITAS
+# =========================
 with st.sidebar:
     st.header("Profil Peserta")
     nama = st.text_input("Nama Lengkap")
-    nip = st.text_input("NIP")
+    nip = st.text_input("NIP / ID Pegawai")
 
-# Form Soal (24 Kotak)
+# =========================
+# VALIDASI DATA SOAL
+# =========================
+if len(SOAL_DISC) != 24:
+    st.error("❌ Jumlah kotak DISC harus 24.")
+    st.stop()
+
+# =========================
+# FORM SOAL DISC
+# =========================
+st.subheader("Instruksi")
+st.write(
+    "Pada setiap kotak, pilih **SATU pernyataan PALING sesuai (M)** "
+    "dan **SATU pernyataan PALING TIDAK sesuai (L)** dengan diri Anda."
+)
+
 jawaban_user = []
 cols = st.columns(3)
 
 for i, options in enumerate(SOAL_DISC):
     with cols[i % 3]:
         with st.container(border=True):
-            st.markdown(f"**KOTAK {i+1}**")
-            c1, c2, c3 = st.columns([1, 1, 5])
-            m = c1.radio(f"M{i}", [0,1,2,3], key=f"m{i}", label_visibility="collapsed")
-            l = c2.radio(f"L{i}", [0,1,2,3], key=f"l{i}", label_visibility="collapsed")
+            st.markdown(f"### Kotak {i+1}")
+
+            col_m, col_l, col_text = st.columns([1, 1, 6])
+
+            m = col_m.radio(
+                "M",
+                [0, 1, 2, 3],
+                key=f"M_{i}",
+                label_visibility="collapsed"
+            )
+
+            l = col_l.radio(
+                "L",
+                [0, 1, 2, 3],
+                key=f"L_{i}",
+                label_visibility="collapsed"
+            )
+
             for idx, txt in enumerate(options):
-                c3.text(txt)
+                col_text.write(f"{idx+1}. {txt}")
+
             jawaban_user.append({"M": m, "L": l})
 
 st.divider()
 
-if st.button("PROSES & LIHAT GRAFIK", type="primary"):
+# =========================
+# PROSES HASIL
+# =========================
+if st.button("📊 PROSES & LIHAT HASIL", type="primary"):
+
     if not nama:
-        st.warning("Silakan isi nama terlebih dahulu.")
-    else:
-        # Perhitungan Skor Mentah
-        most_score = {"D":0, "I":0, "S":0, "C":0}
-        least_score = {"D":0, "I":0, "S":0, "C":0}
-        
-        for i, ans in enumerate(jawaban_user):
-            kotak = i + 1
-            # Ambil karakter berdasarkan kunci dari scoring.py
-            char_m = MAPPING_MOST[kotak][ans['M']]
-            char_l = MAPPING_LEAST[kotak][ans['L']]
-            
-            if char_m in most_score: most_score[char_m] += 1
-            if char_l in least_score: least_score[char_l] += 1
-            
-        st.success(f"Analisis Selesai untuk: {nama}")
-        
-        # Tampilan Grafik
-        col_left, col_right = st.columns(2)
-        
-        with col_left:
-            st.write("### Grafik 1 (Most)")
-            st.line_chart(pd.DataFrame(most_score.items(), columns=['X', 'Y']).set_index('X'))
-            
-        with col_right:
-            st.write("### Grafik 2 (Least)")
-            st.line_chart(pd.DataFrame(least_score.items(), columns=['X', 'Y']).set_index('X'))
+        st.warning("⚠️ Nama peserta wajib diisi.")
+        st.stop()
+
+    most_score = {"D": 0, "I": 0, "S": 0, "C": 0}
+    least_score = {"D": 0, "I": 0, "S": 0, "C": 0}
+
+    for i, ans in enumerate(jawaban_user):
+        kotak = i + 1
+
+        try:
+            char_m = MAPPING_MOST[kotak][ans["M"]]
+            char_l = MAPPING_LEAST[kotak][ans["L"]]
+        except KeyError:
+            st.error(f"❌ Mapping error pada kotak {kotak}")
+            st.stop()
+
+        if char_m in most_score:
+            most_score[char_m] += 1
+
+        if char_l in least_score:
+            least_score[char_l] += 1
+
+    st.success(f"✅ Analisis selesai untuk **{nama}**")
+
+    # =========================
+    # TAMPILAN HASIL
+    # =========================
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.subheader("Grafik MOST")
+        df_most = pd.DataFrame.from_dict(
+            most_score, orient="index", columns=["Skor"]
+        )
+        st.bar_chart(df_most)
+
+    with col2:
+        st.subheader("Grafik LEAST")
+        df_least = pd.DataFrame.from_dict(
+            least_score, orient="index", columns=["Skor"]
+        )
+        st.bar_chart(df_least)
+
+    # =========================
+    # TABEL RINGKASAN
+    # =========================
+    st.subheader("Ringkasan Skor")
+    df_ringkasan = pd.DataFrame({
+        "MOST": most_score,
+        "LEAST": least_score
+    })
+    st.dataframe(df_ringkasan)
