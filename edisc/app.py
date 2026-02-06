@@ -2,25 +2,25 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Memanggil data soal dan kunci
+# Load data soal & kunci
 try:
     from pertanyaan import SOAL_DISC
     import scoring
-except ImportError:
-    st.error("Gagal memuat file pendukung. Pastikan 'pertanyaan.py' dan 'scoring.py' ada di GitHub.")
+except Exception as e:
+    st.error(f"Gagal memuat file: {e}. Pastikan scoring.py dan pertanyaan.py sudah di-upload ke GitHub.")
     st.stop()
 
-st.set_page_config(page_title="DISC DJBC 2026", layout="wide")
+st.set_page_config(page_title="Tes DISC DJBC", layout="wide")
 
 st.title("Sistem Analisis DISC Digital")
 
-# Sidebar Identitas
+# Sidebar
 with st.sidebar:
     st.header("Identitas")
     nama = st.text_input("Nama Lengkap")
     nip = st.text_input("NIP")
 
-# Form Input Soal
+# Form 24 Kotak
 jawaban = []
 cols = st.columns(3)
 for i, kotak in enumerate(SOAL_DISC):
@@ -30,33 +30,30 @@ for i, kotak in enumerate(SOAL_DISC):
             c1, c2, c3 = st.columns([1, 1, 4])
             m = c1.radio(f"M{i}", [0, 1, 2, 3], key=f"m{i}", label_visibility="collapsed")
             l = c2.radio(f"L{i}", [0, 1, 2, 3], key=f"l{i}", label_visibility="collapsed")
-            for txt in kotak:
-                c3.text(txt)
+            for t in kotak: c3.text(t)
             jawaban.append({'M': m, 'L': l})
 
-# Tombol Proses
-if st.button("HITUNG HASIL", type="primary"):
+if st.button("HITUNG SKOR & GRAFIK", type="primary"):
     if not nama:
-        st.error("Mohon isi Nama Pegawai di sidebar.")
+        st.error("Nama tidak boleh kosong!")
     else:
-        # Proses Hitung Skor Mentah
-        skor_m = {"D": 0, "I": 0, "S": 0, "C": 0}
-        for idx, ans in enumerate(jawaban):
-            kotak_num = idx + 1
-            res = scoring.MAPPING_MOST[kotak_num][ans['M']]
-            if res in skor_m: skor_m[res] += 1
+        # Hitung Raw Score
+        res_m = {"D":0, "I":0, "S":0, "C":0}
+        for idx, val in enumerate(jawaban):
+            kotak_id = idx + 1
+            char = scoring.MAPPING_MOST[kotak_id][val['M']]
+            if char in res_m: res_m[char] += 1
         
-        # Tampilan Grafik
-        st.subheader(f"Hasil Analisis: {nama}")
+        st.success(f"Berhasil! Hasil untuk {nama}:")
         
+        # Gambar Grafik Garis (Matplotlib)
         fig, ax = plt.subplots(figsize=(8, 4))
-        kategori = ['D', 'I', 'S', 'C']
-        nilai = [skor_m[k] for k in kategori]
+        kat = ['D', 'I', 'S', 'C']
+        nilai = [res_m[k] for k in kat]
         
-        ax.plot(kategori, nilai, marker='o', color='blue', linewidth=2)
+        ax.plot(kat, nilai, marker='o', linestyle='-', color='blue', linewidth=2)
         ax.set_ylim(0, 24)
+        ax.grid(True, alpha=0.3)
         ax.set_title("Grafik 1 (Most)")
-        ax.grid(True, linestyle='--', alpha=0.6)
         
         st.pyplot(fig)
-        st.success("Analisis berhasil ditampilkan!")
