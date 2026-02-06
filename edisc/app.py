@@ -1,85 +1,62 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from pertanyaan import SOAL_DISC
-import scoring
+
+# Memanggil data soal dan kunci
+try:
+    from pertanyaan import SOAL_DISC
+    import scoring
+except ImportError:
+    st.error("Gagal memuat file pendukung. Pastikan 'pertanyaan.py' dan 'scoring.py' ada di GitHub.")
+    st.stop()
 
 st.set_page_config(page_title="DISC DJBC 2026", layout="wide")
 
-# Tambahkan CSS agar tampilan lebih bersih
-st.markdown("""
-    <style>
-    .stRadio [role=radiogroup]{flex-direction:row;}
-    .st-expander {border: 1px solid #e6e6e6; margin-bottom: 10px;}
-    </style>
-    """, unsafe_allow_html=True)
+st.title("Sistem Analisis DISC Digital")
 
-st.title("Sistem Analisis DISC - DJBC 2026")
-
-# Identitas
+# Sidebar Identitas
 with st.sidebar:
-    st.header("Profil Peserta")
+    st.header("Identitas")
     nama = st.text_input("Nama Lengkap")
     nip = st.text_input("NIP")
-    st.divider()
-    st.info("Pastikan setiap kotak diisi 1 Most dan 1 Least.")
 
-# Form Soal
+# Form Input Soal
 jawaban = []
 cols = st.columns(3)
-
 for i, kotak in enumerate(SOAL_DISC):
     with cols[i % 3]:
         with st.container(border=True):
-            st.markdown(f"**KOTAK {i+1}**")
-            c1, c2, c3 = st.columns([1, 1, 5])
-            c1.caption("M")
-            c2.caption("L")
-            
-            m_res = c1.radio(f"M{i}", [0,1,2,3], key=f"m_{i}", label_visibility="collapsed")
-            l_res = c2.radio(f"L{i}", [0,1,2,3], key=f"l_{i}", label_visibility="collapsed")
-            
-            for idx, teks in enumerate(kotak):
-                c3.text(teks)
-            
-            if m_res == l_res:
-                st.error("M & L tidak boleh sama!")
-            
-            jawaban.append({"M": m_res, "L": l_res})
+            st.write(f"**KOTAK {i+1}**")
+            c1, c2, c3 = st.columns([1, 1, 4])
+            m = c1.radio(f"M{i}", [0, 1, 2, 3], key=f"m{i}", label_visibility="collapsed")
+            l = c2.radio(f"L{i}", [0, 1, 2, 3], key=f"l{i}", label_visibility="collapsed")
+            for txt in kotak:
+                c3.text(txt)
+            jawaban.append({'M': m, 'L': l})
 
-st.divider()
-
-if st.button("HITUNG HASIL & TAMPILKAN GRAFIK", type="primary"):
+# Tombol Proses
+if st.button("HITUNG HASIL", type="primary"):
     if not nama:
-        st.warning("Mohon isi Nama Lengkap di sidebar kiri.")
+        st.error("Mohon isi Nama Pegawai di sidebar.")
     else:
-        # Hitung Raw Score
-        res_m = {"D":0, "I":0, "S":0, "C":0}
-        res_l = {"D":0, "I":0, "S":0, "C":0}
+        # Proses Hitung Skor Mentah
+        skor_m = {"D": 0, "I": 0, "S": 0, "C": 0}
+        for idx, ans in enumerate(jawaban):
+            kotak_num = idx + 1
+            res = scoring.MAPPING_MOST[kotak_num][ans['M']]
+            if res in skor_m: skor_m[res] += 1
         
-        for idx, val in enumerate(jawaban):
-            k = idx + 1
-            # Ambil mapping dari scoring.py
-            char_m = scoring.MAPPING_MOST[k][val['M']]
-            char_l = scoring.MAPPING_LEAST[k][val['L']]
-            
-            if char_m in res_m: res_m[char_m] += 1
-            if char_l in res_l: res_l[char_l] += 1
-
-        # Tampilkan Grafik
-        st.success(f"Analisis DISC untuk: {nama}")
+        # Tampilan Grafik
+        st.subheader(f"Hasil Analisis: {nama}")
         
-        # Grafik Sederhana menggunakan Matplotlib
-        fig, ax = plt.subplots(figsize=(10, 5))
-        cats = ['D', 'I', 'S', 'C']
-        vals = [res_m[c] for c in cats]
+        fig, ax = plt.subplots(figsize=(8, 4))
+        kategori = ['D', 'I', 'S', 'C']
+        nilai = [skor_m[k] for k in kategori]
         
-        ax.plot(cats, vals, marker='o', linestyle='-', color='#1f77b4', linewidth=3)
+        ax.plot(kategori, nilai, marker='o', color='blue', linewidth=2)
         ax.set_ylim(0, 24)
-        ax.grid(True, linestyle='--', alpha=0.7)
-        ax.set_title("Grafik 1 (MOST)")
+        ax.set_title("Grafik 1 (Most)")
+        ax.grid(True, linestyle='--', alpha=0.6)
         
         st.pyplot(fig)
-        
-        # Tampilkan Skor Mentah
-        st.write("Skor Mentah (Most):", res_m)
+        st.success("Analisis berhasil ditampilkan!")
