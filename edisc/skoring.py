@@ -1,6 +1,6 @@
 # scoring.py
 
-# Mapping Kunci Jawaban (Diambil dari ANALIS PROFIL.csv)
+# Kunci Jawaban Persis dari kolom M1-M24 dan J1-J24 di Excel kamu
 MAPPING_MOST = {
     1: ['S', 'I', '*', 'C'], 2: ['I', 'D', '*', 'S'], 3: ['I', '*', '*', 'D'], 
     4: ['C', 'S', '*', 'D'], 5: ['I', 'D', 'S', '*'], 6: ['C', 'D', 'I', 'S'],
@@ -21,14 +21,4 @@ MAPPING_LEAST = {
     16: ['D', '*', 'I', 'S'], 17: ['C', 'D', 'S', '*'], 18: ['D', 'I', 'S', '*'],
     19: ['D', '*', 'I', 'C'], 20: ['*', 'C', 'I', '*'], 21: ['S', 'D', 'I', 'C'],
     22: ['S', 'I', 'D', 'C'], 23: ['D', '*', 'S', 'C'], 24: ['S', 'I', '*', '*']
-}
-
-# Tabel Norma untuk Konversi ke Grafik (Diambil dari TABEL.csv)
-# Mengatur koordinat titik pada grafik berdasarkan Raw Score
-NORMS = {
-    "Most": {
-        0: {"D":-6.0, "I":-7.0, "S":-5.7, "C":-6.0},
-        1: {"D":-5.3, "I":-4.6, "S":-4.3, "C":-4.7},
-        # ... (Data ini sudah tersimpan dalam sistem kami untuk digunakan di app.py)
-    }
 }
