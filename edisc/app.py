@@ -1,135 +1,85 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
+from pertanyaan import SOAL_DISC
+import scoring
 
-# =========================
-# IMPORT DATA & SCORING
-# =========================
-try:
-    from pertanyaan import SOAL_DISC
-    from skoring import MAPPING_MOST, MAPPING_LEAST
-except ImportError as e:
-    st.error("❌ File pertanyaan.py atau skoring.py tidak ditemukan.")
-    st.code(str(e))
-    st.stop()
+st.set_page_config(page_title="DISC DJBC 2026", layout="wide")
 
-# =========================
-# KONFIGURASI HALAMAN
-# =========================
-st.set_page_config(
-    page_title="Tes DISC Online",
-    layout="wide"
-)
+# Tambahkan CSS agar tampilan lebih bersih
+st.markdown("""
+    <style>
+    .stRadio [role=radiogroup]{flex-direction:row;}
+    .st-expander {border: 1px solid #e6e6e6; margin-bottom: 10px;}
+    </style>
+    """, unsafe_allow_html=True)
 
-st.title("🧠 Tes DISC Online")
+st.title("Sistem Analisis DISC - DJBC 2026")
 
-# =========================
-# SIDEBAR – IDENTITAS
-# =========================
+# Identitas
 with st.sidebar:
     st.header("Profil Peserta")
     nama = st.text_input("Nama Lengkap")
-    nip = st.text_input("NIP / ID Pegawai")
+    nip = st.text_input("NIP")
+    st.divider()
+    st.info("Pastikan setiap kotak diisi 1 Most dan 1 Least.")
 
-# =========================
-# VALIDASI DATA
-# =========================
-if len(SOAL_DISC) != 24:
-    st.error("❌ Jumlah kotak DISC harus 24.")
-    st.stop()
-
-# =========================
-# INSTRUKSI
-# =========================
-st.info(
-    "Pada setiap **kotak**, pilih:\n"
-    "- **1 pernyataan PALING SESUAI (M)** dengan diri Anda\n"
-    "- **1 pernyataan PALING TIDAK SESUAI (L)** dengan diri Anda"
-)
-
-# =========================
-# FORM SOAL DISC (RAPI)
-# =========================
-jawaban_user = []
+# Form Soal
+jawaban = []
 cols = st.columns(3)
 
-for i, options in enumerate(SOAL_DISC):
+for i, kotak in enumerate(SOAL_DISC):
     with cols[i % 3]:
         with st.container(border=True):
-            st.markdown(f"### Kotak {i+1}")
-
-            m = st.radio(
-                "Paling Sesuai (M)",
-                options=range(4),
-                format_func=lambda x: options[x],
-                key=f"M_{i}"
-            )
-
-            l = st.radio(
-                "Paling Tidak Sesuai (L)",
-                options=range(4),
-                format_func=lambda x: options[x],
-                key=f"L_{i}"
-            )
-
-            jawaban_user.append({
-                "M": m,
-                "L": l
-            })
+            st.markdown(f"**KOTAK {i+1}**")
+            c1, c2, c3 = st.columns([1, 1, 5])
+            c1.caption("M")
+            c2.caption("L")
+            
+            m_res = c1.radio(f"M{i}", [0,1,2,3], key=f"m_{i}", label_visibility="collapsed")
+            l_res = c2.radio(f"L{i}", [0,1,2,3], key=f"l_{i}", label_visibility="collapsed")
+            
+            for idx, teks in enumerate(kotak):
+                c3.text(teks)
+            
+            if m_res == l_res:
+                st.error("M & L tidak boleh sama!")
+            
+            jawaban.append({"M": m_res, "L": l_res})
 
 st.divider()
 
-# =========================
-# PROSES & HASIL
-# =========================
-if st.button("📊 PROSES & LIHAT HASIL", type="primary"):
-
+if st.button("HITUNG HASIL & TAMPILKAN GRAFIK", type="primary"):
     if not nama:
-        st.warning("⚠️ Nama wajib diisi.")
-        st.stop()
+        st.warning("Mohon isi Nama Lengkap di sidebar kiri.")
+    else:
+        # Hitung Raw Score
+        res_m = {"D":0, "I":0, "S":0, "C":0}
+        res_l = {"D":0, "I":0, "S":0, "C":0}
+        
+        for idx, val in enumerate(jawaban):
+            k = idx + 1
+            # Ambil mapping dari scoring.py
+            char_m = scoring.MAPPING_MOST[k][val['M']]
+            char_l = scoring.MAPPING_LEAST[k][val['L']]
+            
+            if char_m in res_m: res_m[char_m] += 1
+            if char_l in res_l: res_l[char_l] += 1
 
-    most_score = {"D": 0, "I": 0, "S": 0, "C": 0}
-    least_score = {"D": 0, "I": 0, "S": 0, "C": 0}
-
-    for i, ans in enumerate(jawaban_user):
-        kotak = i + 1
-
-        try:
-            char_m = MAPPING_MOST[kotak][ans["M"]]
-            char_l = MAPPING_LEAST[kotak][ans["L"]]
-        except KeyError:
-            st.error(f"❌ Mapping error pada kotak {kotak}")
-            st.stop()
-
-        most_score[char_m] += 1
-        least_score[char_l] += 1
-
-    st.success(f"✅ Analisis selesai untuk **{nama}**")
-
-    # =========================
-    # GRAFIK HASIL
-    # =========================
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.subheader("Grafik MOST")
-        df_most = pd.DataFrame.from_dict(
-            most_score, orient="index", columns=["Skor"]
-        )
-        st.bar_chart(df_most)
-
-    with col2:
-        st.subheader("Grafik LEAST")
-        df_least = pd.DataFrame.from_dict(
-            least_score, orient="index", columns=["Skor"]
-        )
-        st.bar_chart(df_least)
-
-    # =========================
-    # TABEL RINGKASAN
-    # =========================
-    st.subheader("Ringkasan Skor DISC")
-    df_summary = pd.DataFrame({
-        "MOST": most_score,
-        "LEAST": least_score
-    })
-    st.dataframe(df_summary)
+        # Tampilkan Grafik
+        st.success(f"Analisis DISC untuk: {nama}")
+        
+        # Grafik Sederhana menggunakan Matplotlib
+        fig, ax = plt.subplots(figsize=(10, 5))
+        cats = ['D', 'I', 'S', 'C']
+        vals = [res_m[c] for c in cats]
+        
+        ax.plot(cats, vals, marker='o', linestyle='-', color='#1f77b4', linewidth=3)
+        ax.set_ylim(0, 24)
+        ax.grid(True, linestyle='--', alpha=0.7)
+        ax.set_title("Grafik 1 (MOST)")
+        
+        st.pyplot(fig)
+        
+        # Tampilkan Skor Mentah
+        st.write("Skor Mentah (Most):", res_m)
