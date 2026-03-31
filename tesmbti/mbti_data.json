@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const response = await fetch("URL_APPS_SCRIPT_KAMU", {
+  const response = await fetch("https://script.google.com/macros/s/AKfycbwdod1nrmzGoAavb_Yjxqv96Gq52TWQk4mYa3hAI_JKGDlEfGvK4pBmzcg0BYeU1Vx35Q/exec", {
     method: "POST",
     body: JSON.stringify(req.body),
   });
